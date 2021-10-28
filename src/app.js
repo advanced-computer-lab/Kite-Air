@@ -12,30 +12,10 @@ mongoose
   .then((result) => console.log("MongoDB is now connected"))
   .catch((err) => console.log(err));
 
-var Flight = require("./Models/Flights");
 
-// new object
-const flight = new Flight({
-  From: "LAX",
-  To: "JFK",
-  FlightDate: "12-1-2022", // Date ??
-  Cabin: "Economy",
-  SeatsAvailable: 20,
-});
+const flightController = require('./Routes/FlightController');
 
-// Flight.create({   From: "LAX",
-// To: "JFK",
-// FlightDate: "12-1-2022", // Date ??
-// Cabin: "Economy",
-// SeatsAvailable: 20, })
-//   .then((newInst) => {
-//     console.log(newInst);
-//   })
-//   .catch((err) => {
-//     console.log("Error creating!");
-//   }
-
-flight.save();
+app.use("/", flightController);
 
 const port = process.env.PORT || "8000";
 
