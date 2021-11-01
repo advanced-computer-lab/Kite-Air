@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const flightSchema = new Schema(
   {
+    FlightNo: { //zy id
+      type: String,
+      required: true,
+    },
     From: {
       type: String,
       required: true,
@@ -12,7 +16,7 @@ const flightSchema = new Schema(
       required: true,
     },
     FlightDate: {
-      type: String, // Date ??
+      type: String,
       required: true,
     },
     Cabin: {
