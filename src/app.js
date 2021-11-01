@@ -1,12 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const {MongoURI} = require("../config/keys");
+
 
 const app = express();
 
+
+
 mongoose
   .connect(
-    "mongodb+srv://KiteAir:1234@cluster0.bkctu.mongodb.net/Flights?retryWrites=true&w=majority",
+    MongoURI,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then((result) => console.log("MongoDB is now connected"))
@@ -14,8 +18,10 @@ mongoose
 
 
 const flightController = require('./Routes/FlightController');
+const userController = require('./Routes/userController');
 
-app.use("/", flightController);
+app.use("/flights", flightController);
+app.use("/users", userController);
 
 const port = process.env.PORT || "8000";
 
