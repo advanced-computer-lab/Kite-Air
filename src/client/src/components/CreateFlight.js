@@ -1,5 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
 
 const baseURL = "http://localhost:8000/flights/create-flights";
 
@@ -61,83 +67,39 @@ export default function CreateFlight() {
       });
   };
 
-  return (
+  return (    
     <div className="wrapper">
-      <form onSubmit={submitButton}>
-        <div className="form-group">
-          <label>Enter Flight Number</label>
-          <input
-            type="Number"
-            className="form-control"
-            onChange={inputsHandlerFlightNo}
-          />
-        </div>
-        <div className="form-group">
-          <label>From</label>
-          <input
-            type="text"
-            className="form-control"
-            onChange={inputsHandlerFrom}
-          />
-        </div>
-        <div className="form-group">
-          <label>To</label>
-          <input
-            type="text"
-            className="form-control"
-            onChange={inputsHandlerTo}
-          />
-        </div>
-        <div className="form-group">
-          <label> flight Date</label>
-          <input
-            type="Date"
-            className="form-control"
-            onChange={inputsHandlerFlightDate}
-          />
-        </div>
-        <div className="form-group">
-          <label>Enter Cabin</label>
+         
+      <Box
+      sx={{
+        '& > :not(style)': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+    ><form onSubmit={submitButton}>
 
-          <select className="form-control" onChange={inputsHandlerCabin}>
-            <option value="First">First Class</option>
-            <option value="Business">Business</option>
-            <option value="Economy">Economy</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label>Enter Seats Available</label>
-          <input
-            type="text"
-            className="form-control"
-            onChange={inputsHandlerSeatsAvailable}
-          />
-        </div>
-        {/* <div className="form-group">
-            <label>Enter Phone Number</label>
-            <input
-              type="text"
-              className="form-control"
-              onChange={inputsHandlerDepartureTime}
-            />
-          </div>
-          <div className="form-group">
-            <label>Enter Job</label>
-            <input
-              type="text"
-              className="form-control"
-              onChange={inputsHandlerArrivalTime}
-            />
-          </div> */}
-        <div>
-          <button
-            type="submit"
-            name="Create Flight"
-          >
-            Create Flight
-          </button>
-        </div>
-      </form>
+      <TextField id="standard-basic" label="Flight Number" variant="standard" onChange={inputsHandlerFlightNo} required /> <br/> <br/>
+      <TextField id="standard-basic" label="From" variant="standard" onChange={inputsHandlerFrom} required /> <br/> <br/>
+      <TextField id="standard-basic" label="To" variant="standard" onChange={inputsHandlerTo} required /> <br/> <br/>
+      <TextField id="standard-basic" label="Flight Date" variant="standard" type="Date" onChange={inputsHandlerFlightDate} required /> <br/> <br/>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+  <DatePicker
+    label="Flight Date"
+    value={flightdate}
+    onChange={inputsHandlerFlightDate}
+    renderInput={(params) => <TextField {...params} />}
+  />
+</LocalizationProvider>
+      <TextField id="standard-basic" label="Cabin Type" variant="standard" onChange={inputsHandlerCabin} required/> <br/> <br/>
+      <TextField id="standard-basic" label="Number of Seats Available" variant="standard" type="Number" onChange={inputsHandlerSeatsAvailable} required/> <br/> <br/>
+      {/* <TextField id="standard-basic" label="Departure Time" variant="standard" onChange={inputsHandlerDepartureTime} required/>
+      <TextField id="standard-basic" label="Arrival Time" variant="standard" onChange={inputsHandlerArrivalTime} required/> */}
+      <Button variant="contained" type="submit">Create Flight</Button>
+
+
+        </form>
+    </Box>
+    
     </div>
   );
 }
