@@ -18,8 +18,7 @@ const App = () =>  {
 
     <div>
 <CreateFlight />
-
-   {/* / <ViewFlights/> */}
+<ViewFlights/>
      
 
     </div>

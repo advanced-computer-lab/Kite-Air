@@ -2,7 +2,6 @@ import React from 'react';
 import EnhancedTable from './EnhancedGrid';
 import {useState,useEffect} from 'react';
 import axios from 'axios';
-import { Link } from "react-router-dom";
 
 export default function ViewFlights() {
 
@@ -18,11 +17,7 @@ export default function ViewFlights() {
     return (
       <div>
 
-<div>
-        <Link to="/create-flight">
-          + Add New Flight
-        </Link>
-      </div>
+
 
      { flights && <EnhancedTable rows = {flights}></EnhancedTable> }
 
