@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/advanced-computer-lab/Kite-Air#readme",
   "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@mui/material": "^5.0.6",
     "axios": "^0.24.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
