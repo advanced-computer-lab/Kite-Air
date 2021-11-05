@@ -4,12 +4,12 @@ import React, { useState } from "react";
 const baseURL = "http://localhost:8000/flights/create-flights";
 
 export default function CreateFlight() {
-  const [FlightNo, setFlightNo] = useState("");
-  const [From, setFrom] = useState("");
-  const [To, setTo] = useState("");
-  const [FlightDate, setFlightDate] = useState("");
-  const [Cabin, setCabin] = useState("");
-  const [SeatsAvailable, setSeatsAvailable] = useState("");
+  const [flightno, setFlightNo] = useState(0);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [flightdate, setFlightDate] = useState("");
+  const [cabin, setCabin] = useState("");
+  const [seatsavailable, setSeatsAvailable] = useState("");
   // const [DepartureTime, setDepartureTime] = useState("");
   // const [ArrivalTime, setArrivalTime] = useState("");
 
@@ -39,21 +39,21 @@ export default function CreateFlight() {
   //   };
 
   const inputs = {
-    FlightNo: FlightNo,
-    From: From,
-    To: To,
-    FlightDate: FlightDate,
-    Cabin: Cabin,
-    SeatsAvailable: SeatsAvailable,
+    
+    From: from,
+    To: to,
+    FlightDate: flightdate,
+    Cabin: cabin,
+    SeatsAvailable: seatsavailable,
+    FlightNo: flightno,
     // DepartureTime: DepartureTime,
     // ArrivalTime: ArrivalTime,
   };
 
-  const submitButton = () => {
-    axios
+  const submitButton =async () => {
+     await axios
       .post(baseURL, inputs)
       .then((res) => {
-        console.log("HIII");
         console.log(res.data);
       })
       .catch((error) => {
@@ -67,7 +67,7 @@ export default function CreateFlight() {
         <div className="form-group">
           <label>Enter Flight Number</label>
           <input
-            type="text"
+            type="Number"
             className="form-control"
             onChange={inputsHandlerFlightNo}
           />
@@ -129,13 +129,12 @@ export default function CreateFlight() {
               onChange={inputsHandlerArrivalTime}
             />
           </div> */}
-        <div className="form-group">
+        <div>
           <button
             type="submit"
             name="Create Flight"
-            className="btn btn-success btn-block"
           >
-            create
+            Create Flight
           </button>
         </div>
       </form>

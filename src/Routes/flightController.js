@@ -1,6 +1,7 @@
 var express = require('express');
-var router = express.Router();
 const Flight = require('../Models/Flights');
+var router = express.Router();
+
 
 //Insert flights
 
@@ -360,30 +361,20 @@ router.get('/all-flights', (req, res) => {
       });
   });
 
-  router.post('/create-flights', (req, res) => {
+  router.post('/create-flights', async (req, res) => {
     
     console.log('request came');
     console.log(req.body);
-    const flight=new Flight(
-        {
-            FlightNo : req.body.FlightNo,
-            From: req.body.From,
-            To : req.body.To,
-            FlightDate:req.body.FlightDate,
-            Cabin: req.body.Cabin,
-            SeatsAvailable:req.body.SeatsAvailable,
-            // DepartureTime: req.body.DepartureTime,
-            // ArrivalTime:req.body.ArrivalTime
-
-        }
-    );
-    flight.save().then((result)=>{
-        res.header("Content-Type",'application/json');
-        res.send(JSON.stringify(result, null, 4));
-    }).catch((err)=>
-    {
-        res.status(400).send("Please check all fields and try again.");
-    });
+    const flight = new Flight(req.body)
+  
+   await flight.save()
+      .then(result => {
+        res.send(result);
+        console.log("added");
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
   });
 
