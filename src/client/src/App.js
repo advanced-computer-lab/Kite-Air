@@ -4,20 +4,20 @@ import ReactDOM from 'react-dom';
 import DataTable from './components/DataGrid';
 import EnhancedTable from './components/EnhancedGrid.js';
 import ViewFlights from './components/ViewFlights.js';
-
+import CreateFlight from './components/CreateFlight.js';
 
 
 
 const App = () =>  {
 
-<CreateFlight />
+
 
 
   return (
 
 
     <div>
-
+<CreateFlight />
 
     <ViewFlights/>
      
