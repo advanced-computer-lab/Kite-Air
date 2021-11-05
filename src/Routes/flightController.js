@@ -360,6 +360,35 @@ router.get('/all-flights', (req, res) => {
       });
   });
 
+  router.post('/create-flights', (req, res) => {
+    
+    console.log('request came');
+    console.log(req.body);
+    const flight=new Flight(
+        {
+            FlightNo : req.body.FlightNo,
+            From: req.body.From,
+            To : req.body.To,
+            FlightDate:req.body.FlightDate,
+            Cabin: req.body.Cabin,
+            SeatsAvailable:req.body.SeatsAvailable,
+            // DepartureTime: req.body.DepartureTime,
+            // ArrivalTime:req.body.ArrivalTime
+
+        }
+    );
+    flight.save().then((result)=>{
+        res.header("Content-Type",'application/json');
+        res.send(JSON.stringify(result, null, 4));
+    }).catch((err)=>
+    {
+        res.status(400).send("Please check all fields and try again.");
+    });
+
+  });
+
+  
+
 module.exports = router;
 
 //var Flight = require("./Models/Flights");

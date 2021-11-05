@@ -10,6 +10,8 @@ import ViewFlights from './components/ViewFlights.js';
 
 const App = () =>  {
 
+<CreateFlight />
+
 
   return (
 
