@@ -10,9 +10,15 @@ import DatePick from './DatePick';
 
 
 
+
+
 const baseURL = "http://localhost:8000/flights/create-flights";
 
 export default function CreateFlight() {
+
+
+
+
   const [flightno, setFlightNo] = useState(0);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");

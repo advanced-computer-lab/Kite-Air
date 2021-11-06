@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const flightSchema = new Schema(
   {
-    FlightNo: { //zy id
+    FlightNo: {
       type: String,
       required: true,
     },
