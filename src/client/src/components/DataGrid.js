@@ -9,7 +9,7 @@ const columns = [
     field: "age",
     headerName: "Age",
     type: "number",
-    width: 90
+    width: 90,
   },
   {
     field: "fullName",
@@ -20,8 +20,8 @@ const columns = [
     valueGetter: (params) =>
       `${params.getValue(params.id, "firstName") || ""} ${
         params.getValue(params.id, "lastName") || ""
-      }`
-  }
+      }`,
+  },
 ];
 
 //const rowsflight =  ;
@@ -36,7 +36,6 @@ const rows = [
   { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
   { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-
 ];
 
 export default function DataTable() {
