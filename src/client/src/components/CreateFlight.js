@@ -4,6 +4,9 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
+import TimePick from './TimePick';
+import DatePick from './DatePick';
+
 
 
 
@@ -13,7 +16,7 @@ export default function CreateFlight() {
   const [flightno, setFlightNo] = useState(0);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const [flightdate, setFlightDate] = useState("");
+  const [flightdate, setFlightDate] = useState(new Date('2021-01-01'));
   const [cabin, setCabin] = useState("");
   const [seatsavailable, setSeatsAvailable] = useState("");
 
@@ -33,8 +36,11 @@ export default function CreateFlight() {
   const inputsHandlerTo = (e) => {
     setTo(e.target.value);
   };
-  const inputsHandlerFlightDate = (e) => {
-    setFlightDate(e.target.value);
+  var finaldate = "";
+  const inputsHandlerFlightDate = (date) => {
+   // finaldate = date.getDate() + '-' +  (date.getMonth() + 1)  + '-' +  date.getFullYear();
+    console.log(date);
+    setFlightDate(date);
   };
   const inputsHandlerCabin = (e) => {
     setCabin(e.target.value);
@@ -63,7 +69,7 @@ export default function CreateFlight() {
     
     From: from,
     To: to,
-    FlightDate: flightdate,
+    FlightDate: flightdate.getDate() + '-' +  (flightdate.getMonth() + 1)  + '-' +  flightdate.getFullYear(),
     Cabin: cabin,
     SeatsAvailable: seatsavailable,
     FlightNo: flightno,
@@ -93,21 +99,27 @@ export default function CreateFlight() {
       autoComplete="off"
     ><form onSubmit={submitButton}>
 
-      <TextField id="standard-basic" style = {{width: 250}} label="Flight Number" variant="standard" onChange={inputsHandlerFlightNo} required /> <br/> <br/>
-      <TextField id="standard-basic" style = {{width: 250}} label="From" variant="standard" onChange={inputsHandlerFrom} required /> <br/> <br/>
-      <TextField id="standard-basic" style = {{width: 250}} label="To" variant="standard" onChange={inputsHandlerTo} required /> <br/> <br/>
-       <p style={{fontFamily: "Helvetica",color:"Grey"}}>Flight Date *  </p> 
-      <TextField id="standard-basic" style = {{width: 250}} label="" variant="standard" type="Date" onChange={inputsHandlerFlightDate} required /> <br/> <br/>
-      <TextField id="standard-basic" style = {{width: 250}} label="Cabin Type" variant="standard" onChange={inputsHandlerCabin} required/> <br/> <br/>
-      <TextField id="standard-basic" style = {{width: 250}} label="Number of Seats Available" variant="standard" type="Number" onChange={inputsHandlerSeatsAvailable} required/> <br/> <br/>
-     
-      {/* <TextField id="standard-basic" style = {{width: 250}} label="Number of First Class Seats" variant="standard" onChange={inputsHandlerfseatsAvailable} required/> <br/> <br/>
-      <TextField id="standard-basic" style = {{width: 250}} label="Number of Business Class Seats" variant="standard" type="Number" onChange={inputsHandlerbseatsAvailable} required/> <br/> <br/>
-      <TextField id="standard-basic" style = {{width: 250}} label="Number of Economy Class Seats" variant="standard" onChange={inputsHandlereseatsAvailable} required/> <br/> <br/>
+      <TextField id="outlined-basic" style = {{width: 250}} label="Flight Number" variant="outlined" onChange={inputsHandlerFlightNo} required /> <br/> <br/>
+      <TextField id="outlined-basic" style = {{width: 250}} label="From" variant="outlined" onChange={inputsHandlerFrom} required /> <br/> <br/>
+      <TextField id="outlined-basic" style = {{width: 250}} label="To" variant="outlined" onChange={inputsHandlerTo} required /> <br/> <br/>
+      {/* <TextField id="outlined-basic" style = {{width: 250}} label="" variant="outlined" type="Date" onChange={inputsHandlerFlightDate} required /> <br/> <br/> */}
+      <TextField id="outlined-basic" style = {{width: 250}} label="Cabin Type" variant="outlined" onChange={inputsHandlerCabin} required/> <br/> <br/>
+      <TextField id="outlined-basic" style = {{width: 250}} label="Number of Seats Available" variant="outlined" type="Number" onChange={inputsHandlerSeatsAvailable} required/> <br/> <br/>
+
+
+        {/* <TimePick required style = {{width: 290}}></TimePick>
+        <br/> <br/> */}
+
+      <DatePick required handleChange = {inputsHandlerFlightDate} val={flightdate} label="Flight Date *" ></DatePick>
+      <br/> <br/>
+
+      {/* <TextField id="outlined-basic" style = {{width: 250}} label="Number of First Class Seats" variant="outlined" onChange={inputsHandlerfseatsAvailable} required/> <br/> <br/>
+      <TextField id="outlined-basic" style = {{width: 250}} label="Number of Business Class Seats" variant="outlined" type="Number" onChange={inputsHandlerbseatsAvailable} required/> <br/> <br/>
+      <TextField id="outlined-basic" style = {{width: 250}} label="Number of Economy Class Seats" variant="outlined" onChange={inputsHandlereseatsAvailable} required/> <br/> <br/>
       */}
 
-      {/* <TextField id="standard-basic" label="Departure Time" variant="standard" onChange={inputsHandlerDepartureTime} required/>
-      <TextField id="standard-basic" label="Arrival Time" variant="standard" onChange={inputsHandlerArrivalTime} required/> */}
+      {/* <TextField id="outlined-basic" label="Departure Time" variant="outlined" onChange={inputsHandlerDepartureTime} required/>
+      <TextField id="outlined-basic" label="Arrival Time" variant="outlined" onChange={inputsHandlerArrivalTime} required/> */}
       <Button variant="contained" type="submit">Create Flight</Button>
 
 
