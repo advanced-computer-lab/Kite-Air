@@ -94,23 +94,51 @@ const headCells = [
     label: 'To',
   },
   {
+    id: 'Terminal',
+    numeric: true,
+    disablePadding: true,
+    label: 'Terminal #',
+  },
+  {
     id: 'FlightDate',
     numeric: false,
     disablePadding: false,
     label: 'Date',
   },
+
   {
-    id: 'Cabin',
+    id: 'DepartureTime',
     numeric: false,
     disablePadding: false,
-    label: 'Cabin',
+    label: 'Departure',
   },
   {
-    id: 'SeatsAvailable',
+    id: 'ArrivalTime',
+    numeric: false,
+    disablePadding: false,
+    label: 'Arrival',
+  },
+
+  {
+    id: 'fseatsAvailabe',
     numeric: true,
     disablePadding: false,
-    label: 'Availabe Seats',
+    label: 'First Class Seats #',
   },
+  {
+    id: 'bseatsAvailabe',
+    numeric: true,
+    disablePadding: false,
+    label: 'Economy Class Seats #',
+  },
+  {
+    id: 'eseatsAvailabe',
+    numeric: true,
+    disablePadding: false,
+    label: 'Economy Class Seats #',
+  },
+  {},
+
 ];
 
 function EnhancedTableHead(props) {
@@ -345,9 +373,14 @@ export default function EnhancedTable({rows}) {
                  
               <TableCell align="right">{row.From}</TableCell>
               <TableCell align="right">{row.To}</TableCell>
+              <TableCell align="right">{row.Terminal}</TableCell>
               <TableCell align="right">{row.FlightDate}</TableCell>
-              <TableCell align="right">{row.Cabin}</TableCell>
-              <TableCell align="right">{row.SeatsAvailable}</TableCell>
+              <TableCell align="right">{row.DepartureTime}</TableCell>
+              <TableCell align="right">{row.ArrivalTime}</TableCell>
+              <TableCell align="right">{row.fseatsAvailable}</TableCell>
+              <TableCell align="right">{row.bseatsAvailable}</TableCell>
+              <TableCell align="right">{row.eseatsAvailable}</TableCell>
+              
 
               <TableCell align="right"> <Button variant="contained"> Update</Button> </TableCell>
                     </TableRow>

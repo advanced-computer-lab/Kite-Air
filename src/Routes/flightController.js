@@ -3,345 +3,67 @@ const Flight = require('../Models/Flights');
 var router = express.Router();
 
 
-//Insert flights
-
 // Flight.insertMany([
-//   {
-//     "From": "LAX",
-//     "To": "JFK",
-//     "FlightDate": "12-1-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 20,
-//     "FlightNo": 1
-//   },
-//   {
-//     "From": "LAX",
-//     "To": "JFK",
-//     "FlightDate": "12-1-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 10,
-//     "FlightNo": 1
-//   },
-//   {
-//     "From": "LAX",
-//     "To": "JFK",
-//     "FlightDate": "12-1-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 6,
-//     "FlightNo": 1
-//   },
-//   {
-//     "From": "JFK",
-//     "To": "LAX",
-//     "FlightDate": "22-1-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 30,
-//     "FlightNo": 2
-//   },
-//   {
-//     "From": "JFK",
-//     "To": "LAX",
-//     "FlightDate": "22-1-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 15,
-//     "FlightNo": 2
-//   },
-//   {
-//     "From": "JFK",
-//     "To": "LAX",
-//     "FlightDate": "22-1-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 2
-//   },
-//   {
-//     "From": "JFK",
-//     "To": "LHR",
-//     "FlightDate": "21-2-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 22,
-//     "FlightNo": 3
-//   },
-//   {
-//     "From": "JFK",
-//     "To": "LHR",
-//     "FlightDate": "21-2-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 2,
-//     "FlightNo": 3
-//   },
-//   {
-//     "From": "JFK",
-//     "To": "LHR",
-//     "FlightDate": "21-2-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 5,
-//     "FlightNo": 3
-//   },
-//   {
-//     "From": "LHR",
-//     "To": "JFK",
-//     "FlightDate": "6-3-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 43,
-//     "FlightNo": 4
-//   },
-//   {
-//     "From": "LHR",
-//     "To": "JFK",
-//     "FlightDate": "6-3-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 26,
-//     "FlightNo": 4
-//   },
-//   {
-//     "From": "LHR",
-//     "To": "JFK",
-//     "FlightDate": "6-3-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 4
-//   },
-//   {
-//     "From": "CAI",
-//     "To": "DXB",
-//     "FlightDate": "10-4-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 50,
-//     "FlightNo": 5
-//   },
-//   {
-//     "From": "CAI",
-//     "To": "DXB",
-//     "FlightDate": "10-4-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 22,
-//     "FlightNo": 5
-//   },
-//   {
-//     "From": "CAI",
-//     "To": "DXB",
-//     "FlightDate": "10-4-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 10,
-//     "FlightNo": 5
-//   },
-//   {
-//     "From": "DXB",
-//     "To": "CAI",
-//     "FlightDate": "18-4-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 50,
-//     "FlightNo": 6
-//   },
-//   {
-//     "From": "DXB",
-//     "To": "CAI",
-//     "FlightDate": "18-4-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 22,
-//     "FlightNo": 6
-//   },
-//   {
-//     "From": "DXB",
-//     "To": "CAI",
-//     "FlightDate": "18-4-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 10,
-//     "FlightNo": 6
-//   },
-//   {
-//     "From": "CDG",
-//     "To": "MUC",
-//     "FlightDate": "25-4-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 43,
-//     "FlightNo": 7
-//   },
-//   {
-//     "From": "CDG",
-//     "To": "MUC",
-//     "FlightDate": "25-4-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 26,
-//     "FlightNo": 7
-//   },
-//   {
-//     "From": "CDG",
-//     "To": "MUC",
-//     "FlightDate": "25-4-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 7
-//   },
-//   {
-//     "From": "MUC",
-//     "To": "CDG",
-//     "FlightDate": "2-5-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 43,
-//     "FlightNo": 8
-//   },
-//   {
-//     "From": "MUC",
-//     "To": "CDG",
-//     "FlightDate": "2-5-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 26,
-//     "FlightNo": 8
-//   },
-//   {
-//     "From": "MUC",
-//     "To": "CDG",
-//     "FlightDate": "2-5-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 8
-//   },
-//   {
-//     "From": "LHR",
-//     "To": "CDG",
-//     "FlightDate": "6-5-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 30,
-//     "FlightNo": 9
-//   },
-//   {
-//     "From": "LHR",
-//     "To": "CDG",
-//     "FlightDate": "6-5-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 13,
-//     "FlightNo": 9
-//   },
-//   {
-//     "From": "LHR",
-//     "To": "CDG",
-//     "FlightDate": "6-5-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 3,
-//     "FlightNo": 9
-//   },
-//   {
-//     "From": "CDG",
-//     "To": "LHR",
-//     "FlightDate": "17-5-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 60,
-//     "FlightNo": 10
-//   },
-//   {
-//     "From": "CDG",
-//     "To": "LHR",
-//     "FlightDate": "17-5-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 10
-//   },
-//   {
-//     "From": "CDG",
-//     "To": "LHR",
-//     "FlightDate": "17-5-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 10
-//   },
-//   {
-//     "From": "CAI",
-//     "To": "RUH",
-//     "FlightDate": "6-6-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 43,
-//     "FlightNo": 11
-//   },
-//   {
-//     "From": "CAI",
-//     "To": "RUH",
-//     "FlightDate": "6-6-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 26,
-//     "FlightNo": 11
-//   },
-//   {
-//     "From": "CAI",
-//     "To": "RUH",
-//     "FlightDate": "6-6-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 11
-//   },
-//   {
-//     "From": "RUH",
-//     "To": "CAI",
-//     "FlightDate": "16-6-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 22,
-//     "FlightNo": 12
-//   },
-//   {
-//     "From": "RUH",
-//     "To": "CAI",
-//     "FlightDate": "16-6-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 10,
-//     "FlightNo": 12
-//   },
-//   {
-//     "From": "RUH",
-//     "To": "CAI",
-//     "FlightDate": "16-6-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 6,
-//     "FlightNo": 12
-//   },
-//   {
-//     "From": "YYZ",
-//     "To": "FRA",
-//     "FlightDate": "7-7-2020",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 43,
-//     "FlightNo": 13
-//   },
-//   {
-//     "From": "YYZ",
-//     "To": "FRA",
-//     "FlightDate": "7-7-2020",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 26,
-//     "FlightNo": 13
-//   },
-//   {
-//     "From": "YYZ",
-//     "To": "FRA",
-//     "FlightDate": "7-7-2020",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 13
-//   },
-//   {
+  
+// {
+//     "FlightNo": "KL123",
 //     "From": "FRA",
 //     "To": "YYZ",
+//     "Terminal": 1,
 //     "FlightDate": "8-8-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 43,
-//     "FlightNo": 14
+//     "DepartureTime": "22:02",
+//     "ArrivalTime": "01:11",
+//     "fseatsAvailable": 10,
+//     "bseatsAvailable": 12,
+//     "eseatsAvailable": 42,
+//     "fprice": 1000,
+//     "bprice": 560,
+//     "eprice": 200,
+//     "fbaggage": 25,
+//     "bbaggage": 25,
+//     "ebaggage": 20,
+   
 //   },
 //   {
-//     "From": "FRA",
-//     "To": "YYZ",
+//     "FlightNo": "MH134",
+//     "From": "CAI",
+//     "To": "RUH",
+//     "Terminal": 2,
 //     "FlightDate": "8-8-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 26,
-//     "FlightNo": 14
+//     "DepartureTime": "23:00",
+//     "ArrivalTime": "03:11",
+//     "fseatsAvailable": 5,
+//     "bseatsAvailable": 15,
+//     "eseatsAvailable": 45,
+//     "fprice": 1000,
+//     "bprice": 560,
+//     "eprice": 200,
+//     "fbaggage": 25,
+//     "bbaggage": 25,
+//     "ebaggage": 20,
+   
 //   },
+
 //   {
-//     "From": "FRA",
-//     "To": "YYZ",
-//     "FlightDate": "8-8-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 14
-//   }
+//     "FlightNo": "ME133",
+//     "From": "BEY",
+//     "To": "CAI",
+//     "Terminal": 1,
+//     "FlightDate": "7-7-2020",
+//     "DepartureTime": "23:00",
+//     "ArrivalTime": "03:11",
+//     "fseatsAvailable": 5,
+//     "bseatsAvailable": 15,
+//     "eseatsAvailable": 45,
+//     "fprice": 1000,
+//     "bprice": 560,
+//     "eprice": 200,
+//     "fbaggage": 25,
+//     "bbaggage": 25,
+//     "ebaggage": 20,
+   
+//   },
+
 //  ]
 // ).then(function(){
 //     console.log("Data inserted")  // Success
@@ -350,6 +72,7 @@ var router = express.Router();
 // });
 
 //Get all entered flights
+
 router.get('/all-flights', (req, res) => {
     Flight.find({})
       .then(result => {
