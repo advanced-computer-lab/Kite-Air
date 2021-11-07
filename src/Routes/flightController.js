@@ -350,17 +350,29 @@ const Flight = require('../Models/Flights');
 
 //Get all entered flights
 router.get('/all-flights', (req, res) => {
-    Flight.find({})
-      .then(result => {
-        res.json(result);
-        console.log("Found");
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  Flight.find({})
+    .then(result => {
+      res.json(result);
+      console.log("Found");
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.put('/:id', (req, res) => {
+  console.log(req.params.id);
+  Flight.findByIdAndUpdate(req.params.id, req.body)
+    .then(result => {
+      res.status(200).send("User updated ");
+      
+      console.log('The User is Updated successfully !');
+    }).catch(err => {
+      console.log(err);
+    })
   });
 
-module.exports = router;
+  module.exports = router;
 
 //var Flight = require("./Models/Flights");
 
