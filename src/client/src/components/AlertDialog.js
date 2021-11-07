@@ -5,8 +5,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import axios from 'axios';
 
-export default function AlertDialog() {
+export default function AlertDialog({rows}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -17,10 +18,33 @@ export default function AlertDialog() {
     setOpen(false);
   };
 
+  const deleteFlights = (rowsIn) => {
+    console.log('rows: ' + rowsIn);
+
+    for (let i in rowsIn){
+      console.log(rowsIn[i]);
+    axios
+      .delete('http://localhost:8000/flights/' + rowsIn[i])
+      .then(res => {
+        console.log("success");
+         window.location.reload(false);
+        setOpen(false);
+
+      })
+      .catch(err => {
+        console.log("Error in FlightDelete!");
+      }
+      ) }
+
+    // console.log( Object.keys(rowsIn).length);
+
+    // handleClose();
+};
+
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open alert dialog
+      <Button variant="contained" color="error" onClick={handleClickOpen}>
+        Delete
       </Button>
       <Dialog
         open={open}
@@ -39,7 +63,7 @@ export default function AlertDialog() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={deleteFlights(rows)} autoFocus>
             Agree
           </Button>
         </DialogActions>

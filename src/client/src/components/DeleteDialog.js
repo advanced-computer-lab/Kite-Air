@@ -25,10 +25,10 @@ export default function DeleteDialog({rows}) {
 
     for (let i in rowsIn){
     axios
-      .delete('http://localhost:8000/flights/' + rowsIn[i]._id)
+      .delete('http://localhost:8000/flights/' + i)
       .then(res => {
         console.log("success");
-        window.location.reload(false);
+         window.location.reload(false);
         setOpen(false);
 
       })
@@ -37,6 +37,9 @@ export default function DeleteDialog({rows}) {
       }
       ) }
 
+    // console.log( Object.keys(rowsIn).length);
+
+    // handleClose();
 };
 
   const handleClose = () => {
@@ -45,12 +48,10 @@ export default function DeleteDialog({rows}) {
 
   return (
     <div>
-      <Button variant="contained" color = "error" onClick={handleClickOpen}>
-        Delete
-      </Button>
+        <Button variant="contained" color="error" onClick={handleClickOpen}> Delete </Button>
       <Dialog
         fullScreen={fullScreen}
-        open={open}
+        open= {open}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >

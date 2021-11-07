@@ -31,10 +31,7 @@ import AlertDialog from './AlertDialog';
 var toBeDeleted = [];
 
  
-function openDialog (){
-  
-  <DeleteDialog rows = {toBeDeleted} />
-};
+
 
 
 function descendingComparator(a, b, orderBy) {
@@ -200,9 +197,16 @@ EnhancedTableHead.propTypes = {
 };
 
 const EnhancedTableToolbar = (props) => {
+
+  const openDialog = () => {
+  
+    <DeleteDialog rows = {toBeDeleted} />
+  };
   const { numSelected } = props;
 
   return (
+    <div>
+    <AlertDialog rows = {toBeDeleted} />
     <Toolbar
       sx={{
         pl: { sm: 2 },
@@ -213,9 +217,11 @@ const EnhancedTableToolbar = (props) => {
         }),
       }}
      >
-       <DeleteDialog rows = {toBeDeleted} />
+       {/* <DeleteDialog rows = {toBeDeleted} /> */}
+       {/* <Button variant = "contained" color = "error" onClick={openDialog}> Delete </Button> */}
 
     </Toolbar>
+    </div>
     //{numSelected > 0 ? (
     //     <Typography
     //       sx={{ flex: '1 1 100%' }}

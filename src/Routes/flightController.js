@@ -373,7 +373,8 @@ router.put('/:id', (req, res) => {
   });
 
   router.route('/:id').delete((req,res) => {
-    console.log(req.params.id);
+    // console.log(req.params.id);
+    console.log("heyy");
     Flight.findByIdAndDelete(req.params.id)
       .then(result => {
         res.status(200).send("Flight deleted ");
