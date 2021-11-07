@@ -8,6 +8,8 @@ import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import { useNavigate } from "react-router-dom";
+
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -18,6 +20,13 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 function Search() {
+
+
+
+  let navigate = useNavigate();
+
+
+
   const click_flightNo = useRef();
   const click_Date = useRef();
   const click_Departure_Time = useRef();
@@ -70,6 +79,12 @@ function Search() {
     setFlight(j);
     console.log(flights);
   }
+  function handleClickSubmit() {
+    navigate("/add-new-flight");
+  }
+
+
+
   useEffect(() => {
     if (flights !== {}) {
       axios
@@ -80,6 +95,8 @@ function Search() {
 
   return (
     <div>
+
+<button onClick={handleClickSubmit}>Add New Flight</button>
 {/* 
 
       <Grid container spacing={2} >

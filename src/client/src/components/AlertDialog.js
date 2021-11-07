@@ -21,18 +21,6 @@ export default function AlertDialog({rows}) {
 
 
 
-// useEffect(
-//   ()=>{
-
-//     if(confirm){
-//       deleteFlights(rows);
-//     }
-//   }
-  
-  
-//   ,[]);
-
-
 
 
   const deleteFlights = () => {

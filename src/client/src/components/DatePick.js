@@ -19,14 +19,7 @@ export default function DatePick(props) {
               onChange={props.handleChange}
               renderInput={(params) => <TextField {...params} />}
             />
-            {/* <MobileDatePicker
-              label= {props.label}
-              inputFormat="dd/MM/yyyy"
-              value={props.value}
-              onChange={props.handlechange}
-              renderInput={(params) => <TextField {...params} />}
-              
-            /> */}
+         
          
           </Stack>
         </LocalizationProvider>

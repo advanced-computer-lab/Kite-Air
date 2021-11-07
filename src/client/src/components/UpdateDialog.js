@@ -8,8 +8,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ViewFlights from "./ViewFlights";
-import { Navigate } from "react-router-dom";
+
 
 export default function FormDialog({ row }) {
   const [FlightNo, setFlightNo] = useState(row.FlightNo);
@@ -24,17 +23,7 @@ export default function FormDialog({ row }) {
   const [Terminal, setTerminal] = useState(row.Terminal);
   // const [redirect, setRedirect] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  // function renderRedirect() => {
-  //   if (this.state.redirect) {
-  //     return <Redirect to='/target' />
-  //   }
-  // }
-  // useEffect(() => {
-  //   axios.get('http://localhost:8000/flights/all-flights').then(res => {
 
-  // })
-
-  // }, []);
 
   function updateFlight() {
     const data = {

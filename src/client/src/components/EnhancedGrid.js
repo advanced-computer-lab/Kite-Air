@@ -16,16 +16,8 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-// import DeleteIcon from '@mui/icons-material/Delete';
-// import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import Badge from '@mui/material/Badge';
-import Button from '@mui/material/Button';
 import FormDialog from './UpdateDialog';
-import DeleteDialog from './DeleteDialog';
-import { GridColumnsPanel } from '@mui/x-data-grid';
 import AlertDialog from './AlertDialog';
 
 var toBeDeleted = [];
@@ -199,10 +191,7 @@ EnhancedTableHead.propTypes = {
 
 const EnhancedTableToolbar = (props) => {
 
-  const openDialog = () => {
   
-    <DeleteDialog rows = {toBeDeleted} />
-  };
   const { numSelected } = props;
 
   return (
@@ -217,7 +206,6 @@ const EnhancedTableToolbar = (props) => {
         }),
       }}
      >
-       {/* <DeleteDialog rows = {toBeDeleted} /> */}
        {/* <Button variant = "contained" color = "error" onClick={openDialog}> Delete </Button> */}
 
     {numSelected > 0 ? (
@@ -244,11 +232,7 @@ const EnhancedTableToolbar = (props) => {
             <Tooltip title="Delete">
               <AlertDialog rows = {toBeDeleted} />
 
-            {/* <IconButton> */}
-              {/* <Button  variant="contained" color="error" onClick={openDialog()}>Delete</Button> */}
-              {/* <DeleteDialog rows = {toBeDeleted} /> */}
-              {/* <AlertDialog /> */}
-            {/* </IconButton> */}
+        
           </Tooltip>
         ) : (
           <Tooltip title="Filter list">

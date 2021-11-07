@@ -2,8 +2,8 @@ import React from "react";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import ViewFlights from "./components/ViewFlights.js";
 import CreateFlight from "./components/CreateFlight.js";
+import Search from "./components/Search.js";
 
 const App = () => {
 

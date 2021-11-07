@@ -23,16 +23,6 @@ export default function CreateFlight() {
   const [bseatsAvailable, setbseatsAvailable] = useState(0);
   const [eseatsAvailable, seteseatsAvailable] = useState(0);
 
-  // const [dhours, setDhours] = useState();
-  // const [dmins, setDmins] = useState();
-
-  // const [ahours, setAhours] = useState();
-  // const [amins, setAmins] = useState();
-
-
-  var timed;
-  var timea;
-
   const inputsHandlerFlightNo = (e) => {
     setFlightNo(e.target.value);
   };
@@ -61,22 +51,13 @@ export default function CreateFlight() {
     seteseatsAvailable(e.target.value < 0 ? (e.target.value = 0): e.target.value);
   };
   const inputsHandlerDepartureTime = (e) => {
-    timed = new Date(e+" GMT").toISOString().substr(11,5);
-    console.log(e.getHours()+":"+e.getMinutes());
      setDepartureTime(e);
   };
   const inputsHandlerArrivalTime = (e) => {
-    timea =  new Date(e+" GMT").toISOString().substr(11,5);
-    console.log(e.getHours()+":"+e.getMinutes());
+
     setArrivalTime(e);
   };
 
-  // const inputsHandlerdhours = (e) => {
-  //   setDhours(e.target.value);
-  // };
-  // const inputsHandlerdmins = (e) => {
-  //   setDmins(e.target.value);
-  // };
 
 
   const inputs = {
@@ -85,15 +66,28 @@ export default function CreateFlight() {
     Terminal: terminal,
 
     FlightDate:
-      flightdate.getDate() +
+
+
+    ( (flightdate.getMonth() + 1).toString().length === 1 ? "0" + (flightdate.getMonth() + 1).toString()  : (flightdate.getMonth() + 1) ).toString() +
       "-" +
-      (flightdate.getMonth() + 1) +
+
+     ( (flightdate.getDate()).toString().length === 1 ? "0" + (flightdate.getDate()).toString()  : (flightdate.getDate()) ).toString() +
       "-" +
-      flightdate.getFullYear(),
+
+      flightdate.getFullYear().toString(),
 
     FlightNo: flightno,
-    DepartureTime: departuretime.getHours()+":"+departuretime.getMinutes() , //+ (departuretime.toISOString().substr(11,5)),
-    ArrivalTime:  arrivaltime.getHours()+":"+arrivaltime.getMinutes() , //+ (arrivaltime.toISOString().substr(11,5)),
+    DepartureTime: 
+    ( (departuretime.getHours()).toString().length === 1 ? "0" + (departuretime.getHours()).toString()  : (departuretime.getHours()) ).toString()
+    +":"+
+        ( (departuretime.getMinutes()).toString().length === 1 ? "0" + (departuretime.getMinutes()).toString()  : (departuretime.getMinutes()) ).toString(),
+
+        
+    ArrivalTime:  
+    ( (arrivaltime.getHours()).toString().length === 1 ? "0" + (arrivaltime.getHours()).toString()  : (arrivaltime.getHours()) ).toString()
++":"+
+    ( (arrivaltime.getMinutes()).toString().length === 1 ? "0" + (arrivaltime.getMinutes()).toString()  : (arrivaltime.getMinutes()) ).toString(),
+
     fseatsAvailable: fseatsAvailable,
     bseatsAvailable: bseatsAvailable,
     eseatsAvailable: eseatsAvailable,
@@ -103,7 +97,8 @@ export default function CreateFlight() {
     await axios
       .post(baseURL, inputs)
       .then((res) => {
-        console.log(res.data);
+        alert("SUCCESS");
+        
       })
       .catch((error) => {
         console.log(error);
