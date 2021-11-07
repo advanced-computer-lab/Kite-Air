@@ -1,6 +1,6 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const Flight = require('../Models/Flights');
+const Flight = require("../Models/Flights");
 
 //Insert flights
 
@@ -349,13 +349,13 @@ const Flight = require('../Models/Flights');
 // });
 
 //Get all entered flights
-router.get('/all-flights', (req, res) => {
+router.get("/all-flights", (req, res) => {
   Flight.find({})
-    .then(result => {
+    .then((result) => {
       res.json(result);
       console.log("Found");
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
 });
@@ -371,6 +371,69 @@ router.put('/:id', (req, res) => {
       console.log(err);
     })
   });
+// router.get("/all-flights", (req, res) => {
+//   Flight.find({})
+//     .then((result) => {
+//         for(int i=0; i<result.length; i++){
+
+//         }
+
+//       res.json(result);
+//       console.log("Found");
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
+
+// exports.getUser = (req, res) => {
+//   var data = req.body;
+//   var flight = {
+//     FlightNo: data.FlightNo,
+//   };
+//   User.find(flight)
+//     .then((result) => {
+//       res.send(result);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
+
+router.post("/search", (req, res) => {
+  console.log("from backend");
+  console.log(req.body);
+  Flight.find(req.body)
+    .then((result) => {
+      res.send(result);
+      console.log("Filtered");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// exports.getUser = (req, res) => {
+//   User.find({Name:req.params.name})
+//     .then(result => {
+//       res.send(result);
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// };
+
+// router.get('/find', (req, res) => {
+//   Flight.find({Name:req.body.fliter})
+//     .then(result => {
+//       res.send(result => {
+//         res.json(result);
+//         console.log("Filtered");
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// });
 
   module.exports = router;
 
@@ -398,4 +461,3 @@ router.put('/:id', (req, res) => {
 //   }
 
 //flight.save();
-

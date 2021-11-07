@@ -15,15 +15,9 @@ const App = () => {
   return (
 
 
-    <BrowserRouter>
     <div >
-        
-        <Routes>
-          <Route path='/' element={<ViewFlights/>}></Route>
-          {/* <Route path='/products' element={<Products />}></Route> */}
-        </Routes>    
+    <Search />
     </div>
-    </BrowserRouter>
 
 
   );
