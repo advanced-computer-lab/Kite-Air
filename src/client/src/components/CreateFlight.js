@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 
 import TimePick from "./TimePick";
 import DatePick from "./DatePick";
-import e from "cors";
+import ReactTooltip from 'react-tooltip';
 
 const baseURL = "http://localhost:8000/flights/create-flights";
 
@@ -47,16 +47,18 @@ export default function CreateFlight() {
     setFlightDate(date);
   };
   const inputsHandlerTerminal = (e) => {
-    setTerminal(e.target.value);
+    setTerminal(e.target.value < 0 ? (e.target.value = 0): e.target.value);
   };
   const inputsHandlerfseatsAvailable = (e) => {
-    setfseatsAvailable(e.target.value);
+    setfseatsAvailable(e.target.value < 0 ? (e.target.value = 0): e.target.value);
   };
   const inputsHandlerbseatsAvailable = (e) => {
-    setbseatsAvailable(e.target.value);
+    setbseatsAvailable(e.target.value < 0 ? (e.target.value = 0): e.target.value);
   };
   const inputsHandlereseatsAvailable = (e) => {
-    seteseatsAvailable(e.target.value);
+
+    
+    seteseatsAvailable(e.target.value < 0 ? (e.target.value = 0): e.target.value);
   };
   const inputsHandlerDepartureTime = (e) => {
     timed = new Date(e+" GMT").toISOString().substr(11,5);
@@ -110,14 +112,16 @@ export default function CreateFlight() {
 
   return (
     <div className="wrapper">
+     <ReactTooltip place='right'/>
       <Box
         sx={{
-          "& > :not(style)": { m: 1, width: "25ch" },
+          "& > :not(style)": { m: 1, width: "29ch" },
         }}
         noValidate
         autoComplete="off"
       >
         <form onSubmit={submitButton}>
+          <p style={{fontFamily:'Arial',color:'Grey'}}>Flight Information</p>
           <TextField
             id="outlined-basic"
             style={{ width: 250 }}
@@ -133,6 +137,10 @@ export default function CreateFlight() {
             label="From"
             variant="outlined"
             onChange={inputsHandlerFrom}
+            data-tip="Airport Code" 
+            inputProps={{ maxLength: "3" }}
+            onInput = { e => e.target.value = ("" + e.target.value).toUpperCase()}
+            type="text"
             required
           />{" "}
           <br /> <br />
@@ -142,8 +150,13 @@ export default function CreateFlight() {
             label="To"
             variant="outlined"
             onChange={inputsHandlerTo}
+            data-tip="Airport Code"
+            inputProps={{ maxLength: "3" }}
+            onInput = { e => e.target.value = ("" + e.target.value).toUpperCase()}
+            type="text"
             required
           />{" "}
+         
           <br /> <br />
           <TextField
             id="outlined-basic"
@@ -154,7 +167,9 @@ export default function CreateFlight() {
             onChange={inputsHandlerTerminal}
             required
           />{" "}
-          <br /> <br />
+            <br />  <br /> 
+          <p style={{fontFamily:'Arial',color:'Grey'}}>Schedule</p>
+        
           <DatePick
             required
             handleChange={inputsHandlerFlightDate}
@@ -181,25 +196,25 @@ export default function CreateFlight() {
           ></TimePick>
 
 
-          <br /> <br />
-          Number of Seats
-          <br />
-          <br />
+          <br /> 
+          <p style={{fontFamily:'Arial',color:'Grey'}}>Number of Seats</p>
+        
           <TextField
             id="outlined-basic"
             style={{ width: 250 }}
-            label="# of First Class Seats"
+            label="No. of First Class Seats"
             variant="outlined"
-            type="Number"
+            type="Number" 
             onChange={inputsHandlerfseatsAvailable}
             required
           />{" "}
           <br />
           <br />
+          <br />
           <TextField
             id="outlined-basic"
             style={{ width: 250 }}
-            label="# of Business Class Seats"
+            label="No. of Business Class Seats"
             variant="outlined"
             type="Number"
             onChange={inputsHandlerbseatsAvailable}
@@ -207,15 +222,17 @@ export default function CreateFlight() {
           />
           <br />
           <br />
+          <br />
           <TextField
             id="outlined-basic"
             style={{ width: 250 }}
-            label="# of Economy Class Seats"
+            label="No. of Economy Class Seats"
             variant="outlined"
             type="Number"
             onChange={inputsHandlereseatsAvailable}
             required
           />
+          <br />
           <br />
           <br />
           <Button variant="contained" type="submit">
