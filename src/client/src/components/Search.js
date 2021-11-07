@@ -2,12 +2,26 @@ import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import EnhancedTable from "./EnhancedGrid";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import TimePicker from "@mui/lab/TimePicker";
+import DateTimePicker from "@mui/lab/DateTimePicker";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
+import MobileDatePicker from "@mui/lab/MobileDatePicker";
+
 function Search() {
   const click_flightNo = useRef();
   const click_Date = useRef();
   const click_Departure_Time = useRef();
   const click_Arrival_Time = useRef();
   const click_Terminals = useRef();
+  const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
+
+  const handleChange = (newValue) => {
+    setValue(newValue);
+  };
 
   const [flights, setFlight] = useState({});
   const [fs, setFs] = useState([]);
@@ -59,19 +73,24 @@ function Search() {
 
   return (
     <div>
-      <input type="text" placeholder="FlightNo" ref={click_flightNo}></input>
-      <input type="date" placeholder="Date" required ref={click_Date}></input>
+      <p>Flight Number</p>
+      <input type="text" ref={click_flightNo} label="Flight Number"></input>
+      <p>Flight Date</p>
+      <input type="date" required ref={click_Date}></input>
+      <p>Departure Time</p>
       <input
         type="time"
         placeholder="Departure Time"
         ref={click_Departure_Time}
       ></input>
+      <p>Arrival Time</p>
       <input
         type="time"
         placeholder="Arrival Time"
         ref={click_Arrival_Time}
       ></input>
-      <input type="text" placeholder="Terminals" ref={click_Terminals}></input>
+      <p>Terminal</p>
+      <input type="text" ref={click_Terminals}></input>
       <button onClick={handeleClick}>Search</button>
       <EnhancedTable rows={fs} />
     </div>
@@ -86,3 +105,33 @@ export default Search;
 //       {flight.Cabin} {flight.SeatsAvailable}
 //     </div>
 //   ))}
+
+//
+
+// <LocalizationProvider>
+// <Stack spacing={3}>
+//   <DesktopDatePicker
+//     label="Flight Date"
+//     inputFormat="dd/mm/yyyy"
+//     value={value}
+//     onChange={handleChange}
+//     required
+//     ref={click_Date}
+//     renderInput={(params) => <TextField {...params} />}
+//   />
+//   <TimePicker
+//     label="Departure Time"
+//     value={value}
+//     onChange={handleChange}
+//
+//     renderInput={(params) => <TextField {...params} />}
+//   />
+//   <TimePicker
+//     label="Arrival Time"
+//     value={value}
+//     onChange={handleChange}
+//
+//     renderInput={(params) => <TextField {...params} />}
+//   />
+// </Stack>
+// </LocalizationProvider>
