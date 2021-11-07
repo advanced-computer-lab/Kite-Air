@@ -95,7 +95,7 @@ const headCells = [
     id: 'FlightDate',
     numeric: false,
     disablePadding: false,
-    label: 'Date',
+    label: 'Date (mm/dd/yyyy)',
   },
 
   {
@@ -121,7 +121,7 @@ const headCells = [
     id: 'bseatsAvailabe',
     numeric: true,
     disablePadding: false,
-    label: 'Economy Class Seats #',
+    label: 'Business Class Seats #',
   },
   {
     id: 'eseatsAvailabe',

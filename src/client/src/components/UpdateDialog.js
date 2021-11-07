@@ -8,6 +8,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 
 export default function FormDialog({ row }) {
@@ -23,7 +24,6 @@ export default function FormDialog({ row }) {
   const [Terminal, setTerminal] = useState(row.Terminal);
   // const [redirect, setRedirect] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-
 
   function updateFlight() {
     const data = {
@@ -45,6 +45,16 @@ export default function FormDialog({ row }) {
         console.log(data);
         console.log("success");
         alert("Success");
+
+        // toast.success("Flight Updated!", {
+        //   position: "top-right",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        // });
 
         window.location.reload(false);
         // component: () => <Navigate to='/'/>
@@ -138,8 +148,7 @@ export default function FormDialog({ row }) {
               value={DepartureTime}
               variant="standard"
             />
-                        &nbsp; &nbsp; &nbsp;
-
+            &nbsp; &nbsp; &nbsp;
             <TextField
               autoFocus
               margin="dense"

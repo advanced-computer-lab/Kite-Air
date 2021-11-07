@@ -106,3 +106,5 @@ src/config/keys.js
 config/keys.js
 src/package-lock.json
 src/client/src/package-lock.json
+src/client/package.json
+src/client/package-lock.json

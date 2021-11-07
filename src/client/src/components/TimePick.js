@@ -19,7 +19,8 @@ export default function TimePick(props) {
               label= {props.labels}    
               value={props.val}
               onChange={props.handleChange}
-              renderInput={(params) => <TextField {...params} />}
+              renderInput={(params) => <TextField {...params} />
+              }
         />
      
       </Stack>

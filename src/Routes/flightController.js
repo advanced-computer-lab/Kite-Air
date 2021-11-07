@@ -2,346 +2,6 @@ var express = require("express");
 var router = express.Router();
 const Flight = require("../Models/Flights");
 
-//Insert flights
-
-// Flight.insertMany([
-//   {
-//     "From": "LAX",
-//     "To": "JFK",
-//     "FlightDate": "12-1-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 20,
-//     "FlightNo": 1
-//   },
-//   {
-//     "From": "LAX",
-//     "To": "JFK",
-//     "FlightDate": "12-1-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 10,
-//     "FlightNo": 1
-//   },
-//   {
-//     "From": "LAX",
-//     "To": "JFK",
-//     "FlightDate": "12-1-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 6,
-//     "FlightNo": 1
-//   },
-//   {
-//     "From": "JFK",
-//     "To": "LAX",
-//     "FlightDate": "22-1-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 30,
-//     "FlightNo": 2
-//   },
-//   {
-//     "From": "JFK",
-//     "To": "LAX",
-//     "FlightDate": "22-1-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 15,
-//     "FlightNo": 2
-//   },
-//   {
-//     "From": "JFK",
-//     "To": "LAX",
-//     "FlightDate": "22-1-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 2
-//   },
-//   {
-//     "From": "JFK",
-//     "To": "LHR",
-//     "FlightDate": "21-2-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 22,
-//     "FlightNo": 3
-//   },
-//   {
-//     "From": "JFK",
-//     "To": "LHR",
-//     "FlightDate": "21-2-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 2,
-//     "FlightNo": 3
-//   },
-//   {
-//     "From": "JFK",
-//     "To": "LHR",
-//     "FlightDate": "21-2-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 5,
-//     "FlightNo": 3
-//   },
-//   {
-//     "From": "LHR",
-//     "To": "JFK",
-//     "FlightDate": "6-3-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 43,
-//     "FlightNo": 4
-//   },
-//   {
-//     "From": "LHR",
-//     "To": "JFK",
-//     "FlightDate": "6-3-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 26,
-//     "FlightNo": 4
-//   },
-//   {
-//     "From": "LHR",
-//     "To": "JFK",
-//     "FlightDate": "6-3-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 4
-//   },
-//   {
-//     "From": "CAI",
-//     "To": "DXB",
-//     "FlightDate": "10-4-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 50,
-//     "FlightNo": 5
-//   },
-//   {
-//     "From": "CAI",
-//     "To": "DXB",
-//     "FlightDate": "10-4-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 22,
-//     "FlightNo": 5
-//   },
-//   {
-//     "From": "CAI",
-//     "To": "DXB",
-//     "FlightDate": "10-4-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 10,
-//     "FlightNo": 5
-//   },
-//   {
-//     "From": "DXB",
-//     "To": "CAI",
-//     "FlightDate": "18-4-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 50,
-//     "FlightNo": 6
-//   },
-//   {
-//     "From": "DXB",
-//     "To": "CAI",
-//     "FlightDate": "18-4-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 22,
-//     "FlightNo": 6
-//   },
-//   {
-//     "From": "DXB",
-//     "To": "CAI",
-//     "FlightDate": "18-4-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 10,
-//     "FlightNo": 6
-//   },
-//   {
-//     "From": "CDG",
-//     "To": "MUC",
-//     "FlightDate": "25-4-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 43,
-//     "FlightNo": 7
-//   },
-//   {
-//     "From": "CDG",
-//     "To": "MUC",
-//     "FlightDate": "25-4-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 26,
-//     "FlightNo": 7
-//   },
-//   {
-//     "From": "CDG",
-//     "To": "MUC",
-//     "FlightDate": "25-4-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 7
-//   },
-//   {
-//     "From": "MUC",
-//     "To": "CDG",
-//     "FlightDate": "2-5-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 43,
-//     "FlightNo": 8
-//   },
-//   {
-//     "From": "MUC",
-//     "To": "CDG",
-//     "FlightDate": "2-5-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 26,
-//     "FlightNo": 8
-//   },
-//   {
-//     "From": "MUC",
-//     "To": "CDG",
-//     "FlightDate": "2-5-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 8
-//   },
-//   {
-//     "From": "LHR",
-//     "To": "CDG",
-//     "FlightDate": "6-5-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 30,
-//     "FlightNo": 9
-//   },
-//   {
-//     "From": "LHR",
-//     "To": "CDG",
-//     "FlightDate": "6-5-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 13,
-//     "FlightNo": 9
-//   },
-//   {
-//     "From": "LHR",
-//     "To": "CDG",
-//     "FlightDate": "6-5-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 3,
-//     "FlightNo": 9
-//   },
-//   {
-//     "From": "CDG",
-//     "To": "LHR",
-//     "FlightDate": "17-5-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 60,
-//     "FlightNo": 10
-//   },
-//   {
-//     "From": "CDG",
-//     "To": "LHR",
-//     "FlightDate": "17-5-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 10
-//   },
-//   {
-//     "From": "CDG",
-//     "To": "LHR",
-//     "FlightDate": "17-5-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 10
-//   },
-//   {
-//     "From": "CAI",
-//     "To": "RUH",
-//     "FlightDate": "6-6-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 43,
-//     "FlightNo": 11
-//   },
-//   {
-//     "From": "CAI",
-//     "To": "RUH",
-//     "FlightDate": "6-6-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 26,
-//     "FlightNo": 11
-//   },
-//   {
-//     "From": "CAI",
-//     "To": "RUH",
-//     "FlightDate": "6-6-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 11
-//   },
-//   {
-//     "From": "RUH",
-//     "To": "CAI",
-//     "FlightDate": "16-6-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 22,
-//     "FlightNo": 12
-//   },
-//   {
-//     "From": "RUH",
-//     "To": "CAI",
-//     "FlightDate": "16-6-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 10,
-//     "FlightNo": 12
-//   },
-//   {
-//     "From": "RUH",
-//     "To": "CAI",
-//     "FlightDate": "16-6-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 6,
-//     "FlightNo": 12
-//   },
-//   {
-//     "From": "YYZ",
-//     "To": "FRA",
-//     "FlightDate": "7-7-2020",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 43,
-//     "FlightNo": 13
-//   },
-//   {
-//     "From": "YYZ",
-//     "To": "FRA",
-//     "FlightDate": "7-7-2020",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 26,
-//     "FlightNo": 13
-//   },
-//   {
-//     "From": "YYZ",
-//     "To": "FRA",
-//     "FlightDate": "7-7-2020",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 13
-//   },
-//   {
-//     "From": "FRA",
-//     "To": "YYZ",
-//     "FlightDate": "8-8-2022",
-//     "Cabin": "Economy",
-//     "SeatsAvailable": 43,
-//     "FlightNo": 14
-//   },
-//   {
-//     "From": "FRA",
-//     "To": "YYZ",
-//     "FlightDate": "8-8-2022",
-//     "Cabin": "Business",
-//     "SeatsAvailable": 26,
-//     "FlightNo": 14
-//   },
-//   {
-//     "From": "FRA",
-//     "To": "YYZ",
-//     "FlightDate": "8-8-2022",
-//     "Cabin": "First",
-//     "SeatsAvailable": 16,
-//     "FlightNo": 14
-//   }
-
 
 
 // Flight.insertMany([
@@ -413,8 +73,8 @@ const Flight = require("../Models/Flights");
 // });
 
 //Get all entered flights
-router.get("/all-flights", (req, res) => {
-  Flight.find({})
+router.get("/all-flights", async(req, res) => {
+  await Flight.find({})
     .then((result) => {
       res.json(result);
       console.log("Found");
@@ -424,9 +84,9 @@ router.get("/all-flights", (req, res) => {
     });
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async(req, res) => {
   console.log(req.params.id);
-  Flight.findByIdAndUpdate(req.params.id, req.body)
+  await Flight.findByIdAndUpdate(req.params.id, req.body)
     .then(result => {
       res.status(200).send("User updated ");
       
@@ -436,10 +96,10 @@ router.put('/:id', (req, res) => {
     })
   });
 
-router.post("/search", (req, res) => {
+router.post("/search", async (req, res) => {
   console.log("from backend");
   console.log(req.body);
-  Flight.find(req.body)
+  await Flight.find(req.body)
     .then((result) => {
       res.send(result);
       console.log("Filtered");
@@ -450,10 +110,10 @@ router.post("/search", (req, res) => {
 });
 
 
-  router.route('/:id').delete((req,res) => {
+  router.route('/:id').delete( async(req,res) => {
     // console.log(req.params.id);
     console.log("heyy");
-    Flight.findByIdAndDelete(req.params.id)
+    await Flight.findByIdAndDelete(req.params.id)
       .then(result => {
         res.status(200).send("Flight deleted ");
         
@@ -465,14 +125,33 @@ router.post("/search", (req, res) => {
 
   router.post('/create-flights', async (req, res) => {
     
-    console.log('request came');
     console.log(req.body);
     const flight = new Flight(req.body)
   
+
+  const {From,
+  To,
+  Terminal,
+  FlightDat,
+  FlightNo,
+  DepartureTime,
+  ArrivalTime,
+  fseatsAvailable,
+  bseatsAvailable,
+  eseatsAvailable} = req.body;
+  //validation
+
+  if(!From || From.length < 3 )  return res.status(400).send('Please enter a valid airport code');
+  const exist = await Flight.findOne({FlightNo: FlightNo});
+
+  if(exist) return res.status(400).send("Flight Already Exists");
+
    await flight.save()
       .then(result => {
-        res.send(result);
-        console.log("added");
+        res.json({
+          ok: true
+        });
+        console.log("flight successfully added");
       })
       .catch(err => {
         console.log(err);
@@ -483,28 +162,3 @@ router.post("/search", (req, res) => {
   
 
 module.exports = router;
-
-//var Flight = require("./Models/Flights");
-
-// new object
-// const flight = new Flight({
-//   From: "LAX",
-//   To: "JFK",
-//   FlightDate: "12-1-2022", // Date ??
-//   Cabin: "Economy",
-//   SeatsAvailable: 20,
-// });
-
-// Flight.create({   From: "LAX",
-// To: "JFK",
-// FlightDate: "12-1-2022", // Date ??
-// Cabin: "Economy",
-// SeatsAvailable: 20, })
-//   .then((newInst) => {
-//     console.log(newInst);
-//   })
-//   .catch((err) => {
-//     console.log("Error creating!");
-//   }
-
-//flight.save();
