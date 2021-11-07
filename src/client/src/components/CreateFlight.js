@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 
 import TimePick from "./TimePick";
 import DatePick from "./DatePick";
+import e from "cors";
 
 const baseURL = "http://localhost:8000/flights/create-flights";
 
@@ -15,8 +16,9 @@ export default function CreateFlight() {
   const [to, setTo] = useState("");
   const [terminal, setTerminal] = useState(1);
   const [flightdate, setFlightDate] = useState(new Date("2021-01-01"));
-  const [departuretime, setDepartureTime] = useState();
-  const [arrivaltime, setArrivalTime] = useState();
+
+  const [departuretime, setDepartureTime] = useState(new Date());
+  const [arrivaltime, setArrivalTime] = useState(new Date());
   const [fseatsAvailable, setfseatsAvailable] = useState(0);
   const [bseatsAvailable, setbseatsAvailable] = useState(0);
   const [eseatsAvailable, seteseatsAvailable] = useState(0);
@@ -28,9 +30,8 @@ export default function CreateFlight() {
   // const [amins, setAmins] = useState();
 
 
-
-
-
+  var timed;
+  var timea;
 
   const inputsHandlerFlightNo = (e) => {
     setFlightNo(e.target.value);
@@ -42,8 +43,7 @@ export default function CreateFlight() {
     setTo(e.target.value);
   };
   const inputsHandlerFlightDate = (date) => {
-   
-
+ 
     setFlightDate(date);
   };
   const inputsHandlerTerminal = (e) => {
@@ -59,12 +59,13 @@ export default function CreateFlight() {
     seteseatsAvailable(e.target.value);
   };
   const inputsHandlerDepartureTime = (e) => {
-    console.log(e.getHours())
-    setDepartureTime(e);
+    timed = new Date(e+" GMT").toISOString().substr(11,5);
+    console.log(e.getHours()+":"+e.getMinutes());
+     setDepartureTime(e);
   };
   const inputsHandlerArrivalTime = (e) => {
-
-
+    timea =  new Date(e+" GMT").toISOString().substr(11,5);
+    console.log(e.getHours()+":"+e.getMinutes());
     setArrivalTime(e);
   };
 
@@ -76,23 +77,21 @@ export default function CreateFlight() {
   // };
 
 
-
-
-
-
   const inputs = {
     From: from,
     To: to,
     Terminal: terminal,
+
     FlightDate:
       flightdate.getDate() +
       "-" +
       (flightdate.getMonth() + 1) +
       "-" +
       flightdate.getFullYear(),
+
     FlightNo: flightno,
-    DepartureTime: departuretime,
-    ArrivalTime: arrivaltime,
+    DepartureTime: departuretime.getHours()+":"+departuretime.getMinutes() , //+ (departuretime.toISOString().substr(11,5)),
+    ArrivalTime:  arrivaltime.getHours()+":"+arrivaltime.getMinutes() , //+ (arrivaltime.toISOString().substr(11,5)),
     fseatsAvailable: fseatsAvailable,
     bseatsAvailable: bseatsAvailable,
     eseatsAvailable: eseatsAvailable,
