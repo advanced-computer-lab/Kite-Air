@@ -24,6 +24,14 @@ import { visuallyHidden } from '@mui/utils';
 import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
 import FormDialog from './UpdateDialog';
+import DeleteDialog from './DeleteDialog';
+import { GridColumnsPanel } from '@mui/x-data-grid';
+import AlertDialog from './AlertDialog';
+
+var toBeDeleted = [];
+
+ 
+
 
 
 
@@ -123,12 +131,14 @@ const headCells = [
     disablePadding: false,
     label: 'Economy Class Seats #',
   },
+
   {
     id: 'eseatsAvailabe',
     numeric: true,
     disablePadding: false,
     label: 'Economy Class Seats #',
   },
+  {},
 
 ];
 
@@ -189,9 +199,15 @@ EnhancedTableHead.propTypes = {
 };
 
 const EnhancedTableToolbar = (props) => {
+
+  const openDialog = () => {
+  
+    <DeleteDialog rows = {toBeDeleted} />
+  };
   const { numSelected } = props;
 
   return (
+    // <AlertDialog rows = {toBeDeleted} />
     <Toolbar
       sx={{
         pl: { sm: 2 },
@@ -201,8 +217,11 @@ const EnhancedTableToolbar = (props) => {
             alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
         }),
       }}
-    >
-      {numSelected > 0 ? (
+     >
+       {/* <DeleteDialog rows = {toBeDeleted} /> */}
+       {/* <Button variant = "contained" color = "error" onClick={openDialog}> Delete </Button> */}
+
+    {numSelected > 0 ? (
         <Typography
           sx={{ flex: '1 1 100%' }}
           color="inherit"
@@ -222,19 +241,23 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       )}
 
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          {/* <IconButton> */}
-          <Button variant="contained" color="error" >Delete</Button>
-          {/* </IconButton> */}
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            {/* <FilterListIcon /> */}
-          </IconButton>
-        </Tooltip>
-      )}
+        {numSelected > 0 ? (
+            <Tooltip title="Delete">
+              <AlertDialog rows = {toBeDeleted} />
+
+            {/* <IconButton> */}
+              {/* <Button  variant="contained" color="error" onClick={openDialog()}>Delete</Button> */}
+              {/* <DeleteDialog rows = {toBeDeleted} /> */}
+              {/* <AlertDialog /> */}
+            {/* </IconButton> */}
+          </Tooltip>
+        ) : (
+          <Tooltip title="Filter list">
+            <IconButton>
+                {/* <FilterListIcon /> */}
+            </IconButton>
+          </Tooltip>
+        )}
     </Toolbar>
   );
 };
@@ -261,10 +284,15 @@ export default function EnhancedTable({ rows }) {
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n._id);
-      setSelected(newSelecteds);
+      setSelected(newSelecteds)
+      toBeDeleted = newSelecteds;
+      console.log('will delete: '+toBeDeleted);
       return;
     }
     setSelected([]);
+    toBeDeleted = [];
+    console.log('will delete: '+toBeDeleted);
+
   };
 
   const handleClick = (event, name) => {
@@ -272,23 +300,30 @@ export default function EnhancedTable({ rows }) {
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-      console.log('here1' + newSelected);
+      newSelected = newSelected.concat(selected, name); //selected one or more
+     // console.log('just selected: '+newSelected);
+     
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-      console.log('here2' + newSelected);
-    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(1)); //unselected all
+     // console.log('just unselected all ');
+     // toBeDeleted = [];
+      //console.log('will delete: '+toBeDeleted);
+    } else if (selectedIndex === selected.length - 1) { //deletes the last record that has been selected
       newSelected = newSelected.concat(selected.slice(0, -1));
-      console.log('here3' + newSelected);
-    } else if (selectedIndex > 0) {
+     // toBeDeleted = toBeDeleted.pop(name);
+      console.log('passed here');
+      //console.log('hena: '+ toBeDeleted);
+    } else if (selectedIndex > 0) {  //deletes record mn el nos
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1),
       );
-      console.log('here4' + newSelected);
+   
     }
 
     setSelected(newSelected);
+    toBeDeleted=  newSelected;
+    console.log('will delete: '+toBeDeleted);
   };
 
   const handleChangePage = (event, newPage) => {

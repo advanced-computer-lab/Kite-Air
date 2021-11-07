@@ -435,6 +435,36 @@ router.post("/search", (req, res) => {
 //     });
 // });
 
+  router.route('/:id').delete((req,res) => {
+    // console.log(req.params.id);
+    console.log("heyy");
+    Flight.findByIdAndDelete(req.params.id)
+      .then(result => {
+        res.status(200).send("Flight deleted ");
+        
+        console.log('The Flight is deleted successfully !');
+      }).catch(err => {
+        console.log(err);
+      })
+    });
+
+    router.post('/create-flights', async (req, res) => {
+    
+      console.log('request came');
+      console.log(req.body);
+      const flight = new Flight(req.body)
+    
+     await flight.save()
+        .then(result => {
+          res.send(result);
+          console.log("added");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+  
+    });
+
   module.exports = router;
 
 //var Flight = require("./Models/Flights");
