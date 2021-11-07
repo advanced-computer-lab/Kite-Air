@@ -5,7 +5,7 @@ import { BrowserRouter, Routes , Route } from 'react-router-dom'
 // import { BrowserRouter as Router, Route } from 'react-router-dom';
 import EnhancedTable from './components/EnhancedGrid.js';
 import ViewFlights from './components/ViewFlights.js';
-
+import Search from './components/Search.js';
 
 
 

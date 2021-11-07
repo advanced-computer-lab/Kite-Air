@@ -34,15 +34,16 @@ function Search() {
 
   function handeleClick(e) {
     const flightNo = click_flightNo.current.value;
-    var date = click_Date.current.value;
-
+    
+    var date = click_Date.current.value; 
+    console.log(date);
     var year =
       date.charAt(0) + date.charAt(1) + date.charAt(2) + date.charAt(3);
     var month =
-      date.charAt(5) == 0 ? date.charAt(6) : date.charAt(5) + date.charAt(6);
+   date.charAt(5) + date.charAt(6);
     var day =
-      date.charAt(8) == 0 ? date.charAt(9) : date.charAt(8) + date.charAt(9);
-    date = day + "-" + month + "-" + year;
+   date.charAt(8) + date.charAt(9);
+    date = month + "-" + day + "-" + year;
     const departureTime = click_Departure_Time.current.value;
     const arrivalTime = click_Arrival_Time.current.value;
     const terminal = click_Terminals.current.value;
@@ -96,42 +97,39 @@ function Search() {
       </Grid> */}
 
       {/* <p style={{fontFamily: "Arial"}} >Flight Number</p> */}
-      <TextField
+      <input
         type="text"
         ref={click_flightNo}
-        label="Flight Number"
-        variant="standard"
-      ></TextField>
+        placeholder="Flight Number"
+      ></input>
       {/* <p style={{fontFamily: "Arial"}}>Flight Date</p> */}
-      <TextField
+      <input
         type="date"
-        required
         ref={click_Date}
-        variant="standard"
+        placeholder="Flight Date"
+        //variant="standard"
         
-      ></TextField>
+      ></input>
       
       {/* <p>Departure Time</p> */}
-      <TextField
+      <input
         type="time"
         placeholder="Departure Time"
         ref={click_Departure_Time}
         variant="standard"
-      ></TextField>
+      ></input>
       {/* <p>Arrival Time</p> */}
-      <TextField
+      <input
         type="time"
         placeholder="Arrival Time"
         ref={click_Arrival_Time}
-        variant="standard"
-      ></TextField>
+      ></input>
       {/* <p>Terminal</p> */}
-      <TextField
+      <input
         type="text"
         ref={click_Terminals}
-        variant="standard"
-        label="Terminal"
-      ></TextField>
+        placeholder="Terminal"
+      ></input>
       <br />
       <Button onClick={handeleClick}>Search</Button>
       <EnhancedTable rows={fs} />
