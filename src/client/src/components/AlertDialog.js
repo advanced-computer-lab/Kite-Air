@@ -6,10 +6,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
+import {useState,useEffect} from 'react';
 
 export default function AlertDialog({rows}) {
-  const [open, setOpen] = React.useState(false);
-
+  const [open, setOpen] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -18,13 +19,29 @@ export default function AlertDialog({rows}) {
     setOpen(false);
   };
 
-  const deleteFlights = (rowsIn) => {
-    console.log('rows: ' + rowsIn);
 
-    for (let i in rowsIn){
-      console.log(rowsIn[i]);
+
+// useEffect(
+//   ()=>{
+
+//     if(confirm){
+//       deleteFlights(rows);
+//     }
+//   }
+  
+  
+//   ,[]);
+
+
+
+
+  const deleteFlights = () => {
+    console.log('rows: ' + rows);
+
+    for (let i in rows){
+      console.log(rows[i]);
     axios
-      .delete('http://localhost:8000/flights/' + rowsIn[i])
+      .delete('http://localhost:8000/flights/' + rows[i])
       .then(res => {
         console.log("success");
          window.location.reload(false);
@@ -53,17 +70,16 @@ export default function AlertDialog({rows}) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+          {"Are you sure you want to delete the selected item(s)?"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
+            Upon clicking "Agree", the selected item(s) will be permenantly deleted
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={deleteFlights(rows)} autoFocus>
+          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={deleteFlights} color="error" autoFocus>
             Agree
           </Button>
         </DialogActions>

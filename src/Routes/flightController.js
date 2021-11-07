@@ -385,6 +385,23 @@ router.put('/:id', (req, res) => {
       })
     });
 
+    router.post('/create-flights', async (req, res) => {
+    
+      console.log('request came');
+      console.log(req.body);
+      const flight = new Flight(req.body)
+    
+     await flight.save()
+        .then(result => {
+          res.send(result);
+          console.log("added");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+  
+    });
+
   module.exports = router;
 
 //var Flight = require("./Models/Flights");

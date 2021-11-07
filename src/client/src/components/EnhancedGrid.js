@@ -205,8 +205,7 @@ const EnhancedTableToolbar = (props) => {
   const { numSelected } = props;
 
   return (
-    <div>
-    <AlertDialog rows = {toBeDeleted} />
+    // <AlertDialog rows = {toBeDeleted} />
     <Toolbar
       sx={{
         pl: { sm: 2 },
@@ -220,44 +219,44 @@ const EnhancedTableToolbar = (props) => {
        {/* <DeleteDialog rows = {toBeDeleted} /> */}
        {/* <Button variant = "contained" color = "error" onClick={openDialog}> Delete </Button> */}
 
-    </Toolbar>
-    </div>
-    //{numSelected > 0 ? (
-    //     <Typography
-    //       sx={{ flex: '1 1 100%' }}
-    //       color="inherit"
-    //       variant="subtitle1"
-    //       component="div"
-    //     >
-    //       {numSelected} selected
-    //     </Typography>
-    //   ) : (
-    //     <Typography
-    //       sx={{ flex: '1 1 100%' }}
-    //       variant="h6"
-    //       id="tableTitle"
-    //       component="div"
-    //     >
-    //       Flights
-    //     </Typography>
-    //   )}
+    {numSelected > 0 ? (
+        <Typography
+          sx={{ flex: '1 1 100%' }}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography
+          sx={{ flex: '1 1 100%' }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          Flights
+        </Typography>
+      )}
 
-      //   {numSelected > 0 ? (
-        //     <Tooltip title="Delete">
-      //       {/* <IconButton> */}
-      //         {/* <Button  variant="contained" color="error" onClick={openDialog()}>Delete</Button> */}
-      //         <DeleteDialog rows = {toBeDeleted} />
-      //         {/* <AlertDialog /> */}
-      //       {/* </IconButton> */}
-      //     </Tooltip>
-      //   ) : (
-      //     <Tooltip title="Filter list">
-      //       <IconButton>
-        //         {/* <FilterListIcon /> */}
-      //       </IconButton>
-      //     </Tooltip>
-      //   )}
-    // </Toolbar>
+        {numSelected > 0 ? (
+            <Tooltip title="Delete">
+              <AlertDialog rows = {toBeDeleted} />
+
+            {/* <IconButton> */}
+              {/* <Button  variant="contained" color="error" onClick={openDialog()}>Delete</Button> */}
+              {/* <DeleteDialog rows = {toBeDeleted} /> */}
+              {/* <AlertDialog /> */}
+            {/* </IconButton> */}
+          </Tooltip>
+        ) : (
+          <Tooltip title="Filter list">
+            <IconButton>
+                {/* <FilterListIcon /> */}
+            </IconButton>
+          </Tooltip>
+        )}
+    </Toolbar>
   );
 };
 
@@ -284,7 +283,7 @@ export default function EnhancedTable({ rows }) {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n._id);
       setSelected(newSelecteds)
-      toBeDeleted = rows;
+      toBeDeleted = newSelecteds;
       console.log('will delete: '+toBeDeleted);
       return;
     }
