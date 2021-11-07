@@ -2,14 +2,20 @@ import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import EnhancedTable from "./EnhancedGrid";
-import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import TimePicker from "@mui/lab/TimePicker";
-import DateTimePicker from "@mui/lab/DateTimePicker";
-import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
-import MobileDatePicker from "@mui/lab/MobileDatePicker";
+import Button from "@mui/material/Button";
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
 
 function Search() {
   const click_flightNo = useRef();
@@ -73,65 +79,64 @@ function Search() {
 
   return (
     <div>
-      <p>Flight Number</p>
-      <input type="text" ref={click_flightNo} label="Flight Number"></input>
-      <p>Flight Date</p>
-      <input type="date" required ref={click_Date}></input>
-      <p>Departure Time</p>
-      <input
+{/* 
+
+      <Grid container spacing={2} >
+  
+        <Grid item xs={4}>
+          <Item>xs=4</Item>
+        </Grid>
+        <Grid item xs={4}>
+          <Item>xs=4</Item>
+        </Grid>
+        <Grid item xs={4}>
+          <Item>xs=4</Item>
+        </Grid>
+       
+      </Grid> */}
+
+      {/* <p style={{fontFamily: "Arial"}} >Flight Number</p> */}
+      <TextField
+        type="text"
+        ref={click_flightNo}
+        label="Flight Number"
+        variant="standard"
+      ></TextField>
+      {/* <p style={{fontFamily: "Arial"}}>Flight Date</p> */}
+      <TextField
+        type="date"
+        required
+        ref={click_Date}
+        variant="standard"
+        
+      ></TextField>
+      
+      {/* <p>Departure Time</p> */}
+      <TextField
         type="time"
         placeholder="Departure Time"
         ref={click_Departure_Time}
-      ></input>
-      <p>Arrival Time</p>
-      <input
+        variant="standard"
+      ></TextField>
+      {/* <p>Arrival Time</p> */}
+      <TextField
         type="time"
         placeholder="Arrival Time"
         ref={click_Arrival_Time}
-      ></input>
-      <p>Terminal</p>
-      <input type="text" ref={click_Terminals}></input>
-      <button onClick={handeleClick}>Search</button>
+        variant="standard"
+      ></TextField>
+      {/* <p>Terminal</p> */}
+      <TextField
+        type="text"
+        ref={click_Terminals}
+        variant="standard"
+        label="Terminal"
+      ></TextField>
+      <br />
+      <Button onClick={handeleClick}>Search</Button>
       <EnhancedTable rows={fs} />
     </div>
   );
 }
 
 export default Search;
-
-// {fs.map((flight) => (
-//     <div className="alert alert-primary" key={flight._id}>
-//       {flight.FlightNo} {flight.From} {flight.To} {flight.FlightDate}{" "}
-//       {flight.Cabin} {flight.SeatsAvailable}
-//     </div>
-//   ))}
-
-//
-
-// <LocalizationProvider>
-// <Stack spacing={3}>
-//   <DesktopDatePicker
-//     label="Flight Date"
-//     inputFormat="dd/mm/yyyy"
-//     value={value}
-//     onChange={handleChange}
-//     required
-//     ref={click_Date}
-//     renderInput={(params) => <TextField {...params} />}
-//   />
-//   <TimePicker
-//     label="Departure Time"
-//     value={value}
-//     onChange={handleChange}
-//
-//     renderInput={(params) => <TextField {...params} />}
-//   />
-//   <TimePicker
-//     label="Arrival Time"
-//     value={value}
-//     onChange={handleChange}
-//
-//     renderInput={(params) => <TextField {...params} />}
-//   />
-// </Stack>
-// </LocalizationProvider>
