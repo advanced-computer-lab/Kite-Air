@@ -17,8 +17,12 @@ export default function FormDialog({ row }) {
   const [From, setFrom] = useState(row.From);
   const [To, setTo] = useState(row.To);
   const [FlightDate, setFlightDate] = useState(row.FlightDate);
-  const [Cabin, setCabin] = useState(row.Cabin);
-  const [SeatsAvailable, setSeats] = useState(row.SeatsAvailable);
+  const [fseatsAvailable, setfSeats] = useState(row.fseatsAvailable);
+  const [bseatsAvailable, setbSeats] = useState(row.bseatsAvailable);
+  const [eseatsAvailable, seteSeats] = useState(row.eseatsAvailable);
+  const [DepartureTime, setDeparture] = useState(row.DepartureTime);
+  const [ArrivalTime, setArrival] = useState(row.ArrivalTime);
+  const [Terminal, setTerminal]= useState(row.Terminal);
   // const [redirect, setRedirect] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   // function renderRedirect() => {
@@ -33,16 +37,21 @@ export default function FormDialog({ row }) {
 
   // }, []);
 
-
+ 
+  
   function updateFlight() {
 
     const data = {
       FlightNo: FlightNo,
       From: From,
       To: To,
+      Terminal: Terminal,
       FlightDate: FlightDate,
-      Cabin: Cabin,
-      SeatsAvailable: SeatsAvailable
+      fseatsAvailable: fseatsAvailable,
+      bseatsAvailable: bseatsAvailable,
+      eseatsAvailable: eseatsAvailable,
+      DepartureTime: DepartureTime, 
+      ArrivalTime: ArrivalTime
     };
 
     axios
@@ -51,6 +60,7 @@ export default function FormDialog({ row }) {
         console.log(data);
         console.log("success");
         alert("Success");
+
         window.location.reload(false);
         // component: () => <Navigate to='/'/> 
         // handleClose();
@@ -71,8 +81,12 @@ export default function FormDialog({ row }) {
     setFrom(row.From);
     setTo(row.To);
     setFlightDate(row.FlightDate);
-    setCabin(row.Cabin);
-    setSeats(row.SeatsAvailable);
+    setfSeats(row.fseatsAvailable);
+    seteSeats(row.eseatsAvailable);
+    setbSeats(row.bseatsAvailable);
+    setDeparture(row.DepartureTime);
+    setArrival(row.ArrivalTime);
+    setTerminal(row.Terminal);
     setOpen(false);
   };
 
@@ -104,7 +118,7 @@ export default function FormDialog({ row }) {
               margin="dense"
               id="From"
               label="From"
-              type="email"
+              type="text"
               value={From}
               onChange={(e) => { setFrom(e.target.value) }}
               variant="standard"
@@ -124,36 +138,85 @@ export default function FormDialog({ row }) {
             />
           </span>
           <br />
+          <span>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="ArrivalTime"
+              label="Arrival Time"
+              type="time"
+              value={ArrivalTime}
+              onChange={(e) => { setArrival(e.target.value) }}
+              variant="standard"
+            />
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <TextField
+              autoFocus
+              margin="dense"
+              id="DepartureTime"
+              label="Departure Time"
+              onChange={(e) => { setDeparture(e.target.value) }}
+              type="time"
+              value={DepartureTime}
+              variant="standard"
+            />
+          </span>
+          <br/>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="Terminal"
+            label="Terminal"
+            type="number"
+            value={Terminal}
+            onChange={(e) => { setTerminal(e.target.value) }}
+            variant="standard"
+          />
+           <br />
           <TextField
             autoFocus
             margin="dense"
             id="FlightDate"
             label="Flight Date"
-            type="text"
-            value={FlightDate}
+            type="date"
+            value={ new Date(FlightDate+" GMT").toISOString().substring(0, 10)}
             onChange={(e) => { setFlightDate(e.target.value) }}
             variant="standard"
           />
           <br />
+        
           <TextField
             autoFocus
             margin="dense"
-            id="Cabin"
-            label="Cabin"
-            type="text"
-            value={Cabin}
-            onChange={(e) => { setCabin(e.target.value) }}
+            id="fseatsAvailable"
+            label="First Class Seats Available #"
+            type="number"
+            value={fseatsAvailable}
+            onChange={(e) => { setfSeats(e.target.value) }}
             variant="standard"
           />
-          <br />
+           <br />
           <TextField
             autoFocus
             margin="dense"
-            id="SeatsAvailable"
-            label="Available Seats"
-            type="text"
-            value={SeatsAvailable}
-            onChange={(e) => { setSeats(e.target.value) }}
+            id="bseatsAvailable"
+            label="Business Class Seats Available #"
+            type="number"
+            value={bseatsAvailable}
+            onChange={(e) => { setbSeats(e.target.value) }}
+            variant="standard"
+          />
+          <br/>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="eseatsAvailable"
+            label="Economy Class Seats Available #"
+            type="textS"
+            value={eseatsAvailable}
+            onChange={(e) => {seteSeats((e.target.value)) }}
             variant="standard"
           />
         </DialogContent>

@@ -44,11 +44,11 @@ function getComparator(order, orderBy) {
 
 function handleRegionClick(id) {
   console.log(id);
-  <FormDialog/>
+  <FormDialog />
 };
 
-function openComponent(id){
-  <FormDialog/>
+function openComponent(id) {
+  <FormDialog />
 }
 
 // This method is created for cross-browser compatibility, if you don't
@@ -85,23 +85,50 @@ const headCells = [
     label: 'To',
   },
   {
+    id: 'Terminal',
+    numeric: true,
+    disablePadding: true,
+    label: 'Terminal #',
+  },
+  {
     id: 'FlightDate',
     numeric: false,
     disablePadding: false,
     label: 'Date',
   },
+
   {
-    id: 'Cabin',
+    id: 'DepartureTime',
     numeric: false,
     disablePadding: false,
-    label: 'Cabin',
+    label: 'Departure',
   },
   {
-    id: 'SeatsAvailable',
+    id: 'ArrivalTime',
+    numeric: false,
+    disablePadding: false,
+    label: 'Arrival',
+  },
+
+  {
+    id: 'fseatsAvailabe',
     numeric: true,
     disablePadding: false,
-    label: 'Availabe Seats',
+    label: 'First Class Seats #',
   },
+  {
+    id: 'bseatsAvailabe',
+    numeric: true,
+    disablePadding: false,
+    label: 'Economy Class Seats #',
+  },
+  {
+    id: 'eseatsAvailabe',
+    numeric: true,
+    disablePadding: false,
+    label: 'Economy Class Seats #',
+  },
+
 ];
 
 function EnhancedTableHead(props) {
@@ -197,7 +224,7 @@ const EnhancedTableToolbar = (props) => {
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           {/* <IconButton> */}
-            <Button  variant="contained" color="error" >Delete</Button>
+          <Button variant="contained" color="error" >Delete</Button>
           {/* </IconButton> */}
         </Tooltip>
       ) : (
@@ -245,15 +272,19 @@ export default function EnhancedTable({ rows }) {
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
+      console.log('here1' + newSelected);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
+      console.log('here2' + newSelected);
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
+      console.log('here3' + newSelected);
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1),
       );
+      console.log('here4' + newSelected);
     }
 
     setSelected(newSelected);
@@ -282,7 +313,7 @@ export default function EnhancedTable({ rows }) {
 
 
     <Box sx={{ width: '100%' }}>
-     
+
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
@@ -337,21 +368,18 @@ export default function EnhancedTable({ rows }) {
                       >
                         {row.FlightNo}
                       </TableCell>
-
                       <TableCell align="right">{row.From}</TableCell>
                       <TableCell align="right">{row.To}</TableCell>
+                      <TableCell align="right">{row.Terminal}</TableCell>
                       <TableCell align="right">{row.FlightDate}</TableCell>
-                      <TableCell align="right">{row.Cabin}</TableCell>
-                      <TableCell align="right">{row.SeatsAvailable}</TableCell>
-                      {/* <TableCell align="right">{row.From}</TableCell>
-                      <TableCell align="right">{row.To}</TableCell>
-                      <TableCell align="right">{row.FlightDate}</TableCell>
-                      <TableCell align="right">{row.Cabin}</TableCell>
-                      <TableCell align="right">{row.SeatsAvailable}</TableCell>
-                      <TableCell align="right">{row.SeatsAvailable}</TableCell> */}
+                      <TableCell align="right">{row.DepartureTime}</TableCell>
+                      <TableCell align="right">{row.ArrivalTime}</TableCell>
+                      <TableCell align="right">{row.fseatsAvailable}</TableCell>
+                      <TableCell align="right">{row.bseatsAvailable}</TableCell>
+                      <TableCell align="right">{row.eseatsAvailable}</TableCell>
                       <TableCell align="right"><FormDialog row={row} />
-                         {/* <Button variant="contained" onClick={() => { handleRegionClick(row._id); }}> Update</Button>  */}
-                         </TableCell>
+                        {/* <Button variant="contained" onClick={() => { handleRegionClick(row._id); }}> Update</Button>  */}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -371,8 +399,6 @@ export default function EnhancedTable({ rows }) {
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={Object.keys(rows).length}
-
-
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
