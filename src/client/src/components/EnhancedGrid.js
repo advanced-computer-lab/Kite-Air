@@ -131,7 +131,6 @@ const headCells = [
     disablePadding: false,
     label: 'Economy Class Seats #',
   },
-
   {
     id: 'eseatsAvailabe',
     numeric: true,
@@ -379,6 +378,7 @@ export default function EnhancedTable({ rows }) {
                     <TableRow
                       hover
 
+                    //  onClick={(event) => handleClick(event, row._id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}

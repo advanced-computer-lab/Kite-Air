@@ -341,6 +341,70 @@ const Flight = require("../Models/Flights");
 //     "SeatsAvailable": 16,
 //     "FlightNo": 14
 //   }
+
+
+
+// Flight.insertMany([
+  
+// {
+//     "FlightNo": "KL123",
+//     "From": "FRA",
+//     "To": "YYZ",
+//     "Terminal": 1,
+//     "FlightDate": "8-8-2022",
+//     "DepartureTime": "22:02",
+//     "ArrivalTime": "01:11",
+//     "fseatsAvailable": 10,
+//     "bseatsAvailable": 12,
+//     "eseatsAvailable": 42,
+//     "fprice": 1000,
+//     "bprice": 560,
+//     "eprice": 200,
+//     "fbaggage": 25,
+//     "bbaggage": 25,
+//     "ebaggage": 20,
+   
+//   },
+//   {
+//     "FlightNo": "MH134",
+//     "From": "CAI",
+//     "To": "RUH",
+//     "Terminal": 2,
+//     "FlightDate": "8-8-2022",
+//     "DepartureTime": "23:00",
+//     "ArrivalTime": "03:11",
+//     "fseatsAvailable": 5,
+//     "bseatsAvailable": 15,
+//     "eseatsAvailable": 45,
+//     "fprice": 1000,
+//     "bprice": 560,
+//     "eprice": 200,
+//     "fbaggage": 25,
+//     "bbaggage": 25,
+//     "ebaggage": 20,
+   
+//   },
+
+//   {
+//     "FlightNo": "ME133",
+//     "From": "BEY",
+//     "To": "CAI",
+//     "Terminal": 1,
+//     "FlightDate": "7-7-2020",
+//     "DepartureTime": "23:00",
+//     "ArrivalTime": "03:11",
+//     "fseatsAvailable": 5,
+//     "bseatsAvailable": 15,
+//     "eseatsAvailable": 45,
+//     "fprice": 1000,
+//     "bprice": 560,
+//     "eprice": 200,
+//     "fbaggage": 25,
+//     "bbaggage": 25,
+//     "ebaggage": 20,
+   
+//   },
+
 //  ]
 // ).then(function(){
 //     console.log("Data inserted")  // Success
@@ -371,34 +435,6 @@ router.put('/:id', (req, res) => {
       console.log(err);
     })
   });
-// router.get("/all-flights", (req, res) => {
-//   Flight.find({})
-//     .then((result) => {
-//         for(int i=0; i<result.length; i++){
-
-//         }
-
-//       res.json(result);
-//       console.log("Found");
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
-
-// exports.getUser = (req, res) => {
-//   var data = req.body;
-//   var flight = {
-//     FlightNo: data.FlightNo,
-//   };
-//   User.find(flight)
-//     .then((result) => {
-//       res.send(result);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// };
 
 router.post("/search", (req, res) => {
   console.log("from backend");
@@ -413,27 +449,6 @@ router.post("/search", (req, res) => {
     });
 });
 
-// exports.getUser = (req, res) => {
-//   User.find({Name:req.params.name})
-//     .then(result => {
-//       res.send(result);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//     });
-// };
-
-// router.get('/find', (req, res) => {
-//   Flight.find({Name:req.body.fliter})
-//     .then(result => {
-//       res.send(result => {
-//         res.json(result);
-//         console.log("Filtered");
-//     })
-//     .catch(err => {
-//       console.log(err);
-//     });
-// });
 
   router.route('/:id').delete((req,res) => {
     // console.log(req.params.id);
@@ -448,24 +463,26 @@ router.post("/search", (req, res) => {
       })
     });
 
-    router.post('/create-flights', async (req, res) => {
+  router.post('/create-flights', async (req, res) => {
     
-      console.log('request came');
-      console.log(req.body);
-      const flight = new Flight(req.body)
-    
-     await flight.save()
-        .then(result => {
-          res.send(result);
-          console.log("added");
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    console.log('request came');
+    console.log(req.body);
+    const flight = new Flight(req.body)
   
-    });
+   await flight.save()
+      .then(result => {
+        res.send(result);
+        console.log("added");
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
-  module.exports = router;
+  });
+
+  
+
+module.exports = router;
 
 //var Flight = require("./Models/Flights");
 

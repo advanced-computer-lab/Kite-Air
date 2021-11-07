@@ -1,26 +1,29 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes , Route } from 'react-router-dom'
-// import Header from './components/Header'
-// import { BrowserRouter as Router, Route } from 'react-router-dom';
-import EnhancedTable from './components/EnhancedGrid.js';
-import ViewFlights from './components/ViewFlights.js';
-import Search from './components/Search.js';
+import React from "react";
 
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import ViewFlights from "./components/ViewFlights.js";
+import CreateFlight from "./components/CreateFlight.js";
 
 const App = () => {
 
-
   return (
+    <>
+ 
 
 
-    <div >
-    <Search />
-    </div>
+      <Router>
+        <div>
+          <Routes>
+            <Route path="/add-new-flight" element={<CreateFlight/>}></Route>
+            <Route path="/" element={<Search/>}></Route>
 
+          </Routes>
+        </div>
+      </Router>
 
+    </>
   );
-}
+};
 
 export default App;

@@ -3,7 +3,6 @@ import EnhancedTable from "./EnhancedGrid";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-
 export default function ViewFlights() {
   const [flights, setFlights] = useState([]);
 
@@ -13,11 +12,12 @@ export default function ViewFlights() {
     });
   }, []);
 
+
   return (
     <div>
+     
+
       {flights && <EnhancedTable rows={flights}></EnhancedTable>}
-
-
     </div>
   );
 }
