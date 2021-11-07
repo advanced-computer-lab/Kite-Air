@@ -26,7 +26,9 @@ function Search() {
     const departureTime = click_Departure_Time.current.value;
     const arrivalTime = click_Arrival_Time.current.value;
     const terminal = click_Terminals.current.value;
+    console.log(arrivalTime);
 
+    console.log(departureTime);
     const j = {};
     if (flightNo) {
       j["FlightNo"] = flightNo;
