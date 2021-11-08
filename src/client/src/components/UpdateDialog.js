@@ -225,7 +225,7 @@ export default function FormDialog({ row }) {
             margin="dense"
             id="eseatsAvailable"
             label="Economy Class Seats Available #"
-            type="textS"
+            type="number"
             value={eseatsAvailable}
             onChange={(e) => {
               seteSeats(e.target.value);
