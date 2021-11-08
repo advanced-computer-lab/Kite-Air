@@ -182,7 +182,7 @@ export default function CreateFlight() {
               </p>
               <TextField
                 id="outlined-basic"
-                style={{ width: 250 }}
+                style={{ width: 290 }}
                 label="Flight Number"
                 variant="outlined"
                 onChange={inputsHandlerFlightNo}
@@ -194,7 +194,7 @@ export default function CreateFlight() {
               <br /> <br />
               <TextField
                 id="outlined-basic"
-                style={{ width: 250 }}
+                style={{ width: 290 }}
                 label="From"
                 variant="outlined"
                 onChange={inputsHandlerFrom}
@@ -211,7 +211,7 @@ export default function CreateFlight() {
               <br /> <br />
               <TextField
                 id="outlined-basic"
-                style={{ width: 250 }}
+                style={{ width: 290 }}
                 label="To"
                 variant="outlined"
                 onChange={inputsHandlerTo}
@@ -228,7 +228,7 @@ export default function CreateFlight() {
               <br /> <br />
               <TextField
                 id="outlined-basic"
-                style={{ width: 250 }}
+                style={{ width: 290 }}
                 label="Terminal"
                 variant="outlined"
                 type="Number"
@@ -268,7 +268,7 @@ export default function CreateFlight() {
               </p>
               <TextField
                 id="outlined-basic"
-                style={{ width: 250 }}
+                style={{ width: 290 }}
                 label="No. of First Class Seats"
                 variant="outlined"
                 type="Number"
@@ -281,7 +281,7 @@ export default function CreateFlight() {
               <br />
               <TextField
                 id="outlined-basic"
-                style={{ width: 250 }}
+                style={{ width: 290 }}
                 label="No. of Business Class Seats"
                 variant="outlined"
                 type="Number"
@@ -294,7 +294,7 @@ export default function CreateFlight() {
               <br />
               <TextField
                 id="outlined-basic"
-                style={{ width: 250 }}
+                style={{ width: 290 }}
                 label="No. of Economy Class Seats"
                 variant="outlined"
                 type="Number"
