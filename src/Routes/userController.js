@@ -3,19 +3,44 @@ var router = express.Router();
 const User = require('../Models/Users');
 
 
-const userinstance = new User({
-  username: "admin",
-  Password: "123456",
-  FirstName: "Admin",
-  LastName: "Kite Air",
-  Address: "Company",
-  PassportNo: "0",
-  CountryCode: "EGY",
-  TelephoneNo: "0",
-  Email: "admin-kiteair@gmail.com",
-  Admin: "1"
 
-});
+
+// User.collection.insertMany([
+//   {
+//     "username": "maryam",
+//     "Password": "123456",
+//     "FirstName": "maryam",
+//     "LastName": "Kite Air",
+//     "Address": "Company",
+//     "PassportNo": "03123131",
+//     "CountryCode": "EGY",
+//     "TelephoneNo": "0",
+//     "Email": "admin-kiteair@gmail.com",
+//     "Admin": "0",
+//     "Reservations": ["619d51edfb493b373ad3da34"],
+     
+//   }
+//    ]
+//   ).then(function(){
+//       console.log("User w reservation inserted")  // Success
+//   }).catch(function(error){
+//       console.log(error)      // Failure
+//   });
+  
+
+// const userinstance = new User({
+//   username: "admin1",
+//   Password: "123456",
+//   FirstName: "Admin",
+//   LastName: "Kite Air",
+//   Address: "Company",
+//   PassportNo: "0",
+//   CountryCode: "EGY",
+//   TelephoneNo: "0",
+//   Email: "admin-kiteair@gmail.com",
+//   Admin: "1"
+
+// });
 
 // userinstance.save((err, doc) => {
 //     if (!err){

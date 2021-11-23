@@ -20,9 +20,11 @@ mongoose
 
 
 const flightController = require('./Routes/FlightController');
+const reservationcontroller = require('./Routes/reservationController');
 const userController = require('./Routes/userController');
 
 app.use("/flights", flightController);
+app.use("/reservations", reservationcontroller);
 app.use("/users", userController);
 
 const port = process.env.PORT || "8000";
