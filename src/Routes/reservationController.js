@@ -4,8 +4,8 @@ const Reservation = require('../Models/Reservations');
 
 
 const Reservationinstance = new Reservation({
-flight: "61879985e3e3d1284cbd294d",
-seatNo: ["10A","667"]
+ flight: "61879985e3e3d1284cbd294d",
+seatsNo: ["10A","667"]
 });
 
 Reservationinstance.save((err, doc) => {
@@ -20,8 +20,8 @@ Reservationinstance.save((err, doc) => {
 
 // Reservation.collection.insertOne([
 // {
-//     "flight": "61879985e3e3d1284cbd294d",
-//     "seatNo": ["10A","667"]
+//     // flight: "61879985e3e3d1284cbd294d",
+//     seatsNo: ['10A','667']
    
 // }
 //  ]

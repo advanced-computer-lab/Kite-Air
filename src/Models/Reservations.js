@@ -19,9 +19,7 @@ const reservationSchema = new Schema(
   //      required: true
     },
 
-    seatsNo:[{number: {
-        type: String,
-    }}],
+    seatsNo:[String],
     
     },
  
