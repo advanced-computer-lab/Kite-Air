@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+
 const userSchema = new Schema(
   {
     username: { 
@@ -46,6 +47,12 @@ const userSchema = new Schema(
     Admin: {
         type: String, //1 if admin 0/null if user 3ady
     },
+    Reservations: [{
+      type:  mongoose.Schema.Types.ObjectId,
+      ref: "Reservations"
+    }]
+   
+
   },
   { timestamps: true }
 );

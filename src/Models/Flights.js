@@ -7,12 +7,12 @@ const flightSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      trime: true,
+      trim: true,
     },
     From: {
       type: String,
       required: true,
-      trime: true,
+      trim: true,
     },
     To: {
       type: String,
@@ -27,6 +27,8 @@ const flightSchema = new Schema(
       type: String,
       required: true,
     },
+
+
     DepartureTime: {
       type: String,
       required: true,
@@ -35,6 +37,7 @@ const flightSchema = new Schema(
       type: String,
       required: true,
     },
+    
     fseatsAvailable: {
       type: Number,
       required: true,
