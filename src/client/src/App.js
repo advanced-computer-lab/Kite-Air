@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/PrimarySearchAppBar";
 import Footer from "./components/Footer";
 
+import Header from "./components/Header";
+
 import CreateFlight from "./components/CreateFlight.js";
 import Search from "./components/Search.js";
 
@@ -16,10 +18,11 @@ const App = () => {
 
       <Router>
         <div>
-        <Navbar />
+        <Header/>
+       {/* <Navbar /> */}
           <Routes>
-            <Route path="/add-new-flight" element={<CreateFlight />}></Route>
-            <Route path="/" element={<Search/>}></Route>
+            {/* <Route path="/add-new-flight" element={<CreateFlight />}></Route>
+            <Route path="/" element={<Search/>}></Route> */}
           </Routes>
         </div>
       </Router>
