@@ -4,19 +4,22 @@ const Schema = mongoose.Schema;
 const reservationSchema = new Schema(
     {
   
-        
+    User: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users"
+    },
+
     flight: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Flights"
     },
+
     choosenCabin:{
         type: String,
-       // required: true
     },
  
     noOfPassengers: {
         type: Number,
-  //      required: true
     },
 
     seatsNo:[String],
