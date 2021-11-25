@@ -4,7 +4,17 @@ const User = require('../Models/Users');
 
 
 
-
+router.put('/:id', async(req, res) => {
+    console.log(req.params.id);
+    await User.findByIdAndUpdate(req.params.id, req.body)
+      .then(result => {
+        res.status(200).send("User updated ");
+        
+        console.log('The User is Updated successfully !');
+      }).catch(err => {
+        console.log(err);
+      })
+    });
 // User.collection.insertMany([
 //   {
 //     "username": "maryam",
@@ -29,16 +39,16 @@ const User = require('../Models/Users');
   
 
 // const userinstance = new User({
-//   username: "admin1",
+//   username: "User1",
 //   Password: "123456",
-//   FirstName: "Admin",
-//   LastName: "Kite Air",
+//   FirstName: "User",
+//   LastName: "New",
 //   Address: "Company",
-//   PassportNo: "0",
+//   PassportNo: "A234567",
 //   CountryCode: "EGY",
 //   TelephoneNo: "0",
-//   Email: "admin-kiteair@gmail.com",
-//   Admin: "1"
+//   Email: "user1@gmail.com",
+//   Admin: "0"
 
 // });
 

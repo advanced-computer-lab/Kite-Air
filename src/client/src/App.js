@@ -8,18 +8,53 @@ import Footer from "./components/Footer";
 
 import CreateFlight from "./components/CreateFlight.js";
 import Search from "./components/Search.js";
-
+import ProfilePage from "./components/ProfilePage.js";
+import UserViewFlights from "./components/UserViewFlights.js"
+const user = {
+  _id
+    :
+    "619fc2769dc8cc7dc0475947",
+username
+    :
+    "User1",
+Password
+    :
+    "123456",
+FirstName
+    :
+    "User1",
+LastName
+    :
+    "New",
+Address
+    :
+    "Company",
+PassportNo
+    :
+    "A234567",
+CountryCode
+    :
+    "EGY",
+TelephoneNo
+    :
+    "0",
+Email
+    :
+    "user1@gmail.com",
+Admin
+    :
+    "0",
+}
 const App = () => {
   return (
     <>
-      
-
       <Router>
         <div>
-        <Navbar />
+          <Navbar />
           <Routes>
             <Route path="/add-new-flight" element={<CreateFlight />}></Route>
-            <Route path="/" element={<Search/>}></Route>
+         
+            <Route path="/" element={<UserViewFlights/>}></Route>
           </Routes>
         </div>
       </Router>
@@ -29,5 +64,6 @@ const App = () => {
     </>
   );
 };
+//<Route path="/" element={<ProfilePage user={user}/>}></Route>
 
 export default App;
