@@ -1,0 +1,7 @@
+Kite-Air team member id: tasks accomplished (requirement number)
+---------------------------------------------------------------------------
+Maryam ElOraby 46-3294: database and UI (requirements 3 and 10) --> Scrum Master
+Rawan Reda Fouda 46-13489: update operation (requirement 7)
+Rowan Amgad Nabil 46-5055: deletion operation (requirements 8 and 9)
+Hadeer ElHussen Badereldin 46-0280: search operation (requirements 5 and 6)
+Mariam Tamer 46-0774: creation operation and UI (requirement 4)
