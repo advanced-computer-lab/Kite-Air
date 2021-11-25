@@ -3,18 +3,21 @@ var router = express.Router();
 const Reservation = require('../Models/Reservations');
 
 
-// const Reservationinstance = new Reservation({
-//  flight: "61879985e3e3d1284cbd294d",
-// seatsNo: ["10A","667"]
-// });
+const Reservationinstance = new Reservation({
+flight: "61879985e3e3d1284cbd294d",
+User: "619fc2769dc8cc7dc0475947",
+choosenCabin: "Economy",
+noOfPassengers: 3,
+seatsNo: ["1A","2A","3A"]
+});
 
 // Reservationinstance.save((err, doc) => {
 //     if (!err){
-//        console.log('SUCCESS!');
+//        console.log('Res SUCCESS!');
    
 //     }
 //     else
-//         console.log('Error during record insertion : ' + err);
+//         console.log('Error during record insertion res : ' + err);
 // });
 
 
@@ -39,22 +42,9 @@ const Reservation = require('../Models/Reservations');
 //     console.log("> All Identifiers\n", identifiers);
 //   };
 
-//find all availabe seats of a certian flight
-router.get("/all-reservations", async(req, res) => {
-
-    await Reservation.find({flight: req.body.flight, choosenCabin:req.body.choosenCabin })
-      .then((result) => {
-        res.json(result);
-        console.log("Found");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
 
 
 
 
 module.exports = router;
-
 

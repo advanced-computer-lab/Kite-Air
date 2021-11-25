@@ -22,7 +22,7 @@ export default function Header() {
 
   const navigate = useNavigate();
 
-  const isLoggedIn = false;
+  const isLoggedIn = true;
 
 
   const faireRedirection = () =>{ 
