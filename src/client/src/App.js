@@ -8,18 +8,18 @@ import Footer from "./components/Footer";
 
 import CreateFlight from "./components/CreateFlight.js";
 import Search from "./components/Search.js";
+import SearchM2 from "./components/SearchM2.js";
+import BasicDateRange from "./components/BasicDateRange.js";
+import CabinClass from "./components/CabinClass.js";
 
 const App = () => {
   return (
     <>
-      
-
       <Router>
         <div>
-        <Navbar />
+          <Navbar />
           <Routes>
-            <Route path="/add-new-flight" element={<CreateFlight />}></Route>
-            <Route path="/" element={<Search/>}></Route>
+            <Route path="/" element={<CabinClass />}></Route>
           </Routes>
         </div>
       </Router>
