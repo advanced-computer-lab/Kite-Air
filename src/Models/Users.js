@@ -42,16 +42,14 @@ const userSchema = new Schema(
     },
     Email: {
         type: String,
+        Unique: true,
         required: true,
+        trim: true,
     },
     Admin: {
         type: String, //1 if admin 0/null if user 3ady
-    },
-    Reservations: [{
-      type:  mongoose.Schema.Types.ObjectId,
-      ref: "Reservations"
-    }]
-   
+    }
+
 
   },
   { timestamps: true }
