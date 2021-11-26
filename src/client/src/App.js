@@ -8,9 +8,9 @@ import Footer from "./components/Footer";
 
 import CreateFlight from "./components/CreateFlight.js";
 import Search from "./components/Search.js";
-import SearchM2 from "./components/SearchM2.js";
 import BasicDateRange from "./components/BasicDateRange.js";
 import CabinClass from "./components/CabinClass.js";
+import Test from "./components/Test.js";
 
 const App = () => {
   return (
@@ -19,7 +19,7 @@ const App = () => {
         <div>
           <Navbar />
           <Routes>
-            <Route path="/" element={<CabinClass />}></Route>
+            <Route path="/" element={<Test />}></Route>
           </Routes>
         </div>
       </Router>

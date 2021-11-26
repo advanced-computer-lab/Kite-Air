@@ -50,7 +50,7 @@ export default function FreeSoloCreateOptionDialog() {
   //console.log(value.title);
   const j = {};
   if (value !== null) {
-    j["From"] = value.title;
+    j["To"] = value.title;
   }
 
   console.log(j);
