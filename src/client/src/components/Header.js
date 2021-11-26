@@ -10,6 +10,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import Link from '@mui/material/Link';
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -21,10 +22,10 @@ export default function Header() {
   const navigate = useNavigate();
 
   const isLoggedIn = false;
+  const isAdmin = false;
 
   const faireRedirection = () => {
-    let url = "/";
-    navigate(url);
+if (isAdmin) navigate("/admin"); else navigate("/") ;
   };
 
   const handleProfileMenuOpen = (event) => {
@@ -42,6 +43,11 @@ export default function Header() {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const handleClickLogin = (event) => {
+    navigate("/login");
+   
   };
 
   const menuId = "primary-search-account-menu";
@@ -104,7 +110,7 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={{ background: "#191b3a" }}>
+      <AppBar style={{ background: "#191b3a" }} position="absolute">
         <Toolbar>
           <Typography
             variant="h6"
@@ -112,19 +118,23 @@ export default function Header() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            Kite Air
+            <Link color="inherit" href="/" style={{ textDecoration: 'none' }}>
+              Kite Air
+            </Link>{" "}
           </Typography>
 
+          { isLoggedIn ? 
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
           <Button
             onClick={faireRedirection}
-            sx={{ my: 2, mx: 2 , color: "white", display: "block" }}
+            sx={{ my: 2, mx: 2, color: "white", display: "block" }}
           >
             Home
-          </Button>
+          </Button> </Box>
 
-          
-
-
+          :
+          <></>
+          }
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {isLoggedIn ? (
@@ -140,14 +150,10 @@ export default function Header() {
                 <AccountCircle />
               </IconButton>
             ) : (
-              
-              <Button
-                
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
+              <Button onClick={handleClickLogin} sx={{ my: 2, color: "white", display: "block" }}>
                 Login
               </Button>
-                          )}
+            )}
           </Box>
 
           <Box sx={{ display: { xs: "flex", md: "none" } }}>

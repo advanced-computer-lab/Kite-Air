@@ -6,15 +6,14 @@ import Typography from "@mui/material/Typography";
 export default function LandingPage() {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <section className="showcase">
         <div className="showcase-overlay">
           <h1>Kite Airlines</h1>
           <p>Making the sky the best place to be!</p>
 
-
           <footer style= {{position: "absolute",
-                bottom: "-0px"}}>
+                bottom: "0px"}}>
             <p style={{ textAlign: "center"}}>
               <Copyright />
             </p>

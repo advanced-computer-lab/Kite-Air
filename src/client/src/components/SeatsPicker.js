@@ -5,13 +5,12 @@ import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-
 export default function SeatsPicker() {
   const baseURL = "http://localhost:8000/reservations/allreservations";
   var seatsarr = new Set();
+  
   const [reserv, setReserv] = useState([]);
   const [loading, setloading] = useState(false);
-
 
   const fetchFlight = async () => {
     await axios
@@ -24,41 +23,45 @@ export default function SeatsPicker() {
       });
   };
 
-  useEffect(() => {
-    fetchFlight();
-  }, []);
-    console.log(seatsarr);
+  useEffect( () => {
+     fetchFlight();
+}, []);
 
-  if (!(typeof reserv === "undefined" || reserv.length == 0)) {
+
+
+
+
+  const addSeatCallback = async ({ row, number, id }, addCb) => {
+    //setloading(true);
+    //await new Promise((resolve) => setTimeout(resolve, 1500));
+    console.log(`Added seat ${number}, row ${row}, id ${id}`);
+    const newTooltip = `Seat-${id} Selected`;
+    addCb(row, number, id, newTooltip);
+    // setloading(false);
+  };
+
+  const removeSeatCallback = async ({ row, number, id }, removeCb) => {
+    //   setloading(true);
+    //  await new Promise((resolve) => setTimeout(resolve, 1500));
+    console.log(`Removed seat ${number}, row ${row}, id ${id}`);
+    // A value of null will reset the tooltip to the original while '' will hide the tooltip
+    const newTooltip = ["A", "B", "C"].includes(row) ? null : "";
+    removeCb(row, number, newTooltip);
+    // setloading(false);
+  };
+
+
+
+if (!(typeof reserv === "undefined" || reserv.length == 0)) {
     for (var i = 0; i < reserv.length; i++) {
       for (var s = 0; s < reserv[i].seatsNo.length; s++) {
         seatsarr.add(reserv[i].seatsNo[s].toString());
       }
     }
-    }
+  }
 
 
-
-  const addSeatCallback = async ({ row, number, id }, addCb) => {
-  
-      //setloading(true);
-      //await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log(`Added seat ${number}, Srow ${row}, id ${id}`);
-      const newTooltip = `Seat-${id} Selected`;
-      addCb(row, number, id, newTooltip);
-     // setloading(false);
-
-  };
-
-  const removeSeatCallback = async ({ row, number, id }, removeCb) => {
- //   setloading(true);
-  //  await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log(`Removed seat ${number}, row ${row}, id ${id}`);
-    // A value of null will reset the tooltip to the original while '' will hide the tooltip
-    const newTooltip = ["A", "B", "C"].includes(row) ? null : "";
-    removeCb(row, number, newTooltip);
-   // setloading(false);
-  };
+  console.log(seatsarr);
 
   const rows = [
     [
@@ -134,10 +137,6 @@ export default function SeatsPicker() {
       <div style={{ justifyContent: "center" }}>
         <br />
         <br />
-        <br />
-
-        <h1>Seat Picker</h1>
-
         <div style={{ marginTop: "100px" }}>
           <SeatPicker
             addSeatCallback={addSeatCallback}
@@ -147,21 +146,21 @@ export default function SeatsPicker() {
             alpha
             visible
             selectedByDefault
-            loading={loading}
+           // loading={loading}
             tooltipProps={{ multiline: true }}
           />
         </div>
       </div>
 
       <div>
-        {reserv &&
+        {/* {reserv &&
           reserv.map((flight) => (
             <h2 key={flight._id}>
               {" "}
               {flight.User} {flight.seatsNo} {flight.flight}{" "}
               {flight.noOfPassengers} {flight.choosenCabin}{" "}
             </h2>
-          ))}
+          ))} */}
       </div>
     </div>
   );
