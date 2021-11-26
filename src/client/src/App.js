@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 
 import CreateFlight from "./components/CreateFlight.js";
 import Search from "./components/Search.js";
+import CollapsibleTable from "./components/CollapsibleTable";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Routes>
             <Route path="/add-new-flight" element={<CreateFlight />}></Route>
             <Route path="/" element={<Search/>}></Route>
+            <Route path="/reservations" element={<CollapsibleTable/>}></Route>
           </Routes>
         </div>
       </Router>

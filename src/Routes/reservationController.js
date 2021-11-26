@@ -11,6 +11,44 @@ noOfPassengers: 3,
 seatsNo: ["1A","2A","3A"]
 });
 
+
+// router.post('/create-reservation', async (req, res) => {
+    
+//     console.log(req.body);
+//     const reservation = new Reservation(req.body)
+
+//   const {User,
+//   flight,
+//   choosenCabin,
+//   noOfPassengers,
+//   seatsNo} = req.body;
+  
+//    await reservation.save()
+//       .then(result => {
+//         res.json({
+//           ok: true
+//         });
+//         console.log("reservation successfully added");
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+
+//   });
+
+  router.get("/all-reservations", async(req, res) => {
+    await Reservation.find({User: "619fc2769dc8cc7dc0475947"})
+      .then((result) => {
+        res.send(result);
+        //console.log("Found");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
+
+
 // Reservationinstance.save((err, doc) => {
 //     if (!err){
 //        console.log('Res SUCCESS!');
