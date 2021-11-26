@@ -7,8 +7,8 @@ const Reservationinstance = new Reservation({
 flight: "61879985e3e3d1284cbd294d",
 User: "619fc2769dc8cc7dc0475947",
 choosenCabin: "Economy",
-noOfPassengers: 3,
-seatsNo: ["1A","2A","3A"]
+noOfPassengers: 2,
+seatsNo: ["1G","4A"]
 });
 
 // Reservationinstance.save((err, doc) => {
@@ -44,6 +44,66 @@ seatsNo: ["1A","2A","3A"]
 
 
 
+router.get("/allreservations", async (req, res) => {
+    console.log(req.body);
+      Reservation.find()
+       .then((result) => {
+          
+        res.send(result);
+       })
+       .catch((err) => {
+         res.status(400).send("Error fetching reservations!");
+         console.log(err);
+       });
+   });
+
+   
+router.get("/seatsoercabinOfaFlight", async (req, res) => {
+   console.log(req.body);
+     Reservation.find({flight : req.body.flight, choosenCabin :req.body.choosenCabin })
+      .then((result) => {
+          const sresults = new Set();
+        for (var i =0; i<result.length; i++){
+            if(result[i].seatsNo)
+            result[i].seatsNo.forEach(seat => {
+                sresults.add(seat);
+            });
+        }
+        console.log(Array.from(sresults));
+       res.send(Array.from(sresults));
+      })
+      .catch((err) => {
+        res.status(400).send("Error fetching reservations!");
+        console.log(err);
+      });
+  });
+
+
+  router.get("/userFlightReservation", async (req, res) => {
+    console.log(req.body);
+    Reservation.find({flight : req.body.flight, User : req.body.User, choosenCabin :req.body.choosenCabin})
+       .then((result) => { 
+        res.send(result);
+       })
+       .catch((err) => {
+         res.status(400).send("Error fetching user's Reservation!");
+         console.log(err);
+       });
+   });
+
+
+   router.put("/updateSeats", async (req, res) => {
+    console.log(req.body);
+    Reservation.findByIdAndUpdate(req.body._id,{ seatsNo : req.body.seatsNo })
+       .then((result) => { 
+        res.status(200).send("Updated!");
+        console.log('Update Successful');
+       })
+       .catch((err) => {
+         res.status(400).send("Error!");
+         console.log(err);
+       });
+   });
 
 
 module.exports = router;

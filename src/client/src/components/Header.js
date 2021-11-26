@@ -9,9 +9,7 @@ import Menu from "@mui/material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Button from "@mui/material/Button";
-import { useNavigate } from 'react-router-dom';
-
-
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -22,13 +20,12 @@ export default function Header() {
 
   const navigate = useNavigate();
 
-  const isLoggedIn = true;
+  const isLoggedIn = false;
 
-
-  const faireRedirection = () =>{ 
+  const faireRedirection = () => {
     let url = "/";
     navigate(url);
-  }
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -64,20 +61,13 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-
-
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>Log-out</MenuItem>
-    
-    
     </Menu>
   );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
-
- 
-
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
@@ -107,23 +97,15 @@ export default function Header() {
       </MenuItem>
 
       <MenuItem onClick={handleMenuClose}>
-      
         <p>Log-out</p>
       </MenuItem>
-
     </Menu>
   );
 
-
-
-
-
-
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={{ background: "#191b3a" }} >
+      <AppBar style={{ background: "#191b3a" }}>
         <Toolbar>
-        
           <Typography
             variant="h6"
             noWrap
@@ -133,66 +115,60 @@ export default function Header() {
             Kite Air
           </Typography>
 
-            
           <Button
-                onClick={faireRedirection}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                Home
-              </Button>
+            onClick={faireRedirection}
+            sx={{ my: 2, mx: 2 , color: "white", display: "block" }}
+          >
+            Home
+          </Button>
 
-        
+          
+
 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-          
-
-          {isLoggedIn? 
-  
-  <IconButton
-  size="large"
-  edge="end"
-  aria-label="account of current user"
-  aria-controls={menuId}
-  aria-haspopup="true"
-  onClick={handleProfileMenuOpen}
-  color="inherit"
->
-  <AccountCircle />
-</IconButton>
-:
-<div></div>}
-          
+            {isLoggedIn ? (
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            ) : (
+              
+              <Button
+                
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Login
+              </Button>
+                          )}
           </Box>
 
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
-          
-          
-          {isLoggedIn? 
-  
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-:
-<div></div>}
-
-
-          
-
-
-
+            {isLoggedIn ? (
+              <IconButton
+                size="large"
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="inherit"
+              >
+                <MoreIcon />
+              </IconButton>
+            ) : (
+              <div></div>
+            )}
           </Box>
         </Toolbar>
       </AppBar>
 
-      
       {renderMobileMenu}
       {renderMenu}
     </Box>
