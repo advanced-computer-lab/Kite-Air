@@ -21,11 +21,7 @@ const filter = createFilterOptions();
 export default function DatePick() {
   const [date, setDate] = useState({});
   const [date2, setDate2] = useState({});
-  const [from, setFrom] = useState({});
   const style = { background: "white", padding: "8px 0" };
-  //console.log(dialogValue);
-
-  //console.log(value.title);
 
   const options = [
     { value: "JFK" },
@@ -40,26 +36,38 @@ export default function DatePick() {
     console.log("onChange");
     console.log("From: ", dates[0], ", to: ", dates[1]);
     console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
-    j["FlightDate"] = dateStrings[0];
-    k["FlightDate"] = dateStrings[1];
+    j["FlightDate"] = dateStrings[0]; // departure date
+    k["FlightDate"] = dateStrings[1]; // arrival date
   }
+
+  function fromValue(value3) {
+    console.log(value3);
+    j["From"] = value3;
+    k["To"] = value3;
+  }
+
+  function toValue(value4) {
+    console.log(value4);
+    j["To"] = value4;
+    k["From"] = value4;
+  }
+
+  var cabin = 0;
+  var AdultNo = 0;
 
   function onChangeAdult(value1) {
     console.log(value1);
+    AdultNo = value1;
   }
 
   function onChangeChildren(value2) {
     console.log(value2);
   }
 
-  function buttonClicked() {
-    console.log("buttonClicked");
-    setDate(j);
-    setDate2(k);
-  }
-
   const onChangeDropDown = ({ key }) => {
     console.log(`Click on item ${key}`);
+    console.log(typeof key);
+    cabin = key;
   };
 
   const menu = (
@@ -69,6 +77,24 @@ export default function DatePick() {
       <Menu.Item key="3">Business Class</Menu.Item>
     </Menu>
   );
+
+  function buttonClicked() {
+    console.log("buttonClicked");
+    if (cabin === "1") {
+      j["eseatsAvailable"] = AdultNo;
+      k["eseatsAvailable"] = AdultNo;
+    }
+    if (cabin === "2") {
+      j["fseatsAvailable"] = AdultNo;
+      k["fseatsAvailable"] = AdultNo;
+    }
+    if (cabin === "3") {
+      j["bseatsAvailable"] = AdultNo;
+      k["bseatsAvailable"] = AdultNo;
+    }
+    setDate(j);
+    setDate2(k);
+  }
 
   useEffect(() => {
     if (date !== {}) {
@@ -132,6 +158,7 @@ export default function DatePick() {
                       .toUpperCase()
                       .indexOf(inputValue.toUpperCase()) !== -1
                   }
+                  onChange={fromValue}
                 />
               </div>
             </Col>
@@ -146,6 +173,7 @@ export default function DatePick() {
                       .toUpperCase()
                       .indexOf(inputValue.toUpperCase()) !== -1
                   }
+                  onChange={toValue}
                 />
               </div>
             </Col>
