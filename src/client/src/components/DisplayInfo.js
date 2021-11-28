@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import axios from "axios";
 //mport Typography from '@mui/material/Typography';
-export default function InfoCard({user, handleDisplay}) {
+export default function  DiplayInfo({ user, handleDisplay }) {
   const [FirstName, setFirstName] = useState(user.FirstName);
   const [LastName, setLastName] = useState(user.LastName);
   const [Passport, setPassport] = useState(user.PassportNo);
@@ -21,8 +21,8 @@ export default function InfoCard({user, handleDisplay}) {
   const [Email, setEmail] = useState(user.Email);
 
   // const [redirect, setRedirect] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-
+  // const [open, setOpen] = React.useState(false);
+  const [editFields, setEditFields] = React.useState(false);
   function updatePersonalInfo() {
     const data = {
       FirstName: FirstName,
@@ -54,10 +54,8 @@ export default function InfoCard({user, handleDisplay}) {
         //   draggable: true,
         //   progress: undefined,
         // });
-   
-    
+
         window.location.reload(false);
-        setOpen(true);
         // component: () => <Navigate to='/'/>
         // handleClose();
       })
@@ -66,23 +64,25 @@ export default function InfoCard({user, handleDisplay}) {
       });
   }
 
-
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
   return (
     <Card style={{ maxWidth: 500 }}>
-
       <CardContent style={{backgroundColor: "	whitesmoke"}}>
         <Typography gutterBottom variant="h5" component="div">
-        Basic Information
+       Basic Information
         </Typography>
 <br/>
 
      
-{open? handleDisplay:" "}
+
 <TextField 
 label="First Name"  
 margin="dense"
             id="FirstName"
             value={FirstName}
+            disabled={true}
             onChange={(e) => {
               setFirstName(e.target.value);
             }}
@@ -95,6 +95,7 @@ margin="dense"
             margin="dense"
             id="LastName"
             value={LastName}
+            disabled={true}
             onChange={(e) => {
               setLastName(e.target.value);
             }}
@@ -109,6 +110,7 @@ margin="dense"
 <TextField  label="Email"  margin="dense"
             id="Email"
             value={Email}
+            disabled={true}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -123,6 +125,7 @@ margin="dense"
 <TextField label="Passport Number"  margin="dense"
             id="Passport"
             value={Passport}
+              disabled={true}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -131,10 +134,12 @@ margin="dense"
 </div>
 
 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button onClick={updatePersonalInfo}  variant="contained" size="medium">Confirm</Button>
+        <Button  onClick={handleDisplay}   size="medium">Edit</Button>
       </div>
       </CardContent>
-
+     
+     
+    
     </Card>
   );
 }

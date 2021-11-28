@@ -13,6 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import InfoCard from './InfoCard.js';
+import DisplayInfo from './DisplayInfo';
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -21,21 +22,12 @@ const drawerWidth = 240;
 
 export default function ProfilePage({user}) {
 
-  
-    // const handleClose = () => {
-    //   setFlightNo(user.FlightNo);
-    //   setFrom(user.From);
-    //   setTo(user.To);
-    //   setFlightDate(user.FlightDate);
-    //   setfSeats(user.fseatsAvailable);
-    //   seteSeats(user.eseatsAvailable);
-    //   setbSeats(user.bseatsAvailable);
-    //   setDeparture(user.DepartureTime);
-    //   setArrival(user.ArrivalTime);
-    //   setTerminal(user.Terminal);
-    //   setOpen(false);
-    // };
-  
+    const [isDisplay, setisDisplay] = useState(true);
+
+  const handleDisplayOFF = () => {
+    setisDisplay(false);
+  }
+
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -87,9 +79,13 @@ export default function ProfilePage({user}) {
                 sx={{ flexGuser: 1, bgcolor: 'background.default', p: 3, width:1250 }}>
                 <Toolbar />
 
- <InfoCard user={user}/>
+                {isDisplay ? <DisplayInfo user={user} handleDisplay={handleDisplayOFF} /> : <InfoCard user={user} handleDisplay={handleDisplayOFF}/>}
+
+
             </Box>
            
         </Box>
     );
 }
+
+{/* <DisplayInfo user={user}/> */}

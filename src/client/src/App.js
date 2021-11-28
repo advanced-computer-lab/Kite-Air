@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import CreateFlight from "./components/CreateFlight.js";
 import Search from "./components/Search.js";
 import ProfilePage from "./components/ProfilePage.js";
+import SignIn from "./components/SignIn"
 import UserViewFlights from "./components/UserViewFlights.js"
 const user = {
   _id
@@ -54,7 +55,10 @@ const App = () => {
           <Routes>
             <Route path="/add-new-flight" element={<CreateFlight />}></Route>
          
-            <Route path="/" element={<UserViewFlights/>}></Route>
+            <Route path="/" element={<Search/>}></Route>
+            <Route path="ProfilePage" element={<ProfilePage user={user}/>} />
+            <Route path="login"  element={<SignIn/>} />
+    
           </Routes>
         </div>
       </Router>
@@ -65,5 +69,5 @@ const App = () => {
   );
 };
 //<Route path="/" element={<ProfilePage user={user}/>}></Route>
-
+//<Route path="/" element={<ProfilePage user={user}/>}></Route>
 export default App;
