@@ -6,8 +6,7 @@ import {
   Grid,
   Card,
   CardContent,
- Typography,
-  CardHeader,
+  Typography,
   CardActionArea,
   Box
 } from "@material-ui/core/";
@@ -16,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(2),
+
   },
 }));
 
@@ -46,16 +46,23 @@ export default function UserViewFlights() {
         container
         spacing={2}
         direction="column"
-        //  width={1000}
-        // justify="flex-start"
-        // alignItems="flex-start"
       >
         {flights.map((flight) => (
           <Grid item key={flights.indexOf(flight)}>
-            <Card>
+           
+            {/* <Card>
           
               <CardActionArea  onClick={event => alert("I am an alert box!")}>
-              <CardContent>
+              <CardContent> */}
+        
+        
+        <div
+          onClick={() => {alert( `${flight._id}` )}}
+          style={{  cursor: "pointer", boxShadow: "2px 2px 3px rgb(136 136 136 / 41%)", padding: "20px"}}
+      
+        >
+
+
                 <Typography  variant="h6" color="textPrimary"> <Box sx={{ fontWeight: 500  }}> Flight No. {flight.FlightNo}</Box> </Typography>
                 <Typography sx={{ mb: 0.5 }} color="textSecondary">
                   {flight.From} 🠖 {flight.To} 
@@ -81,9 +88,12 @@ export default function UserViewFlights() {
                
                
                 </Typography>
-              </CardContent>
+
+              {/* </CardContent>
               </CardActionArea>
-            </Card>
+            </Card> */}
+            
+            </div>
           </Grid>
         ))}
       </Grid>
