@@ -13,6 +13,15 @@ import { InputNumber } from "antd";
 import { AutoComplete } from "antd";
 import { Layout } from "antd";
 import { Row, Col, Divider } from "antd";
+import { Tag } from "antd";
+import {
+  CheckCircleOutlined,
+  SyncOutlined,
+  CloseCircleOutlined,
+  ExclamationCircleOutlined,
+  ClockCircleOutlined,
+  MinusCircleOutlined,
+} from "@ant-design/icons";
 
 const { Header, Footer, Sider, Content } = Layout;
 const { RangePicker } = DatePicker;
@@ -23,6 +32,12 @@ export default function DatePick() {
   const [date2, setDate2] = useState({});
   const style = { background: "white", padding: "8px 0" };
 
+  const j = {};
+  const k = {};
+
+  var cabin = 0;
+  var AdultNo = 0;
+
   const options = [
     { value: "JFK" },
     { value: "CAI" },
@@ -30,8 +45,6 @@ export default function DatePick() {
     { value: "CGD" },
   ];
 
-  const j = {};
-  const k = {};
   function onChange(dates, dateStrings) {
     console.log("onChange");
     console.log("From: ", dates[0], ", to: ", dates[1]);
@@ -51,9 +64,6 @@ export default function DatePick() {
     j["To"] = value4;
     k["From"] = value4;
   }
-
-  var cabin = 0;
-  var AdultNo = 0;
 
   function onChangeAdult(value1) {
     console.log(value1);
@@ -94,13 +104,22 @@ export default function DatePick() {
     }
     setDate(j);
     setDate2(k);
+    // console.log(j);
+    // console.log("K");
+    // console.log(k);
+    // console.log(date);
+    // console.log("Date");
+    // console.log(date2);
   }
 
   useEffect(() => {
     if (date !== {}) {
       axios
         .post(`http://localhost:8000/flights/search-m2`, date)
-        .then((res) => console.log(res.data));
+        .then((res) => {
+          console.log(res.data);
+          //document.getElementById("tag");
+        });
     }
   }, [date]);
 
@@ -162,6 +181,7 @@ export default function DatePick() {
                 />
               </div>
             </Col>
+
             <Col className="gutter-row" span={4}>
               <div style={style}>
                 <AutoComplete
@@ -221,6 +241,14 @@ export default function DatePick() {
           >
             Search
           </Button>
+          <Tag
+            icon={<CloseCircleOutlined />}
+            color="error"
+            visible={true}
+            id="tag"
+          >
+            Please choose a different destination from origin
+          </Tag>
         </Footer>
       </Layout>
     </React.Fragment>
