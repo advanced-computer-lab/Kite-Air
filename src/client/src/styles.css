@@ -8,11 +8,11 @@
    
    }
    .seat:hover {
-    background-color: #22d4c8;
-    border-color: #22d4c8;
+    background-color: #1976d2;
+    border-color: #1976d2;
    }
    .seat--selected {
-    background-color: #22d4c8;
+    background-color:#1976d2;
    }
    .seat--reserved {
     background-color: gray;

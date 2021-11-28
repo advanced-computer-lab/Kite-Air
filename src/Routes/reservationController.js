@@ -73,7 +73,7 @@ router.get("/seatsofcabinOfaFlight", async (req, res) => {
        res.send(result);
       })
       .catch((err) => {
-        res.status(400).send("Error fetching reservations!");
+        res.status(400).send("Error fetching reservation!");
         console.log(err);
       });
   });
