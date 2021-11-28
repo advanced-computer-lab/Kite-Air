@@ -1,25 +1,16 @@
 import React from "react";
 import Header from "./Header";
+import HeaderPic from "./HeaderPic"
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 
 export default function LandingPage() {
   return (
     <div>
-      {/* <Header /> */}
-      <section className="showcase">
-        <div className="showcase-overlay">
-          <h1>Kite Airlines</h1>
-          <p>Making the sky the best place to be!</p>
+        <HeaderPic/>
 
-          <footer style= {{position: "absolute",
-                bottom: "0px"}}>
-            <p style={{ textAlign: "center"}}>
-              <Copyright />
-            </p>
-          </footer>
-        </div>
-      </section>
+     
+ 
     </div>
   );
 }

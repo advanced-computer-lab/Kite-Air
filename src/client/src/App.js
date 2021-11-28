@@ -1,12 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route  } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import Navbar from "./components/PrimarySearchAppBar";
 import Footer from "./components/Footer";
 import Seats from "./components/SeatsPicker";
 import Header from "./components/Header";
+import HeaderPic from "./components/HeaderPic";
+
 import LandingPage from "./components/LandingPage";
 
 import CreateFlight from "./components/CreateFlight.js";
@@ -15,14 +15,13 @@ import Login from "./components/Login";
 
 
 
-const App = () => {
+const App = (props) => {
   return (
     <>
-      
 
       <Router>
         <div>
-    
+
       <ToastContainer />
        <Header/>
           <Routes>
@@ -34,7 +33,8 @@ const App = () => {
           </Routes>
         </div>
       </Router>
-   
+       
+  
       <Footer />
     </>
   );

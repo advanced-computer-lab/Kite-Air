@@ -20,7 +20,7 @@
    
    .seat-picker {
      width: auto;
-  margin-bottom: 4px;
+     margin-bottom: 4px;
      background: transparent;
    }
    
@@ -46,14 +46,9 @@
       font-size: 18px;
     }
 }
-.showcase {
-    background: url('./assets/image-2.jpg')
-      no-repeat center/cover;
-    height: 100vh;
-  }
-  
+
   .showcase .showcase-overlay {
-    background-color: rgba(0, 0, 0, 0.438);
+    background-color: rgba(0, 0, 0, 0.329);
     display: flex;
     flex-direction: column;
     align-items: center;

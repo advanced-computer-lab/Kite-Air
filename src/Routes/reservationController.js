@@ -58,19 +58,19 @@ router.get("/allreservations", async (req, res) => {
    });
 
    
-router.get("/seatsoercabinOfaFlight", async (req, res) => {
+router.get("/seatsofcabinOfaFlight", async (req, res) => {
    console.log(req.body);
      Reservation.find({flight : req.body.flight, choosenCabin :req.body.choosenCabin })
       .then((result) => {
-          const sresults = new Set();
-        for (var i =0; i<result.length; i++){
-            if(result[i].seatsNo)
-            result[i].seatsNo.forEach(seat => {
-                sresults.add(seat);
-            });
-        }
-        console.log(Array.from(sresults));
-       res.send(Array.from(sresults));
+        //   const sresults = new Set();
+        // for (var i =0; i<result.length; i++){
+        //     if(result[i].seatsNo)
+        //     result[i].seatsNo.forEach(seat => {
+        //         sresults.add(seat);
+        //     });
+        // }
+        // console.log(Array.from(sresults));
+       res.send(result);
       })
       .catch((err) => {
         res.status(400).send("Error fetching reservations!");
