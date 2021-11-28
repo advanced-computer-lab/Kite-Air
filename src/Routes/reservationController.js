@@ -11,6 +11,19 @@ noOfPassengers: 3,
 seatsNo: ["1A","2A","3A"]
 });
 
+router.get("/allreservations", async (req, res) => {
+
+
+      Reservation.find()
+       .then((result) => {
+
+        res.send(result);
+       })
+       .catch((err) => {
+         res.status(400).send("Error fetching reservations!");
+         console.log(err);
+       });
+   });
 
 // Reservationinstance.save((err, doc) => {
 //     if (!err){
