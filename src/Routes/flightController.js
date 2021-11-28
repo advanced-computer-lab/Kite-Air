@@ -113,10 +113,16 @@ router.post("/search-m2", async (req, res) => {
   console.log(req.body);
   await Flight.find(req.body)
     .then((result) => {
-      console.log(req.body);
-      console.log(result);
-      res.send(result);
-      console.log("Filtered From");
+      console.log("req.body.To");
+      console.log(req.body.To);
+      if (req.body.To === req.body.From) {
+        res.send("error");
+      } else {
+        console.log(result);
+
+        res.send(result);
+        console.log("Filtered From");
+      }
     })
     .catch((err) => {
       console.log(err);
