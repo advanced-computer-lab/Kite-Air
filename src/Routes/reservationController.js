@@ -47,6 +47,19 @@ seatsNo: ["1A","2A","3A"]
       });
   });
 
+  router.route('/:id').delete( async(req,res) => {
+    // console.log(req.params.id);
+   // console.log("heyy");
+    await Reservation.findByIdAndDelete(req.params.id)
+      .then(result => {
+        res.status(200).send("Reservation deleted ");
+        
+        console.log('The Reservation is deleted successfully !');
+      }).catch(err => {
+        console.log(err);
+      })
+    });
+
 
 
 // Reservationinstance.save((err, doc) => {

@@ -15,10 +15,11 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import CancelDialog from './CancelDialog';
 var resArray = [];
 var fidArray = [];
 var flightsArray = [];
-
+var totalArray = []; //2D array to fill the table
 
 function createData(name, calories, fat, carbs, protein, price) {
   return {
@@ -43,74 +44,16 @@ function createData(name, calories, fat, carbs, protein, price) {
   };
 }
 
-var count = -1;
+var counter = -1;
 
 
-function Row(r) {
-    count = count + 1;
-    const {reser} = r;
+function Row(e) {
+    // count = count + 1;
+  //  console.log(count);
+  const {entry} = e;
+    //  console.log(count);
+
   const [open, setOpen] = React.useState(false);
-
-  var fid = reser.flight;
-  //console.log(fid);
-  var fl; //flight in this reservation
-  var baggage = 0;
-  var ticketPrice = 0;
-  var pass = 0;
-  var totalPrice = 0;
-  var cabin = "";
-  var seats = "";
-  var flightNo = 0;
-  var From = "";
-  var To = "";
-  var date = "";
-  var departure = 0;
-  var arrival = 0;
-  var terminal = 0;
-  var idd = 0;
-  axios
- .get("http://localhost:8000/flights/"+fid)
- .then((res) => {
-    fl = res.data;
-    From = fl.From;
-    To = fl.To;
-    flightNo = fl.FlightNo;
-    date = fl.FlightDate;
-    departure = fl.DepartureTime;
-    arrival = fl.ArrivalTime;
-    terminal =fl.Terminal;
-    idd = fl._id;
- 
-  var s = reser.seatsNo; //array of seats
-  if(reser.choosenCabin === "Economy"){
-      baggage = fl.ebaggage;
-      ticketPrice = fl.eprice;
-      cabin = "Economy"
-  }
-  else if(reser.choosenCabin === "Business"){
-      baggage = fl.bbaggage;
-      ticketPrice = fl.bprice;
-      cabin = "Business"
-  }
-  else{
-      baggage = fl.fbaggage;
-      ticketPrice = fl.fprice;
-      cabin = "First"
-  }
-
- pass = reser.noOfPassengers;
- totalPrice = pass * ticketPrice;
-
- var sn = Object.keys(s).length;
- for(let y = 0; y<sn-1; y++){
-     seats.concat(s[y]);
-     seats.concat(", ");
- }
- seats.concat(s[sn-1]);
- 
-  });
-  
- 
 
   return (
     <React.Fragment>
@@ -125,13 +68,13 @@ function Row(r) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {flightNo}
+          {entry[2]}
         </TableCell>
-        <TableCell align="right">{From}</TableCell>
-        <TableCell align="right">{To}</TableCell>
-        <TableCell align="right">{date}</TableCell>
-        <TableCell align="right">{departure}</TableCell>
-        <TableCell align="right">{arrival}</TableCell>
+        <TableCell align="right">{entry[3]}</TableCell>
+        <TableCell align="right">{entry[4]}</TableCell>
+        <TableCell align="right">{entry[5]}</TableCell>
+        <TableCell align="right">{entry[6]}</TableCell>
+        <TableCell align="right">{entry[7]}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -145,25 +88,27 @@ function Row(r) {
                   <TableRow>
                     <TableCell>Terminal</TableCell>
                     <TableCell>Cabin</TableCell>
-                    <TableCell align="right">Baggage(per ticket)</TableCell>
-                    <TableCell align="right">Price(per ticket)</TableCell>
-                    <TableCell align="right">Passengers#</TableCell>
-                    <TableCell align="right">Seats</TableCell>
-                    <TableCell align="right">Total price</TableCell>
-                    <TableCell align="right"></TableCell>   { /*for delete button*/}
+                    <TableCell align="left">Baggage(per ticket)</TableCell>
+                    <TableCell align="left">Price(per ticket)</TableCell>
+                    <TableCell align="left">Passengers#</TableCell>
+                    <TableCell align="left">Seats</TableCell>
+                    <TableCell align="left">Total price</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                    <TableRow key={idd}>
+                    <TableRow key={entry[1]}>
                       <TableCell component="th" scope="row">
-                        {terminal}
+                        {entry[8]}
                       </TableCell>
-                      <TableCell>{cabin}</TableCell>
-                      <TableCell align="right">{baggage}</TableCell>
-                      <TableCell align="right">{ticketPrice}</TableCell>
-                      <TableCell align="right">{pass}</TableCell>
-                      <TableCell align="right">{seats}</TableCell>
-                      <TableCell align="right">{totalPrice}</TableCell>
+                      <TableCell>{entry[9]}</TableCell>
+                      <TableCell align="left">{entry[10]}</TableCell>
+                      <TableCell align="left">{entry[11]}</TableCell>
+                      <TableCell align="left">{entry[12]}</TableCell>
+                      <TableCell align="left">{entry[14]}</TableCell>
+                      <TableCell align="left">{entry[13]}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <CancelDialog align="right" reser = {entry[0]}></CancelDialog>
                     </TableRow>
                 </TableBody>
               </Table>
@@ -175,32 +120,6 @@ function Row(r) {
   );
 }
 
-// Row.propTypes = {
-//   row: PropTypes.shape({
-//     calories: PropTypes.number.isRequired,
-//     carbs: PropTypes.number.isRequired,
-//     fat: PropTypes.number.isRequired,
-//     history: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         amount: PropTypes.number.isRequired,
-//         customerId: PropTypes.string.isRequired,
-//         date: PropTypes.string.isRequired,
-//       }),
-//     ).isRequired,
-//     name: PropTypes.string.isRequired,
-//     price: PropTypes.number.isRequired,
-//     protein: PropTypes.number.isRequired,
-//   }).isRequired,
-// };
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-];
 
 export default function CollapsibleTable() {
 
@@ -216,38 +135,117 @@ export default function CollapsibleTable() {
           .get(`http://localhost:8000/reservations/all-reservations`)
           .then((res) => {
               setRes(res.data);
-             //console.log(res.data);
              resArray = res.data;
-             //console.log(resArray[0].flight);
-             //console.log(resArray[0]);
              var n = Object.keys(resArray).length;
-             //console.log(n);
              for (let i=0; i<n; i++){
-                 // console.log(resArray[i]);
                  var f = resArray[i].flight;
-                  //console.log(f);
-                  fidArray.push(f);
-                  //console.log(fidArray);
+                  //fidArray.push(f);
+                  axios
+                  .get("http://localhost:8000/flights/"+f)
+                  .then((res) => {
+                      setFlights(res.data);
+                    flightsArray.push(res.data);
+                    setFlights([]);
+                  });
              }
              //console.log(fidArray);
-             var m = Object.keys(fidArray).length;
-             //console.log("fid:" + m);
-             for(let j=0; j<m; j++){
-                axios
-                .get("http://localhost:8000/flights/"+fidArray[j])
-                .then((res) => {
-                    setFlights(res.data);
-                  //console.log(res.data);
-                  flightsArray.push(res.data);
-                  //console.log(flightsArray);
-                  setFlights([]);
-                });
-             }
+            //  var m = Object.keys(fidArray).length;
+            //  //console.log("fid:" + m);
+            //  for(let j=0; j<m; j++){
+            //     axios
+            //     .get("http://localhost:8000/flights/"+fidArray[j])
+            //     .then((res) => {
+            //         setFlights(res.data);
+            //       //console.log(res.data);
+            //       flightsArray.push(res.data);
+            //       //console.log(flightsArray);
+            //       //setFlights([]);
+            //     });
+            //  }
             // console.log(flightsArray);
              setRes([]);
           });
       }
     }, []);
+
+//e3mly array gdid fih el data elly enty 3yzaha w map it
+if(resArray!==[] && flightsArray !== []){
+  var t = Object.keys(resArray).length;
+  //console.log(t);
+  //console.log(flightsArray[0]);
+  for(let k = 0; k<t; k++){
+      var temp = [];
+      //temp at the end of each iteration:
+      //[reservation id, flight id, flight no., from, to, date, departure, arrival, terminal, cabin, baggage(per ticket), price(per ticket), passengers#, total price, seats]
+      if(flightsArray[k] !== undefined && resArray[k] !== undefined){
+        temp.push(resArray[k]._id);    
+        temp.push(flightsArray[k]._id); 
+        temp.push(flightsArray[k].FlightNo);      
+        temp.push(flightsArray[k].From);
+        temp.push(flightsArray[k].To);
+        temp.push(flightsArray[k].FlightDate);
+        temp.push(flightsArray[k].DepartureTime);
+        temp.push(flightsArray[k].ArrivalTime);
+        temp.push(flightsArray[k].Terminal);
+        var cab = resArray[k].choosenCabin;
+        temp.push(cab);
+        var pr = 0;
+        var tpr = 0;
+        var bag = 0;
+        var nper = resArray[k].noOfPassengers;
+
+        if(cab == "Economy"){
+          bag = flightsArray[k].ebaggage;
+          temp.push(bag + " kg");
+          pr = flightsArray[k].eprice;
+          temp.push(pr + " EGP");
+          temp.push(nper);
+          tpr = nper * pr;
+          temp.push(tpr+ " EGP");
+        }
+        else{
+          if(cab == "Business"){
+            bag = flightsArray[k].bbaggage;
+            temp.push(bag+ " kg");
+            pr = flightsArray[k].bprice;
+            temp.push(pr+ " EGP");
+            temp.push(nper);
+            tpr = nper * pr;
+            temp.push(tpr+ " EGP");
+          }
+          else{
+              bag = flightsArray[k].fbaggage;
+              temp.push(bag+ " kg");
+              pr = flightsArray[k].fprice;
+              temp.push(pr + " EGP");
+              temp.push(nper);
+              tpr = nper * pr;
+              temp.push(tpr + " EGP");
+          }
+        }
+        var sets = resArray[k].seatsNo;
+        var setsStr = "";
+        var sl = Object.keys(sets).length;
+        for(let r=0; r<sl; r++){
+          setsStr = setsStr + sets[r] + "\n"
+        }
+        temp.push(setsStr);
+        //console.log(temp);
+        var found = false;
+        var tal = Object.keys(totalArray).length;
+        if(totalArray !==[]){
+        for(let v=0; v<tal; v++){
+          if(totalArray[v][0] === temp[0]){
+            found = true;
+          }
+        }
+        }
+        if(!(found)){
+        totalArray.push(temp);}
+       }
+  }
+}
+  //console.log(totalArray);
 
   return (
     <TableContainer component={Paper}>
@@ -264,8 +262,8 @@ export default function CollapsibleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {resArray.map((reserv) => (
-            <Row key={reserv._id} reser={reserv} />
+          {totalArray.map((reserv) => (
+            <Row key={reserv[0]} entry={reserv} />
           ))}
         </TableBody>
       </Table>
