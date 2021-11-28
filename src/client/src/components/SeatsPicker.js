@@ -5,11 +5,13 @@ import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export default function SeatsPicker() {
+export default function SeatsPicker(props) {
   const baseURL = "http://localhost:8000/reservations/allreservations";
+  const baseURLUpdate = "http://localhost:8000/reservations/updateSeats";
+
   var seatsarr = new Set();
-  
-    
+  let selected = [];
+
   let seating = [
     [
       { id: "1A", number: 1, isReserved: false },
@@ -71,13 +73,13 @@ export default function SeatsPicker() {
 
   const [reserv, setReserv] = useState([]);
   const [loading, setloading] = useState(true);
-  const [rows,setRows] = useState([]);
+  const [rows, setRows] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [reservationID, setReservationID] = useState();
 
-
-
-  const fetchFlight = () => {
-     axios
-      .get(baseURL)
+  const saveselected = () => {
+    axios
+      .post(baseURLUpdate, { seatsNo: selectedSeats, _id: reservationID })
       .then((response) => {
         setReserv(response.data);
         setloading(false);
@@ -87,49 +89,63 @@ export default function SeatsPicker() {
       });
   };
 
-  useEffect( () => {
-       fetchFlight();
-}, []);
+  const fetchFlight = () => {
+    axios
+      .get(baseURL)
+      .then((response) => {
+        setReserv(response.data);
+        setloading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-useEffect( () => {
-  
+    // axios
+    // .post(baseURL,props)
+    // .then((response) => {
+    //   setReserv(response.data);
+    //   setloading(false);
+    // })
+    // .catch((error) => {
+    //   console.log(error);
+    // });
+  };
 
-if (!(typeof reserv === "undefined" || reserv.length == 0)) {
-  for (var i = 0; i < reserv.length; i++) {
-    for (var s = 0; s < reserv[i].seatsNo.length; s++) {
-      seatsarr.add(reserv[i].seatsNo[s].toString());
-    }
-  }
-}
+  useEffect(() => {
+    fetchFlight();
+  }, []);
 
-
-// const rowsclone = rows;
-  
-  for (var i = 0; i < seating.length; i++) {
-    for (var j = 0; j < seating[i].length; j++) {
-      if (seating[i][j] != null) {
-        if (seatsarr.has(seating[i][j].id)) {
-          seating[i][j].isReserved = true;
+  useEffect(() => {
+    if (!(typeof reserv === "undefined" || reserv.length == 0)) {
+      for (var i = 0; i < reserv.length; i++) {
+        for (var s = 0; s < reserv[i].seatsNo.length; s++) {
+          seatsarr.add(reserv[i].seatsNo[s].toString());
         }
       }
     }
-  }
-  // console.log(seating)
-  setRows(seating)
-  
-}, [reserv]);
 
-
-
-
-
+    for (var i = 0; i < seating.length; i++) {
+      for (var j = 0; j < seating[i].length; j++) {
+        if (seating[i][j] != null) {
+          if (seatsarr.has(seating[i][j].id)) {
+            seating[i][j].isReserved = true;
+          }
+        }
+      }
+    }
+    setRows(seating);
+  }, [reserv]);
 
   const addSeatCallback = async ({ row, number, id }, addCb) => {
     //setloading(true);
     //await new Promise((resolve) => setTimeout(resolve, 1500));
     console.log(`Added seat ${number}, row ${row}, id ${id}`);
+
     const newTooltip = `Seat-${id} Selected`;
     addCb(row, number, id, newTooltip);
+
+    selectedSeats.push(id);
+    setSelectedSeats(selectedSeats);
     // setloading(false);
   };
 
@@ -137,18 +153,18 @@ if (!(typeof reserv === "undefined" || reserv.length == 0)) {
     //   setloading(true);
     //  await new Promise((resolve) => setTimeout(resolve, 1500));
     console.log(`Removed seat ${number}, row ${row}, id ${id}`);
+    selectedSeats.pop(id);
+    setSelectedSeats(selectedSeats);
     // A value of null will reset the tooltip to the original while '' will hide the tooltip
     const newTooltip = ["A", "B", "C"].includes(row) ? null : "";
     removeCb(row, number, newTooltip);
     // setloading(false);
   };
 
-
-
-
   return (
     <div className="">
-    {loading? <div>Loading</div>: <div style={{ justifyContent: "center" }}>
+      {/* {loading? <div>Loading</div>: */}
+      <div style={{ justifyContent: "center" }}>
         <br />
         <br />
         <div style={{ marginTop: "100px" }}>
@@ -160,12 +176,12 @@ if (!(typeof reserv === "undefined" || reserv.length == 0)) {
             alpha
             visible
             selectedByDefault
-           // loading={loading}
+            loading={loading}
             tooltipProps={{ multiline: true }}
           />
         </div>
-      </div>}
-     
+      </div>
+      {/* } */}
 
       <div>
         {/* {reserv &&
