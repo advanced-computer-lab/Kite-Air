@@ -58,7 +58,7 @@ const App = () => {
             <Route path="/" element={<Search/>}></Route>
             <Route path="ProfilePage" element={<ProfilePage user={user}/>} />
             <Route path="login"  element={<SignIn/>} />
-    
+            <Route path="ViewFlights"  element={<UserViewFlights/>} />
           </Routes>
         </div>
       </Router>

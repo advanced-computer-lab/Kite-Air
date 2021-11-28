@@ -68,7 +68,7 @@ export default function  DiplayInfo({ user, handleDisplay }) {
   //   setOpen(true);
   // };
   return (
-    <Card style={{ maxWidth: 500 }}>
+    <Card style={{ maxWidth: 1000 }}>
       <CardContent style={{backgroundColor: "	whitesmoke"}}>
         <Typography gutterBottom variant="h5" component="div">
        Basic Information
