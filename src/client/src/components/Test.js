@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM, { render } from "react-dom";
 import "antd/dist/antd.css";
 import { DatePicker, Space } from "antd";
 import { useState, useEffect } from "react";
@@ -26,17 +26,17 @@ import {
 const { Header, Footer, Sider, Content } = Layout;
 const { RangePicker } = DatePicker;
 const filter = createFilterOptions();
+var j = {};
+var k = {};
+var cabin = 0;
+var AdultNo = 0;
+var err = false;
 
 export default function DatePick() {
   const [date, setDate] = useState({});
   const [date2, setDate2] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
   const style = { background: "white", padding: "8px 0" };
-
-  const j = {};
-  const k = {};
-
-  var cabin = 0;
-  var AdultNo = 0;
 
   const options = [
     { value: "JFK" },
@@ -57,6 +57,7 @@ export default function DatePick() {
     console.log(value3);
     j["From"] = value3;
     k["To"] = value3;
+    //err = false;
   }
 
   function toValue(value4) {
@@ -90,6 +91,14 @@ export default function DatePick() {
 
   function buttonClicked() {
     console.log("buttonClicked");
+
+    delete j.fseatsAvailable;
+    delete k.fseatsAvailable;
+    delete j.bseatsAvailable;
+    delete k.bseatsAvailable;
+    delete j.eseatsAvailable;
+    delete k.eseatsAvailable;
+
     if (cabin === "1") {
       j["eseatsAvailable"] = AdultNo;
       k["eseatsAvailable"] = AdultNo;
@@ -102,32 +111,67 @@ export default function DatePick() {
       j["bseatsAvailable"] = AdultNo;
       k["bseatsAvailable"] = AdultNo;
     }
-    setDate(j);
-    setDate2(k);
-    // console.log(j);
-    // console.log("K");
-    // console.log(k);
-    // console.log(date);
-    // console.log("Date");
-    // console.log(date2);
+    var x = {};
+    var y = {};
+
+    x = j;
+    y = k;
+    setDate(x);
+    setDate2(y);
+    // sessionStorage.setItem("date", j);
+    // sessionStorage.setItem("date2", k);
+    console.log("j");
+    console.log(j);
+    console.log("K");
+    console.log(k);
+    console.log("Date");
+    console.log(date);
+    console.log("Date2");
+    console.log(date2);
   }
+  // useEffect(() => {
+  //   const storeddate = parseInt(sessionStorage.getItem("date") || {});
+  //   setDate(storeddate);
+  //   const storeddate2 = parseInt(sessionStorage.getItem("date2") || {});
+  //   setDate2(storeddate2);
+  // }, []);
 
   useEffect(() => {
-    if (date !== {}) {
-      axios
-        .post(`http://localhost:8000/flights/search-m2`, date)
-        .then((res) => {
-          console.log(res.data);
-          //document.getElementById("tag");
-        });
+    async function fetchData() {
+      if (date !== {}) {
+        axios
+          .post(`http://localhost:8000/flights/search-m2`, date)
+          .then((res) => {
+            console.log(res.data);
+            // if (res.data === "error") {
+            //   console.log("error true");
+            //   // err = true;
+            //   // console.log(err);
+            //   setErrorMessage("Example error message");
+            // } else {
+            //   err = false;
+            //   console.log(err);
+            // }
+            //document.getElementById("tag");
+          });
+      }
     }
+    fetchData();
   }, [date]);
 
   useEffect(() => {
     if (date2 !== {}) {
       axios
         .post(`http://localhost:8000/flights/search-m2`, date2)
-        .then((res) => console.log(res.data));
+        .then((res) => {
+          console.log(res.data);
+          // if (res.data === "error") {
+          //   console.log("error true");
+          //   setErrorMessage("Example error message");
+          //   // err = true;
+          //   // console.log(err);
+          // }
+        });
     }
   }, [date2]);
 
@@ -212,7 +256,7 @@ export default function DatePick() {
               <div style={style}>
                 <InputNumber
                   placeholder="Adult"
-                  min={0}
+                  min={1}
                   max={10}
                   onChange={onChangeAdult}
                   style={{ borderColor: "black", width: 200 }}
@@ -241,16 +285,20 @@ export default function DatePick() {
           >
             Search
           </Button>
-          <Tag
-            icon={<CloseCircleOutlined />}
-            color="error"
-            visible={true}
-            id="tag"
-          >
-            Please choose a different destination from origin
-          </Tag>
         </Footer>
+        <div id="div1">
+          {errorMessage && <div className="error"> {errorMessage}</div>}
+        </div>
       </Layout>
     </React.Fragment>
   );
 }
+//ReactDOM.render(<buttonClicked />, document.getElementById("root"));
+// <Tag
+// icon={<CloseCircleOutlined />}
+// color="error"
+// visible={err}
+// id="tag"
+// >
+// Please choose a different destination from origin
+// </Tag>
