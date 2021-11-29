@@ -84,6 +84,17 @@ router.get("/all-flights", async(req, res) => {
     });
 });
 
+router.get("/seats-of-flight", async(req, res) => {
+  await Flight.find({eseatsAvailable: 89, _id: "61879981e3e3d1284cbd294b"})
+    .then((result) => {
+      res.json(result);
+      console.log("Found");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 router.put('/:id', async(req, res) => {
   console.log(req.params.id);
   await Flight.findByIdAndUpdate(req.params.id, req.body)
