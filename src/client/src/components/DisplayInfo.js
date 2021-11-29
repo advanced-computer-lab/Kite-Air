@@ -8,84 +8,89 @@ import Typography from '@mui/material/Typography';
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import axios from "axios";
+
+
 //mport Typography from '@mui/material/Typography';
-export default function  DiplayInfo({ user, handleDisplay }) {
-  const [FirstName, setFirstName] = useState(user.FirstName);
-  const [LastName, setLastName] = useState(user.LastName);
-  const [Passport, setPassport] = useState(user.PassportNo);
-  const [Address, setAddress] = useState(user.Address);
-  const [username, setUsername] = useState(user.username);
-  const [Password, setPassword] = useState(user.Password);
-  const [CountryCode, setCountryCode] = useState(user.CountryCode);
-  const [TelephoneNo, setTelephoneNo] = useState(user.TelephoneNo);
-  const [Email, setEmail] = useState(user.Email);
+export default function  DisplayInfo({ user, handleDisplay }) {
 
-  // const [redirect, setRedirect] = React.useState(false);
-  // const [open, setOpen] = React.useState(false);
-  const [editFields, setEditFields] = React.useState(false);
-  function updatePersonalInfo() {
-    const data = {
-      FirstName: FirstName,
-      LastName: LastName,
-      Email: Email,
-      PassportNo: Passport,
-     
-      Address:Address,
-      username:username,
-      Password: Password,
-      CountryCode:CountryCode,
-      TelephoneNo : TelephoneNo
+  console.log("this is the user" + {user}); 
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [Passport, setPassport] = useState("");
+    const [Email, setEmail] = useState("");
+  // const [Address, setAddress] = useState(user.Address);
+  // const [username, setUsername] = useState(user.username);
+  // const [Password, setPassword] = useState(user.Password);
+  // const [CountryCode, setCountryCode] = useState(user.CountryCode);
+  // const [TelephoneNo, setTelephoneNo] = useState(user.TelephoneNo);
 
-    };
 
-    axios
-      .put("http://localhost:8000/users/" + user._id, data)
-      .then((res) => {
-        console.log(data);
-        console.log("success");
-        alert("Success");
+//  // const [loading, setLoading] = useState(user.Email);
+//  const [logged, setLogged] = useState(user); 
+  
+//  const baseURL = "http://localhost:8000/users/loggedIn";
+//  const fetchUser = () => {
+//   axios
+//     .get(baseURL, {
+//         params: {
+//           Email: user.Email,
+//           Password: user.Password
+//         }})
+//     .then((response) => {
+//         console.log("here  111 "+ response); 
+//       setLogged(response.data);
+    
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });}
+//     console.log(user.Password);
+//     useEffect(() => {
+//       fetchUser();
+//     }, [logged]);
 
-        // toast.success("Flight Updated!", {
-        //   position: "top-right",
-        //   autoClose: 5000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        // });
-
-        window.location.reload(false);
-        // component: () => <Navigate to='/'/>
-        // handleClose();
-      })
-      .catch((err) => {
-        console.log("Error in Update!");
-      });
-  }
-
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
+const [logged, setLogged] = useState({}); 
+  
+  const baseURL = "http://localhost:8000/users/loggedIn";
+    const fetchUser = () => {
+      axios
+        .get(baseURL, {
+            params: {
+              Email: user.Email,
+              Password: user.Password
+            }})
+        .then((response) => {
+            console.log("here  111 "+ response); 
+          setLogged(response.data);
+        
+        })
+        .catch((error) => {
+          console.log(error);
+        });}
+        console.log(user.Password);
+        useEffect(() => {
+          fetchUser();
+        }, [logged]);
   return (
-    <Card style={{ maxWidth: 1000 }}>
+
+
+    <Card style={{ maxWidth: 500 }}>
       <CardContent style={{backgroundColor: "	whitesmoke"}}>
         <Typography gutterBottom variant="h5" component="div">
        Basic Information
         </Typography>
 <br/>
 
-     
-
 <TextField 
 label="First Name"  
 margin="dense"
             id="FirstName"
-            value={FirstName}
-            disabled={true}
+            value={logged.FirstName}
             onChange={(e) => {
               setFirstName(e.target.value);
             }}
+            InputLabelProps={{ shrink: true }}
+            disabled={true}
             type="text"
             variant="standard"/>
 
@@ -94,11 +99,12 @@ margin="dense"
 <TextField  label="Last Name"    
             margin="dense"
             id="LastName"
-            value={LastName}
-            disabled={true}
+            InputLabelProps={{ shrink: true }}
+            value={logged.LastName}
             onChange={(e) => {
               setLastName(e.target.value);
             }}
+            disabled={true}
             type="text"
             variant="standard"/>
 
@@ -107,15 +113,18 @@ margin="dense"
 <br/>
 
 
-<TextField  label="Email"  margin="dense"
+<TextField margin="dense"
+variant="standard"
+InputLabelProps={{ shrink: true }}
+label="Email"
             id="Email"
-            value={Email}
-            disabled={true}
+            value={logged.Email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
+            disabled={true}
             type="text"
-            variant="standard"/>
+            />
 
 <br/>
 <br/>
@@ -124,11 +133,12 @@ margin="dense"
 <div>
 <TextField label="Passport Number"  margin="dense"
             id="Passport"
-            value={Passport}
-              disabled={true}
+            value={logged.PassportNo}
             onChange={(e) => {
-              setPassword(e.target.value);
+              setPassport(e.target.value);
             }}
+            InputLabelProps={{ shrink: true }}
+            disabled={true}
             type="text"
             variant="standard"/>
 </div>
@@ -141,5 +151,6 @@ margin="dense"
      
     
     </Card>
+    //}
   );
 }
