@@ -8,7 +8,7 @@ import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export default function SeatsDeparture() {
+export default function SeatsDeparture(props) {
   const baseURL = "http://localhost:8000/reservations/seatsofcabinOfaFlight";
 
   const baseURLUpdate = "http://localhost:8000/reservations/updateSeats";
@@ -17,64 +17,6 @@ export default function SeatsDeparture() {
 
   var seatsarr = new Set();
 
-  // let seating = [
-  //   [
-  //     { id: "1A", number: 1, isReserved: false },
-  //     { id: "2A", number: 2 },
-  //     null,
-  //     {
-  //       id: "3A",
-  //       number: "3",
-  //     },
-  //     { id: "4A", number: "4" },
-  //   ],
-  //   [
-  //     {
-  //       id: "1B",
-  //       number: 1,
-  //     },
-  //     { id: "2B", number: 2 },
-  //     null,
-  //     { id: "3B", number: "3" },
-  //     { id: "4B", number: "4" },
-  //   ],
-  //   [
-  //     { id: "1C", number: 1 },
-  //     { id: "2C", number: 2 },
-  //     null,
-  //     { id: "3C", number: 3 },
-  //     { id: "4C", number: "4" },
-  //   ],
-  //   [
-  //     { id: "1D", number: 1 },
-  //     { id: "2D", number: 2 },
-  //     null,
-  //     { id: "3D", number: 3 },
-  //     { id: "4D", number: "4" },
-  //   ],
-  //   [
-  //     { id: "1E", number: 1 },
-  //     { id: "2E", number: 2 },
-  //     null,
-  //     { id: "3E", number: "3" },
-  //     { id: "4E", number: "4" },
-  //   ],
-  //   [
-  //     { id: "1F", number: 1 },
-  //     { id: "2F", number: 2 },
-  //     null,
-  //     { id: "3F", number: "3" },
-  //     { id: "4F", number: "4" },
-  //   ],
-
-  //   [
-  //     { id: "1G", number: 1 },
-  //     { id: "2G", number: 2 },
-  //     null,
-  //     { id: "3G", number: "3" },
-  //     { id: "4G", number: "4" },
-  //   ],
-  // ];
 
   const [reserv, setReserv] = useState([]);
   const [loading, setloading] = useState(true);
@@ -83,6 +25,8 @@ export default function SeatsDeparture() {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [reservationID, setReservationID] = useState();
   const [seats, setSeats] = useState(0);
+  const [maxReservableSeats, setMaxReservableSeats] = useState(3);
+  const [selectedSoFar, setSelectedSoFar] = useState(0);
 
   let seating = [];
 
@@ -167,20 +111,14 @@ export default function SeatsDeparture() {
 
   useEffect(() => {
     fetchSeats(); //number of seats
-    console.log("am i running forever? empty");
-
   }, []);
 
   useEffect(() => {
     sit(seats);
-    console.log("am i running forever? seats");
-
   }, [seats]); //layout of seats
 
   useEffect(() => {
     fetchFlight();
-    console.log("am i running forever? rows2");
-
   }, [rows2]); //reserved seats
 
   useEffect(() => {
@@ -219,6 +157,8 @@ export default function SeatsDeparture() {
 
     selectedSeats.push(id);
     setSelectedSeats(selectedSeats);
+    setSelectedSoFar(selectedSoFar + 1);
+    props.setSelectedDeparture(selectedSeats);
     // setloading(false);
   };
 
@@ -231,17 +171,20 @@ export default function SeatsDeparture() {
     // A value of null will reset the tooltip to the original while '' will hide the tooltip
     const newTooltip = ["A", "B", "C"].includes(row) ? null : "";
     removeCb(row, number, newTooltip);
+    setSelectedSoFar(selectedSoFar - 1);
+    props.setSelectedDeparture(selectedSeats);
     // setloading(false);
   };
 
   return (
     <React.Fragment >
       <Typography variant="h6" gutterBottom>
-        Departing Seats res {reserv.length}
+        Departing Seats
       </Typography>
       <div className="">
+        {(selectedSoFar === maxReservableSeats)? props.setDis(1) : props.setDis(0)}
         {(loading || rows.length===0)? (
-          <div>Loading</div>
+          <div>Loading...</div>
         ) : (
           <div style={{ justifyContent: "center" }}>
             <div style={{ marginTop: "100px" }}>
@@ -249,7 +192,7 @@ export default function SeatsDeparture() {
                 addSeatCallback={addSeatCallback}
                 removeSeatCallback={removeSeatCallback}
                 rows={rows}
-                maxReservableSeats={3}
+                maxReservableSeats={maxReservableSeats}
                 alpha
                 visible
                 selectedByDefault

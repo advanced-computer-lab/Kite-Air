@@ -73,7 +73,7 @@ router.get("/seatsofcabinOfaFlight", async (req, res) => {
 
   router.get("/userFlightReservation", async (req, res) => {
     console.log(req.body);
-    Reservation.find({flight : req.body.flight, User : req.body.User, choosenCabin :req.body.choosenCabin})
+    Reservation.find({flight : req.body.flight, User : req.body.User})
        .then((result) => { 
         res.send(result);
        })

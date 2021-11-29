@@ -15,28 +15,34 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import SeatsDeparture from './SeatsDeparture';
 import SeatsReturn from './SeatsReturn';
 import Review from './Review';
+import Payment from './PaymentForm';
 
 
 
 const steps = ['Departure Seats', 'Return Seats', 'Review'];
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <SeatsDeparture />;
-    case 1:
-      return <SeatsReturn />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
+
 
 const theme = createTheme();
 
 export default function SeatsPickermain() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [dis, setDis] = React.useState(0);
+  const [selectedDeparture, setSelectedDeparture] = React.useState([]);
+  const [selectedReturn, setSelectedReturn] = React.useState([]);
+
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <SeatsDeparture setDis={setDis} setSelectedDeparture={setSelectedDeparture} />;
+      case 1:
+        return <SeatsReturn setDis={setDis} setSelectedReturn={setSelectedReturn} />;
+      case 2:
+        return <Review selectedDeparture={selectedDeparture} selectedReturn={selectedReturn} />;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -49,10 +55,8 @@ export default function SeatsPickermain() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-    
-    <br/>
-
-    <br/>
+      <br />
+      <br />
       <Container component="main" maxWidth="lg" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">
@@ -69,13 +73,14 @@ export default function SeatsPickermain() {
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
+                  Thank you for choosing to fly with KiteAir!
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
+                  Your seats have been reserved successfully! <br />
+                  You are now one step away from finalizing your reservation... <br />
+                  All you have to do is proceed with payment!
                 </Typography>
+                <div style={{display: 'flex', justifyContent: 'flex-end'}}><Button variant="contained">Proceed to Payment</Button></div>
               </React.Fragment>
             ) : (
               <React.Fragment>
@@ -90,9 +95,11 @@ export default function SeatsPickermain() {
                   <Button
                     variant="contained"
                     onClick={handleNext}
+                    disabled={dis === 0}
                     sx={{ mt: 3, ml: 1 }}
                   >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                    {activeStep === steps.length - 1 ? 'Confirm' : 'Next'}
+                    {/* {activeStep === steps.length ? 'Proceed to Payment' : 'Next'} */}
                   </Button>
                 </Box>
               </React.Fragment>
