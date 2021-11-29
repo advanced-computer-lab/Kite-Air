@@ -11,6 +11,9 @@ import Search from "./components/Search.js";
 import ProfilePage from "./components/ProfilePage.js";
 import SignIn from "./components/SignIn"
 import UserViewFlights from "./components/UserViewFlights.js"
+import Checkout from "./components/Checkout.js"
+
+
 const user = {
   _id
     :
@@ -59,6 +62,8 @@ const App = () => {
             <Route path="ProfilePage" element={<ProfilePage user={user}/>} />
             <Route path="login"  element={<SignIn/>} />
             <Route path="ViewFlights"  element={<UserViewFlights/>} />
+            <Route path="Checkout"  element={<Checkout/>} />
+
           </Routes>
         </div>
       </Router>
