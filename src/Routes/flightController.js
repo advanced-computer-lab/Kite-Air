@@ -85,7 +85,7 @@ router.get("/all-flights", async(req, res) => {
 });
 
 router.get("/seats-of-flight", async(req, res) => {
-  await Flight.find({eseatsAvailable: 89, _id: "61879981e3e3d1284cbd294b"})
+  await Flight.find({_id: "619fb71b037c50c870bc7821"})
     .then((result) => {
       res.json(result);
       console.log("Found");
