@@ -235,7 +235,7 @@ export default function SeatsDeparture() {
   };
 
   return (
-    <React.Fragment>
+    <React.Fragment >
       <Typography variant="h6" gutterBottom>
         Departing Seats res {reserv.length}
       </Typography>
