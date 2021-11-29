@@ -22,11 +22,21 @@ export default function CancelDialog({ reser }) {
 
   const cancelFlight = () => {
     axios
-      .delete("http://localhost:8000/reservations/" + reser)
+      .delete("http://localhost:8000/reservations/" + reser[0])
       .then((res) => {
         console.log("success");
         window.location.reload(false);
         setOpen(false);
+        var info = `you have canceled this flight No ${reser[2]} from ${reser[3]} to ${reser[4]} at date ${reser[5]}. Your refund amount is ${reser[13]}`;
+        var json = {};
+        json["info"] = info.toString();
+        axios
+          .post("http://localhost:8000/reservations/send", {
+            data: info.toString(),
+          })
+          .then((res) => {
+            console.log("email is sent");
+          });
       })
       .catch((err) => {
         console.log("Error in FlightDelete!");

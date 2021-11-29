@@ -60,37 +60,42 @@ router.route("/:id").delete(async (req, res) => {
     });
 });
 
-router.post("/send", async (req, res) => {
-  const output = `Hello from the back end`;
+router.post("/send", (req, res) => {
+  try {
+    const output = `Hello from the back end ${req.body.data}`;
+    console.log({ req });
+    let transporter = nodemailer.createTransport({
+      service: "Gmail",
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: "winter21team@gmail.com", // generated ethereal user
+        pass: "MRRHMETCSEN#7#", // generated ethereal password
+      },
+      connectionTimeout: 5 * 60 * 1000,
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
 
-  let transporter = nodemailer.createTransport({
-    host: "main.google.com",
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: "winter21team@gmail.com", // generated ethereal user
-      pass: "MRRHMETCSEN#7#", // generated ethereal password
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
+    // send mail with defined transport object
+    let info = transporter.sendMail({
+      // i deleted await
+      from: '"NodeMailar" <winter21team@gmail.com>', // sender address
+      to: "hadeerelhussen1111@gmail.com", // list of receivers
+      subject: "Hello ✔", // Subject line
+      text: "Hello world?", // plain text body
+      html: output, // html body
+    });
+  } catch (err) {
+    console.log("Message sent: %s", info.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
-  // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: '"NodeMailar" <winter21team@gmail.com>', // sender address
-    to: "hadeerelhussen1111@gmail.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: output, // html body
-  });
-
-  console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-  // Preview only available when sending through an Ethereal account
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+    // Preview only available when sending through an Ethereal account
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    console.log(err);
+    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+  }
 });
 
 // Reservationinstance.save((err, doc) => {
