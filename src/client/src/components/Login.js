@@ -10,7 +10,7 @@ const Login = () => {
                 Admin
             </Link>
             <br/>
-            <Link href="/Seats">
+            <Link href="/pickSeats">
                 User
             </Link>
         </div>
