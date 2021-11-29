@@ -152,6 +152,16 @@ router.post("/search", async (req, res) => {
   eseatsAvailable} = req.body;
   //validation
 
+  if(fseatsAvailable%4 != 0 ){
+    return res.status(400).send("Number of first class seats must be a multiple of 4!");
+  }
+  if(bseatsAvailable%4 != 0 ){
+    return res.status(400).send("Number of business class seats must be a multiple of 4!");
+  }
+  if(eseatsAvailable%4 != 0 ){
+    return res.status(400).send("Number of economy class seats must be a multiple of 4!");
+  }
+
   if(!From || From.length < 3 )  return res.status(400).send('Please enter a valid airport code');
   const exist = await Flight.findOne({FlightNo: FlightNo});
 

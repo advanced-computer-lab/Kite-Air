@@ -79,9 +79,7 @@ export default function SeatsDeparture() {
   const [reserv, setReserv] = useState([]);
   const [loading, setloading] = useState(true);
   const [rows, setRows] = useState([]);
-
   const [rows2, setRows2] = useState([]);
-
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [reservationID, setReservationID] = useState();
   const [seats, setSeats] = useState(0);
@@ -169,17 +167,26 @@ export default function SeatsDeparture() {
 
   useEffect(() => {
     fetchSeats(); //number of seats
+    console.log("am i running forever? empty");
+
   }, []);
 
   useEffect(() => {
     sit(seats);
+    console.log("am i running forever? seats");
+
   }, [seats]); //layout of seats
 
   useEffect(() => {
     fetchFlight();
+    console.log("am i running forever? rows2");
+
   }, [rows2]); //reserved seats
 
   useEffect(() => {
+
+    seating = rows2;
+    console.log(seating.length);
     if (!(typeof reserv === "undefined" || reserv.length == 0)) {
       for (var i = 0; i < reserv.length; i++) {
         for (var s = 0; s < reserv[i].seatsNo.length; s++) {
@@ -197,8 +204,9 @@ export default function SeatsDeparture() {
         }
       }
     }
-    
+
     setRows(seating);
+
   }, [reserv]);
 
   const addSeatCallback = async ({ row, number, id }, addCb) => {
