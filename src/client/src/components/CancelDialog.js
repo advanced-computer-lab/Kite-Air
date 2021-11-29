@@ -20,7 +20,7 @@ export default function CancelDialog({reser}) {
 
   const cancelFlight = () => {
       axios
-      .delete('http://localhost:8000/reservations/' + reser)
+      .delete('http://localhost:8000/reservations/' + reser[0])
       .then(res => {
         console.log("success");
          window.location.reload(false);

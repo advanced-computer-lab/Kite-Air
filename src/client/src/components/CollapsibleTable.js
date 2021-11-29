@@ -108,7 +108,7 @@ function Row(e) {
                       <TableCell align="left">{entry[13]}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <CancelDialog align="right" reser = {entry[0]}></CancelDialog>
+                      <CancelDialog align="right" reser = {entry}></CancelDialog>
                     </TableRow>
                 </TableBody>
               </Table>
