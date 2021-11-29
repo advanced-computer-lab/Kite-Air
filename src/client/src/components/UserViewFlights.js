@@ -8,20 +8,21 @@ import {
   CardContent,
   Typography,
   CardActionArea,
-  Box
+  Box,
 } from "@material-ui/core/";
+
+import FlightSummary from "./FlightSummary";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(2),
-
   },
 }));
 
 export default function UserViewFlights() {
   const [flights, setFlights] = useState([]);
-  //  const [fs, setFs] = useState([]);
+
   const baseURL = "http://localhost:8000/flights/all-flights";
   const fetchFlights = () => {
     axios
@@ -36,63 +37,62 @@ export default function UserViewFlights() {
 
   useEffect(() => {
     fetchFlights();
-  }, [flights]);
+  }, []);
 
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Grid
-        container
-        spacing={2}
-        direction="column"
-      >
+      <Grid container spacing={2} direction="column">
         {flights.map((flight) => (
           <Grid item key={flights.indexOf(flight)}>
-           
-            {/* <Card>
+            {/* <Card >
           
-              <CardActionArea  onClick={event => alert("I am an alert box!")}>
+              <CardActionArea onClick={ () => { }} >
               <CardContent> */}
-        
-        
-        <div
-          onClick={() => {alert( `${flight._id}` )}}
-          style={{  cursor: "pointer", boxShadow: "2px 2px 3px rgb(136 136 136 / 41%)", padding: "20px"}}
-      
-        >
 
-
-                <Typography  variant="h6" color="textPrimary"> <Box sx={{ fontWeight: 500  }}> Flight No. {flight.FlightNo}</Box> </Typography>
-                <Typography sx={{ mb: 0.5 }} color="textSecondary">
-                  {flight.From} 🠖 {flight.To} 
-                  <span style={{  float: "right"}}>
-                    <strong>${flight.fprice}</strong>{" "}
+            <div
+              style={{
+                cursor: "pointer",
+                boxShadow: "2px 2px 3px rgb(136 136 136 / 41%)",
+                padding: "20px",
+              }}
+            >
+              <Typography variant="h6" color="textPrimary">
+                {" "}
+                <Box sx={{ fontWeight: 500 }}>
+                  {" "}
+                  Flight No. {flight.FlightNo}
+                </Box>{" "}
+              </Typography>
+              <Typography sx={{ mb: 0.5 }} color="textSecondary">
+                {flight.From} 🠖 {flight.To}
+                <span style={{ float: "right" }}>
+                  <strong>${flight.fprice}</strong>{" "}
                 </span>
-                </Typography>
-           
-                  
+              </Typography>
 
-                <Typography gutterBottom color="textSecondary">
-                  <p>
-                    <strong> &#128198; Date</strong> {flight.FlightDate.replaceAll('-','/')}{" "}
-                  </p>
-                  <p>
-                    <span>
-                      {" "}
-                      <strong> &#128337; Departure </strong>{" "}
-                      {flight.DepartureTime} &nbsp; &nbsp;{" "}
-                      <strong>Arrival </strong> {flight.ArrivalTime}{" "}
-                    </span>
-                  </p>
-               
-               
-                </Typography>
+              <Typography gutterBottom color="textSecondary">
+                <p>
+                  <strong> &#128198; Date</strong>{" "}
+                  {flight.FlightDate.replaceAll("-", "/")}{" "}
+                </p>
+                <p>
+                  <span>
+                    {" "}
+                    <strong> &#128337; Departure </strong>{" "}
+                    {flight.DepartureTime} &nbsp; &nbsp;{" "}
+                    <strong>Arrival </strong> {flight.ArrivalTime}{" "}
+                  </span>
+                  <span style={{ float: "right" }}>
+                    <FlightSummary row={flight} />
+                  </span>
+                </p>
+              </Typography>
 
               {/* </CardContent>
               </CardActionArea>
             </Card> */}
-            
             </div>
           </Grid>
         ))}
