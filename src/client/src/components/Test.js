@@ -26,11 +26,10 @@ import {
 const { Header, Footer, Sider, Content } = Layout;
 const { RangePicker } = DatePicker;
 const filter = createFilterOptions();
-var j = {};
-var k = {};
-var cabin = 0;
-var AdultNo = 0;
-var err = false;
+var j = {}; // Depature flight
+var k = {}; // arrival flight
+var cabin = 0; // cabin class (F,B,E)
+var AdultNo = 0; // No of Passengers (Adult & childern)
 
 export default function DatePick() {
   const [date, setDate] = useState({});
@@ -38,13 +37,18 @@ export default function DatePick() {
   const [errorMessage, setErrorMessage] = useState("");
   const style = { background: "white", padding: "8px 0" };
 
+  // Flight Code
   const options = [
     { value: "JFK" },
     { value: "CAI" },
     { value: "ASU" },
     { value: "CGD" },
+    { value: "SYD" },
+    { value: "BEY" },
+    { value: "BEI" },
   ];
 
+  // Date Values
   function onChange(dates, dateStrings) {
     console.log("onChange");
     console.log("From: ", dates[0], ", to: ", dates[1]);
@@ -52,29 +56,29 @@ export default function DatePick() {
     j["FlightDate"] = dateStrings[0]; // departure date
     k["FlightDate"] = dateStrings[1]; // arrival date
   }
-
+  // From
   function fromValue(value3) {
     console.log(value3);
     j["From"] = value3;
     k["To"] = value3;
-    //err = false;
   }
-
+  //To
   function toValue(value4) {
     console.log(value4);
     j["To"] = value4;
     k["From"] = value4;
   }
-
+  // NO of Passengers
   function onChangeAdult(value1) {
     console.log(value1);
-    AdultNo = value1;
+    AdultNo = AdultNo + value1;
   }
-
+  // NO of Passengers
   function onChangeChildren(value2) {
     console.log(value2);
+    AdultNo = AdultNo + value2;
   }
-
+  // Cabin class
   const onChangeDropDown = ({ key }) => {
     console.log(`Click on item ${key}`);
     console.log(typeof key);
@@ -88,7 +92,7 @@ export default function DatePick() {
       <Menu.Item key="3">Business Class</Menu.Item>
     </Menu>
   );
-
+  // Search Button
   function buttonClicked() {
     console.log("buttonClicked");
 
@@ -116,7 +120,7 @@ export default function DatePick() {
 
     x = j;
     y = k;
-    setDate(x);
+    setDate(x); //Depature Flight
     setDate2(y);
     // sessionStorage.setItem("date", j);
     // sessionStorage.setItem("date2", k);
@@ -174,14 +178,6 @@ export default function DatePick() {
         });
     }
   }, [date2]);
-
-  //   useEffect(() => {
-  //     if (from !== []) {
-  //       axios
-  //         .post(`http://localhost:8000/flights/search-m2`, from)
-  //         .then((res) => console.log(res.data));
-  //     }
-  //   }, [from]);
 
   return (
     <React.Fragment>
