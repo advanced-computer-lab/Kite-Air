@@ -139,8 +139,8 @@ router.post("/search-m2", async (req, res) => {
   // bseatsAvailable: {$gte: bseatsAvailable},
   // eseatsAvailable: {$gte: eseatsAvailable},
 
-
-  await Flight.find(
+if (Object.keys(req.body).length!=0 )
+{  await Flight.find(
     req.body
   )
     .then((result) => {
@@ -152,7 +152,7 @@ router.post("/search-m2", async (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-    });
+    });}
 });
 
 router.route("/:id").delete(async (req, res) => {

@@ -7,8 +7,8 @@ export default function Summary(props) {
       <Typography variant="h6" gutterBottom>
         Review
       </Typography>
-      Departure flight Chosen: {} <br />
-      Return flight Chosen: {}
+      Departure flight Chosen: {props.selectedDep.FlightNo} <br />
+      Return flight Chosen: {props.selectedRet.FlightNo}
     </React.Fragment>
   );
-}
+  }

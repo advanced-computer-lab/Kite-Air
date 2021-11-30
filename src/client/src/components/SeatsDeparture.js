@@ -15,7 +15,7 @@ export default function SeatsDeparture(props) {
 
   var seatsarr = new Set();
 
-
+  
   const [reserv, setReserv] = useState([]);
   const [loading, setloading] = useState(true);
   const [rows, setRows] = useState([]);
@@ -87,7 +87,6 @@ export default function SeatsDeparture(props) {
       .get(baseURLSeats)
       .then((response) => {
         setSeats(response.data[0].bseatsAvailable);
-//        setloading(false);
       })
       .catch((error) => {
         console.log(error);

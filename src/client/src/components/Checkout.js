@@ -25,10 +25,13 @@ const theme = createTheme();
 export default function Checkout(props) {
   const [activeStep, setActiveStep] = React.useState(0);
 
+  const [selectedDep, setselectedDep] = React.useState({});
+  const [selectedRet, setselectedRet] = React.useState({});
+
+
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -42,11 +45,11 @@ export default function Checkout(props) {
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <DepartureFlights handleNext={handleNext} depFlights= {props.depFlights}/>;
+      return <DepartureFlights handleNext={handleNext} depFlights= {props.depFlights} setselectedDep={setselectedDep}/>;
     case 1:
-      return <ReturnFlights  handleNext={handleNext} depFlights= {props.retlights}/>;
+      return <ReturnFlights  handleNext={handleNext} depFlights= {props.retlights} setselectedRet={setselectedRet}/>;
     case 2:
-      return <Summary />;
+      return <Summary selectedDep={selectedDep } selectedRet={selectedRet}/>;
     default:
       throw new Error('Unknown step');
   }
@@ -87,7 +90,7 @@ function getStepContent(step) {
               <React.Fragment>
                 {getStepContent(activeStep)}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  {activeStep !== 0 && (
+                  {activeStep !== 0  && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
                       Back
                     </Button>
@@ -97,8 +100,9 @@ function getStepContent(step) {
                     variant="contained"
                     onClick={handleNext}
                     sx={{ mt: 3, ml: 1 }}
+                    hidden = {!(activeStep === steps.length - 1)}
                   >
-                    {activeStep === steps.length - 1 ? 'Confirm Reservation' : 'Next'}
+                    {activeStep === steps.length - 1 ? 'Confirm Reservation' : ''}
                   </Button>
                 </Box>
               </React.Fragment>

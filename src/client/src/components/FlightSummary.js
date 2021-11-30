@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default function FlightSummary({ row,handleNext }) {
+export default function FlightSummary({ row,handleNext,setSelected }) {
   console.log(row);
 
   const [FlightNo, setFlightNo] = useState(row.FlightNo);
@@ -56,24 +56,13 @@ export default function FlightSummary({ row,handleNext }) {
   };
 
   const handleClose = () => {
-    // setFlightNo(row.FlightNo);
-    // setFrom(row.From);
-    // setTo(row.To);
-    // setFlightDate(row.FlightDate);
-    // setfSeats(row.fseatsAvailable);
-    // seteSeats(row.eseatsAvailable);
-    // setbSeats(row.bseatsAvailable);
-    // setDeparture(row.DepartureTime);
-    // setArrival(row.ArrivalTime);
-    // setTerminal(row.Terminal);
     setOpen(false);
   };
 
   
   const handleSelect = () => {
- 
-
-
+    setSelected(row);
+        
   };
 
   return (
@@ -109,7 +98,7 @@ export default function FlightSummary({ row,handleNext }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleNext}>Select</Button>
+          <Button onClick={()=>{handleNext();handleSelect();}}>Select</Button>
         </DialogActions>
       </Dialog>
     </div>

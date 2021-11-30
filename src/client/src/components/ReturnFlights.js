@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core/";
 
 
-export default function ReturnFlights({ handleNext, depFlights }) {
+export default function ReturnFlights({ handleNext, depFlights,setselectedRet }) {
 
   const [flights, setFlights] = useState(depFlights);
 
@@ -84,7 +84,7 @@ export default function ReturnFlights({ handleNext, depFlights }) {
                     {calcDuration(flight.ArrivalTime, flight.DepartureTime)}
                   </span>
                   <span style={{ float: "right" }}>
-                    <FlightSummary row={flight} handleNext={handleNext} />
+                    <FlightSummary row={flight} handleNext={handleNext} setSelected={setselectedRet} />
                   </span>
                 </p>
               </Typography>
