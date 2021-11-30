@@ -11,6 +11,9 @@ import Login from "./components/Login";
 import SeatsPicker from "./components/SeatsPickermain";
 import Test from "./components/Test.js";
 
+import Checkout from "./components/Checkout.js";
+import UserViewFlights from "./components/UserViewFlights.js";
+
 const App = (props) => {
   return (
     <>
