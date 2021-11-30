@@ -198,29 +198,29 @@ if(resArray!==[] && flightsArray !== []){
           bag = flightsArray[k].ebaggage;
           temp.push(bag + " kg");
           pr = flightsArray[k].eprice;
-          temp.push(pr + " EGP");
+          temp.push("$"+pr);
           temp.push(nper);
           tpr = nper * pr;
-          temp.push(tpr+ " EGP");
+          temp.push("$"+tpr);
         }
         else{
           if(cab == "Business"){
             bag = flightsArray[k].bbaggage;
             temp.push(bag+ " kg");
             pr = flightsArray[k].bprice;
-            temp.push(pr+ " EGP");
+            temp.push("$"+pr);
             temp.push(nper);
             tpr = nper * pr;
-            temp.push(tpr+ " EGP");
+            temp.push("$"+tpr);
           }
           else{
               bag = flightsArray[k].fbaggage;
               temp.push(bag+ " kg");
               pr = flightsArray[k].fprice;
-              temp.push(pr + " EGP");
+              temp.push("$"+pr);
               temp.push(nper);
               tpr = nper * pr;
-              temp.push(tpr + " EGP");
+              temp.push("$"+tpr);
           }
         }
         var sets = resArray[k].seatsNo;
