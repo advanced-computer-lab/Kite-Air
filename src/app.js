@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const nodemailer = require("nodemailer");
 const { MongoURI } = require("../config/keys");
 const cors = require("cors");
 const app = express();

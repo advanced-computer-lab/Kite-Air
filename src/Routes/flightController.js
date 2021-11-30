@@ -82,8 +82,8 @@ router.get("/all-flights", async (req, res) => {
     });
 });
 
-router.get("/seats-of-flight", async(req, res) => {
-  await Flight.find({_id: "619fb71b037c50c870bc7821"})
+router.get("/seats-of-flight", async (req, res) => {
+  await Flight.find({ _id: "619fb71b037c50c870bc7821" })
     .then((result) => {
       res.json(result);
       console.log("Found");
@@ -93,7 +93,7 @@ router.get("/seats-of-flight", async(req, res) => {
     });
 });
 
-router.put('/:id', async(req, res) => {
+router.put("/:id", async (req, res) => {
   console.log(req.params.id);
   await Flight.findByIdAndUpdate(req.params.id, req.body)
     .then((result) => {
@@ -122,18 +122,31 @@ router.post("/search", async (req, res) => {
 router.post("/search-m2", async (req, res) => {
   console.log("from backend search m2");
   console.log(req.body);
-  await Flight.find(req.body)
+
+  const {
+    From,
+    To,
+    FlightDate,
+    fseatsAvailable,
+    bseatsAvailable,
+    eseatsAvailable,
+  } = req.body;
+
+
+  await Flight.find({
+    From: From,
+    To: To,
+    FlightDate: FlightDate,
+    fseatsAvailable: {$gte: fseatsAvailable},
+    bseatsAvailable: {$gte: bseatsAvailable},
+    eseatsAvailable: {$gte: eseatsAvailable},
+  })
     .then((result) => {
       console.log("req.body");
       console.log(req.body);
       console.log(req.body.length);
-      //  if (req.body.To == req.body.From && req.body != {}) {
-      //    res.send("error");
-      //  } else {
-      //  console.log(result);
       res.send(result);
       console.log("Filtered From");
-      //   }
     })
     .catch((err) => {
       console.log(err);
@@ -172,18 +185,25 @@ router.post("/create-flights", async (req, res) => {
   } = req.body;
   //validation
 
-  if(fseatsAvailable%4 != 0 ){
-    return res.status(400).send("Number of first class seats must be a multiple of 4!");
+  if (fseatsAvailable % 4 != 0) {
+    return res
+      .status(400)
+      .send("Number of first class seats must be a multiple of 4!");
   }
-  if(bseatsAvailable%4 != 0 ){
-    return res.status(400).send("Number of business class seats must be a multiple of 4!");
+  if (bseatsAvailable % 4 != 0) {
+    return res
+      .status(400)
+      .send("Number of business class seats must be a multiple of 4!");
   }
-  if(eseatsAvailable%4 != 0 ){
-    return res.status(400).send("Number of economy class seats must be a multiple of 4!");
+  if (eseatsAvailable % 4 != 0) {
+    return res
+      .status(400)
+      .send("Number of economy class seats must be a multiple of 4!");
   }
 
-  if(!From || From.length < 3 )  return res.status(400).send('Please enter a valid airport code');
-  const exist = await Flight.findOne({FlightNo: FlightNo});
+  if (!From || From.length < 3)
+    return res.status(400).send("Please enter a valid airport code");
+  const exist = await Flight.findOne({ FlightNo: FlightNo });
 
   if (exist) return res.status(400).send("Flight Already Exists");
 

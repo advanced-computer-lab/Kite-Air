@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import CLOUDS from "vanta/dist/vanta.clouds.min";
 import * as THREE from "three";
+import Test from "./Test.js";
+
 
 // Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
 
@@ -36,10 +38,10 @@ const HeaderPic = (props) => {
   <br/>
   <section className="showcase">
         <div className="showcase-overlay">
-          <h1>Kite Airlines</h1>
+          <h1 style={{color: "white"}}>Kite Airlines</h1>
           <p>Making the sky the best place to be!</p>
 
-        
+          <Test />
         </div>
       </section>
   

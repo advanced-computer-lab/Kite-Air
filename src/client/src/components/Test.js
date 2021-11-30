@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM, { render } from "react-dom";
 import "antd/dist/antd.css";
 import { DatePicker, Space } from "antd";
 import { useState, useEffect } from "react";
@@ -12,16 +11,9 @@ import { SearchOutlined } from "@ant-design/icons";
 import { InputNumber } from "antd";
 import { AutoComplete } from "antd";
 import { Layout } from "antd";
-import { Row, Col, Divider } from "antd";
+import { Row, Col } from "antd";
 import { Tag } from "antd";
-import {
-  CheckCircleOutlined,
-  SyncOutlined,
-  CloseCircleOutlined,
-  ExclamationCircleOutlined,
-  ClockCircleOutlined,
-  MinusCircleOutlined,
-} from "@ant-design/icons";
+import { CloseCircleOutlined } from "@ant-design/icons";
 
 const { Header, Footer, Sider, Content } = Layout;
 const { RangePicker } = DatePicker;
@@ -37,8 +29,9 @@ export default function DatePick() {
   const [errVisible1, setErrorVisible1] = useState(false);
   const [date, setDate] = useState({});
   const [date2, setDate2] = useState({});
+  const [chosenClass, setChosenClass] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const style = { background: "white", padding: "8px 0" };
+  const style = {};
 
   // Flight Code
   const options = [
@@ -84,15 +77,29 @@ export default function DatePick() {
     childNo = value2;
   }
   // Cabin class
+
   const onChangeDropDown = ({ key }) => {
     console.log(`Click on item ${key}`);
     console.log(typeof key);
     cabin = key;
+
+    switch (key) {
+      case "1":
+        setChosenClass("Economy Class");
+        break;
+      case "2":
+        setChosenClass("First Class");
+        break;
+      case "3":
+        setChosenClass("Business Class");
+        break;
+    }
+    console.log("Chosen " + chosenClass);
   };
 
   const menu = (
     <Menu onClick={onChangeDropDown}>
-      <Menu.Item key="1">Economy</Menu.Item>
+      <Menu.Item key="1">Economy Class</Menu.Item>
       <Menu.Item key="2">First Class</Menu.Item>
       <Menu.Item key="3">Business Class</Menu.Item>
     </Menu>
@@ -124,15 +131,34 @@ export default function DatePick() {
         if (cabin === "1") {
           j["eseatsAvailable"] = AdultNo + childNo;
           k["eseatsAvailable"] = AdultNo + childNo;
+
+          j["fseatsAvailable"] = 0;
+          k["fseatsAvailable"] = 0;
+    
+          j["bseatsAvailable"] = 0;
+          k["bseatsAvailable"] = 0;
         }
         if (cabin === "2") {
           j["fseatsAvailable"] = AdultNo + childNo;
           k["fseatsAvailable"] = AdultNo + childNo;
+
+          j["bseatsAvailable"] = 0;
+          k["bseatsAvailable"] = 0;
+          j["eseatsAvailable"] = 0;
+          k["eseatsAvailable"] = 0;
         }
         if (cabin === "3") {
           j["bseatsAvailable"] = AdultNo + childNo;
           k["bseatsAvailable"] = AdultNo + childNo;
+
+          j["eseatsAvailable"] = 0;
+          k["eseatsAvailable"] = 0;
+          
+          j["fseatsAvailable"] = 0;
+          k["fseatsAvailable"] = 0;
         }
+
+
         // var x = {};
         // var y = {};
 
@@ -140,12 +166,7 @@ export default function DatePick() {
         // y = k;
         setDate(Object.assign({}, j)); //Depature Flight
         setDate2(Object.assign({}, k));
-        // sessionStorage.setItem("date", j);
-        // sessionStorage.setItem("date2", k);
-        // console.log("j");
-        // console.log(j);
-        // console.log("K");
-        // console.log(k);
+
         console.log("Date");
         console.log(date);
         console.log("Date2");
@@ -198,148 +219,166 @@ export default function DatePick() {
   }, [date2]);
 
   return (
-    <React.Fragment>
-      <Layout>
-        <Header style={{ background: "white" }}>
-          <Row gutter={16}>
-            <Col className="gutter-row" span={18}>
-              <h1 style={style}>Search flights</h1>
-            </Col>
-            <Col className="gutter-row" span={6}>
-              <div style={style}>
-                <Dropdown overlay={menu}>
-                  <a
-                    className="ant-dropdown-link"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    Class Cabin <DownOutlined />
-                  </a>
-                </Dropdown>
-              </div>
-            </Col>
-          </Row>
-        </Header>
-        <Content style={{ background: "white" }}>
-          <Row gutter={16}>
-            <Col className="gutter-row" span={1}>
-              <div style={style}></div>
-            </Col>
-            <Col className="gutter-row" span={4}>
-              <div style={style}>
-                <AutoComplete
-                  style={{ borderColor: "black", width: 200 }}
-                  options={options}
-                  placeholder="From"
-                  filterOption={(inputValue, option) =>
-                    option.value
-                      .toUpperCase()
-                      .indexOf(inputValue.toUpperCase()) !== -1
-                  }
-                  onChange={fromValue}
-                />
-              </div>
-            </Col>
+    <div>
+      <br />
+      <br />
+      <br />
 
-            <Col className="gutter-row" span={4}>
-              <div style={style}>
-                <AutoComplete
-                  style={{ borderColor: "black", width: 200 }}
-                  options={options}
-                  placeholder="To"
-                  filterOption={(inputValue, option) =>
-                    option.value
-                      .toUpperCase()
-                      .indexOf(inputValue.toUpperCase()) !== -1
-                  }
-                  onChange={toValue}
-                />
-              </div>
-            </Col>
-            <Col className="gutter-row" span={5}>
-              <div style={style}>
-                <RangePicker
-                  format="MM-DD-YYYY"
-                  onChange={onChange}
-                  autoFocus={true}
-                  allowClear
-                  style={{ borderColor: "black" }}
-                />
-              </div>
-            </Col>
-            <Col className="gutter-row" span={4}>
-              <div style={style}>
-                <InputNumber
-                  placeholder="Adult"
-                  min={1}
-                  max={10}
-                  onChange={onChangeAdult}
-                  style={{ borderColor: "black", width: 200 }}
-                />
-              </div>
-            </Col>
-            <Col className="gutter-row" span={6}>
-              <div style={style}>
-                <InputNumber
-                  style={{ width: 200 }}
-                  placeholder="Child"
-                  min={0}
-                  max={10}
-                  onChange={onChangeChildren}
-                  style={{ borderColor: "black", width: 200 }}
-                />
-              </div>
-            </Col>
-          </Row>
-        </Content>
-        <Footer style={{ background: "white" }}>
-          <Button
-            type="primary"
-            icon={<SearchOutlined />}
-            onClick={buttonClicked}
+      <Content style={{}}>
+        <Row gutter={20}>
+          <Col className="gutter-row" span={1}>
+            <div style={style}></div>
+          </Col>
+          <Col
+            className="gutter-row"
+            span={10}
+            style={{ display: "flex", justifyContent: "flex-start" }}
           >
-            Search
-          </Button>
-        </Footer>
-        {errVisible ? (
-          <Tag
-            icon={<CloseCircleOutlined />}
-            color="error"
-            visible={errVisible}
-            id="tag"
+            <h4 style={style}> Search flights </h4>
+          </Col>
+
+          <Col   style={{ display: "flex", justifyContent: "flex-end" }} className="gutter-row" span={4}>
+            <div style={style}>
+              <Dropdown overlay={menu}>
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  {chosenClass.localeCompare("") === 0
+                    ? "Cabin Class "
+                    : chosenClass + " "}
+                  <DownOutlined />
+                </a>
+              </Dropdown>
+            </div>
+          </Col>
+        </Row>
+
+        <Row gutter={16}>
+          <Col className="gutter-row" span={1}>
+            <div style={style}></div>
+          </Col>
+          <Col className="gutter-row" span={4}>
+            <div style={style}>
+              <AutoComplete
+                style={{ borderColor: "black", width: 200 }}
+                options={options}
+                placeholder="From"
+                filterOption={(inputValue, option) =>
+                  option.value
+                    .toUpperCase()
+                    .indexOf(inputValue.toUpperCase()) !== -1
+                }
+                onChange={fromValue}
+              />
+            </div>
+          </Col>
+
+          <Col className="gutter-row" span={4}>
+            <div style={style}>
+              <AutoComplete
+                style={{ borderColor: "black", width: 200 }}
+                options={options}
+                placeholder="To"
+                filterOption={(inputValue, option) =>
+                  option.value
+                    .toUpperCase()
+                    .indexOf(inputValue.toUpperCase()) !== -1
+                }
+                onChange={toValue}
+              />
+            </div>
+          </Col>
+          <Col className="gutter-row" span={5}>
+            <div style={style}>
+              <RangePicker
+                format="MM-DD-YYYY"
+                onChange={onChange}
+                autoFocus={true}
+                allowClear
+                style={{ borderColor: "black" }}
+              />
+            </div>
+          </Col>
+          <Col className="gutter-row" span={4}>
+            <div style={style}>
+              <InputNumber
+                placeholder="Adult"
+                min={1}
+                max={10}
+                onChange={onChangeAdult}
+                style={{ borderColor: "black", width: 200 }}
+              />
+            </div>
+          </Col>
+          <Col className="gutter-row" span={6}>
+            <div style={style}>
+              <InputNumber
+                style={{ width: 200 }}
+                placeholder="Child"
+                min={0}
+                max={10}
+                onChange={onChangeChildren}
+                style={{ borderColor: "black", width: 200 }}
+              />
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          {" "}
+          <Col
+            span={15}
+            style={{ display: "flex", justifyContent: "flex-end" }}
           >
-            Please choose a different destination from origin
-          </Tag>
-        ) : (
-          <Tag
-            icon={<CloseCircleOutlined />}
-            color="error"
-            visible={errVisible}
-            id="tag"
-          >
-            Please choose a different destination from origin
-          </Tag>
-        )}
-        {errVisible1 ? (
-          <Tag
-            icon={<CloseCircleOutlined />}
-            color="error"
-            visible={errVisible1}
-            id="tag"
-          >
-            Please choose the cabin class
-          </Tag>
-        ) : (
-          <Tag
-            icon={<CloseCircleOutlined />}
-            color="error"
-            visible={errVisible1}
-            id="tag"
-          >
-            Please choose the cabin class
-          </Tag>
-        )}
-      </Layout>
-    </React.Fragment>
+            <Button
+              type="primary"
+              icon={<SearchOutlined />}
+              onClick={buttonClicked}
+            >
+              Search
+            </Button>
+          </Col>
+        </Row>
+      </Content>
+
+      {errVisible ? (
+        <Tag
+          icon={<CloseCircleOutlined />}
+          color="error"
+          visible={errVisible}
+          id="tag"
+        >
+          Please choose a different destination from origin
+        </Tag>
+      ) : (
+        <Tag
+          icon={<CloseCircleOutlined />}
+          color="error"
+          visible={errVisible}
+          id="tag"
+        >
+          Please choose a different destination from origin
+        </Tag>
+      )}
+      {errVisible1 ? (
+        <Tag
+          icon={<CloseCircleOutlined />}
+          color="error"
+          visible={errVisible1}
+          id="tag"
+        >
+          Please choose the cabin class
+        </Tag>
+      ) : (
+        <Tag
+          icon={<CloseCircleOutlined />}
+          color="error"
+          visible={errVisible1}
+          id="tag"
+        >
+          Please choose the cabin class
+        </Tag>
+      )}
+    </div>
   );
 }
-//ReactDOM.render(<buttonClicked />, document.getElementById("root"));
