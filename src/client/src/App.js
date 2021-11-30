@@ -15,6 +15,9 @@ import Login from "./components/Login";
 import SeatsPicker from "./components/SeatsPickermain";
 
 
+import BasicDateRange from "./components/BasicDateRange.js";
+import CabinClass from "./components/CabinClass.js";
+import Test from "./components/Test.js";
 
 const App = (props) => {
   return (
@@ -30,6 +33,8 @@ const App = (props) => {
             <Route path="/add-new-flight" element={<CreateFlight />} ></Route>
             <Route path="/admin" element={<Search/>}></Route>
             <Route path="/login" element={<Login/>}></Route>
+            <Route path="/Search" element={<Test />}></Route>
+
             <Route path="/" element={<LandingPage/>}></Route>
           </Routes>
         </div>
