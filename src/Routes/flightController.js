@@ -2,10 +2,8 @@ var express = require("express");
 var router = express.Router();
 const Flight = require("../Models/Flights");
 
-
-
 // Flight.insertMany([
-  
+
 // {
 //     "FlightNo": "KL123",
 //     "From": "FRA",
@@ -23,7 +21,7 @@ const Flight = require("../Models/Flights");
 //     "fbaggage": 25,
 //     "bbaggage": 25,
 //     "ebaggage": 20,
-   
+
 //   },
 //   {
 //     "FlightNo": "MH134",
@@ -42,7 +40,7 @@ const Flight = require("../Models/Flights");
 //     "fbaggage": 25,
 //     "bbaggage": 25,
 //     "ebaggage": 20,
-   
+
 //   },
 
 //   {
@@ -62,7 +60,7 @@ const Flight = require("../Models/Flights");
 //     "fbaggage": 25,
 //     "bbaggage": 25,
 //     "ebaggage": 20,
-   
+
 //   },
 
 //  ]
@@ -73,7 +71,7 @@ const Flight = require("../Models/Flights");
 // });
 
 //Get all entered flights
-router.get("/all-flights", async(req, res) => {
+router.get("/all-flights", async (req, res) => {
   await Flight.find({})
     .then((result) => {
       res.json(result);
@@ -98,14 +96,15 @@ router.get("/seats-of-flight", async(req, res) => {
 router.put('/:id', async(req, res) => {
   console.log(req.params.id);
   await Flight.findByIdAndUpdate(req.params.id, req.body)
-    .then(result => {
+    .then((result) => {
       res.status(200).send("User updated ");
-      
-      console.log('The User is Updated successfully !');
-    }).catch(err => {
-      console.log(err);
+
+      console.log("The User is Updated successfully !");
     })
-  });
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 router.post("/search", async (req, res) => {
   console.log("from backend");
@@ -120,36 +119,57 @@ router.post("/search", async (req, res) => {
     });
 });
 
-
-  router.route('/:id').delete( async(req,res) => {
-    // console.log(req.params.id);
-    console.log("heyy");
-    await Flight.findByIdAndDelete(req.params.id)
-      .then(result => {
-        res.status(200).send("Flight deleted ");
-        
-        console.log('The Flight is deleted successfully !');
-      }).catch(err => {
-        console.log(err);
-      })
+router.post("/search-m2", async (req, res) => {
+  console.log("from backend search m2");
+  console.log(req.body);
+  await Flight.find(req.body)
+    .then((result) => {
+      console.log("req.body");
+      console.log(req.body);
+      console.log(req.body.length);
+      //  if (req.body.To == req.body.From && req.body != {}) {
+      //    res.send("error");
+      //  } else {
+      //  console.log(result);
+      res.send(result);
+      console.log("Filtered From");
+      //   }
+    })
+    .catch((err) => {
+      console.log(err);
     });
+});
 
-  router.post('/create-flights', async (req, res) => {
-    
-    console.log(req.body);
-    const flight = new Flight(req.body)
-  
+router.route("/:id").delete(async (req, res) => {
+  // console.log(req.params.id);
+  console.log("heyy");
+  await Flight.findByIdAndDelete(req.params.id)
+    .then((result) => {
+      res.status(200).send("Flight deleted ");
 
-  const {From,
-  To,
-  Terminal,
-  FlightDat,
-  FlightNo,
-  DepartureTime,
-  ArrivalTime,
-  fseatsAvailable,
-  bseatsAvailable,
-  eseatsAvailable} = req.body;
+      console.log("The Flight is deleted successfully !");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.post("/create-flights", async (req, res) => {
+  console.log(req.body);
+  const flight = new Flight(req.body);
+
+  const {
+    From,
+    To,
+    Terminal,
+    FlightDat,
+    FlightNo,
+    DepartureTime,
+    ArrivalTime,
+    fseatsAvailable,
+    bseatsAvailable,
+    eseatsAvailable,
+  } = req.body;
   //validation
 
   if(fseatsAvailable%4 != 0 ){
@@ -165,21 +185,19 @@ router.post("/search", async (req, res) => {
   if(!From || From.length < 3 )  return res.status(400).send('Please enter a valid airport code');
   const exist = await Flight.findOne({FlightNo: FlightNo});
 
-  if(exist) return res.status(400).send("Flight Already Exists");
+  if (exist) return res.status(400).send("Flight Already Exists");
 
-   await flight.save()
-      .then(result => {
-        res.json({
-          ok: true
-        });
-        console.log("flight successfully added");
-      })
-      .catch(err => {
-        console.log(err);
+  await flight
+    .save()
+    .then((result) => {
+      res.json({
+        ok: true,
       });
-
-  });
-
-  
+      console.log("flight successfully added");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 module.exports = router;
