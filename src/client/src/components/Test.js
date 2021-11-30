@@ -28,10 +28,13 @@ const { RangePicker } = DatePicker;
 const filter = createFilterOptions();
 var j = {}; // Depature flight
 var k = {}; // arrival flight
-var cabin = 0; // cabin class (F,B,E)
+var cabin = ""; // cabin class (F,B,E)
 var AdultNo = 0; // No of Passengers (Adult & childern)
+var childNo = 0;
 
 export default function DatePick() {
+  const [errVisible, setErrorVisible] = useState(false);
+  const [errVisible1, setErrorVisible1] = useState(false);
   const [date, setDate] = useState({});
   const [date2, setDate2] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
@@ -58,25 +61,27 @@ export default function DatePick() {
   }
   // From
   function fromValue(value3) {
-    console.log(value3);
+    console.log("in 3");
     j["From"] = value3;
     k["To"] = value3;
   }
   //To
   function toValue(value4) {
-    console.log(value4);
+    console.log("in 4");
     j["To"] = value4;
     k["From"] = value4;
   }
   // NO of Passengers
   function onChangeAdult(value1) {
-    console.log(value1);
-    AdultNo = AdultNo + value1;
+    console.log("in 1");
+    AdultNo = 0;
+    AdultNo = value1;
   }
   // NO of Passengers
   function onChangeChildren(value2) {
-    console.log(value2);
-    AdultNo = AdultNo + value2;
+    console.log("in 2");
+    childNo = 0;
+    childNo = value2;
   }
   // Cabin class
   const onChangeDropDown = ({ key }) => {
@@ -95,43 +100,58 @@ export default function DatePick() {
   // Search Button
   function buttonClicked() {
     console.log("buttonClicked");
-
-    delete j.fseatsAvailable;
-    delete k.fseatsAvailable;
-    delete j.bseatsAvailable;
-    delete k.bseatsAvailable;
-    delete j.eseatsAvailable;
-    delete k.eseatsAvailable;
-
-    if (cabin === "1") {
-      j["eseatsAvailable"] = AdultNo;
-      k["eseatsAvailable"] = AdultNo;
-    }
-    if (cabin === "2") {
-      j["fseatsAvailable"] = AdultNo;
-      k["fseatsAvailable"] = AdultNo;
-    }
-    if (cabin === "3") {
-      j["bseatsAvailable"] = AdultNo;
-      k["bseatsAvailable"] = AdultNo;
-    }
-    var x = {};
-    var y = {};
-
-    x = j;
-    y = k;
-    setDate(x); //Depature Flight
-    setDate2(y);
-    // sessionStorage.setItem("date", j);
-    // sessionStorage.setItem("date2", k);
-    console.log("j");
-    console.log(j);
-    console.log("K");
-    console.log(k);
-    console.log("Date");
+    console.log("date old");
     console.log(date);
-    console.log("Date2");
+    console.log("date 2 old");
     console.log(date2);
+
+    if (j["From"] === j["To"]) {
+      setErrorVisible(true);
+    } else {
+      if (cabin === "" && AdultNo !== 0) {
+        console.log(" cabin = 0");
+        setErrorVisible1(true);
+      } else {
+        setErrorVisible(false);
+        setErrorVisible1(false);
+        delete j.fseatsAvailable;
+        delete k.fseatsAvailable;
+        delete j.bseatsAvailable;
+        delete k.bseatsAvailable;
+        delete j.eseatsAvailable;
+        delete k.eseatsAvailable;
+
+        if (cabin === "1") {
+          j["eseatsAvailable"] = AdultNo + childNo;
+          k["eseatsAvailable"] = AdultNo + childNo;
+        }
+        if (cabin === "2") {
+          j["fseatsAvailable"] = AdultNo + childNo;
+          k["fseatsAvailable"] = AdultNo + childNo;
+        }
+        if (cabin === "3") {
+          j["bseatsAvailable"] = AdultNo + childNo;
+          k["bseatsAvailable"] = AdultNo + childNo;
+        }
+        // var x = {};
+        // var y = {};
+
+        // x = j;
+        // y = k;
+        setDate(Object.assign({}, j)); //Depature Flight
+        setDate2(Object.assign({}, k));
+        // sessionStorage.setItem("date", j);
+        // sessionStorage.setItem("date2", k);
+        // console.log("j");
+        // console.log(j);
+        // console.log("K");
+        // console.log(k);
+        console.log("Date");
+        console.log(date);
+        console.log("Date2");
+        console.log(date2);
+      }
+    }
   }
   // useEffect(() => {
   //   const storeddate = parseInt(sessionStorage.getItem("date") || {});
@@ -141,26 +161,24 @@ export default function DatePick() {
   // }, []);
 
   useEffect(() => {
-    async function fetchData() {
-      if (date !== {}) {
-        axios
-          .post(`http://localhost:8000/flights/search-m2`, date)
-          .then((res) => {
-            console.log(res.data);
-            // if (res.data === "error") {
-            //   console.log("error true");
-            //   // err = true;
-            //   // console.log(err);
-            //   setErrorMessage("Example error message");
-            // } else {
-            //   err = false;
-            //   console.log(err);
-            // }
-            //document.getElementById("tag");
-          });
-      }
+    console.log("use1");
+    if (date !== {}) {
+      axios
+        .post(`http://localhost:8000/flights/search-m2`, date)
+        .then((res) => {
+          console.log(res.data);
+          // if (res.data === "error") {
+          //   console.log("error true");
+          //   // err = true;
+          //   // console.log(err);
+          //   setErrorMessage("Example error message");
+          // } else {
+          //   err = false;
+          //   console.log(err);
+          // }
+          //document.getElementById("tag");
+        });
     }
-    fetchData();
   }, [date]);
 
   useEffect(() => {
@@ -194,7 +212,7 @@ export default function DatePick() {
                     className="ant-dropdown-link"
                     onClick={(e) => e.preventDefault()}
                   >
-                    Economy <DownOutlined />
+                    Class Cabin <DownOutlined />
                   </a>
                 </Dropdown>
               </div>
@@ -282,19 +300,46 @@ export default function DatePick() {
             Search
           </Button>
         </Footer>
-        <div id="div1">
-          {errorMessage && <div className="error"> {errorMessage}</div>}
-        </div>
+        {errVisible ? (
+          <Tag
+            icon={<CloseCircleOutlined />}
+            color="error"
+            visible={errVisible}
+            id="tag"
+          >
+            Please choose a different destination from origin
+          </Tag>
+        ) : (
+          <Tag
+            icon={<CloseCircleOutlined />}
+            color="error"
+            visible={errVisible}
+            id="tag"
+          >
+            Please choose a different destination from origin
+          </Tag>
+        )}
+        {errVisible1 ? (
+          <Tag
+            icon={<CloseCircleOutlined />}
+            color="error"
+            visible={errVisible1}
+            id="tag"
+          >
+            Please choose the cabin class
+          </Tag>
+        ) : (
+          <Tag
+            icon={<CloseCircleOutlined />}
+            color="error"
+            visible={errVisible1}
+            id="tag"
+          >
+            Please choose the cabin class
+          </Tag>
+        )}
       </Layout>
     </React.Fragment>
   );
 }
 //ReactDOM.render(<buttonClicked />, document.getElementById("root"));
-// <Tag
-// icon={<CloseCircleOutlined />}
-// color="error"
-// visible={err}
-// id="tag"
-// >
-// Please choose a different destination from origin
-// </Tag>
