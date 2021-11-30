@@ -3,10 +3,9 @@ import CLOUDS from "vanta/dist/vanta.clouds.min";
 import * as THREE from "three";
 import Test from "./Test.js";
 
-
-// Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
-
 const HeaderPic = (props) => {
+
+
   const [vantaEffect, setVantaEffect] = useState(0);
   const myRef = useRef(null);
   useEffect(() => {
@@ -41,7 +40,8 @@ const HeaderPic = (props) => {
           <h1 style={{color: "white"}}>Kite Airlines</h1>
           <p>Making the sky the best place to be!</p>
 
-          <Test />
+          <Test setRetFlights = {props.setRetFlights} setDepFlights={props.setDepFlights}/>
+          
         </div>
       </section>
   

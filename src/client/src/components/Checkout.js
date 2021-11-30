@@ -14,14 +14,15 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import DepartureFlights from './DepartureFlights';
 import ReturnFlights from './ReturnFlights';
-import Review from './Review';
+import Summary from './Summary';
 
-const steps = ['Departure Flight', 'Return Flight', 'Review'];
+
+const steps = ['Departure Flight', 'Return Flight', 'Summary'];
 
 
 const theme = createTheme();
 
-export default function Checkout() {
+export default function Checkout(props) {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleBack = () => {
@@ -32,28 +33,33 @@ export default function Checkout() {
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
+
   
- 
+  
+  console.log("IN CHECKOUT DEP"+ props.depFlights);
+  console.log("IN CHECKOUT RET"+ props.retlights);
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <DepartureFlights handleNext={handleNext} />;
+      return <DepartureFlights handleNext={handleNext} depFlights= {props.depFlights}/>;
     case 1:
-      return <ReturnFlights />;
+      return <ReturnFlights  handleNext={handleNext} depFlights= {props.retlights}/>;
     case 2:
-      return <Review />;
+      return <Summary />;
     default:
       throw new Error('Unknown step');
   }
 }
 
 
+
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
     
-      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+      <Container component="main" maxWidth="lg" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">
             Checkout

@@ -41,6 +41,8 @@ export default function UserViewFlights() {
 
   const classes = useStyles();
 
+
+
   return (
     <div className={classes.root}>
       <Grid container spacing={2} direction="column">
@@ -83,6 +85,8 @@ export default function UserViewFlights() {
                     <strong> &#128337; Departure </strong>{" "}
                     {flight.DepartureTime} &nbsp; &nbsp;{" "}
                     <strong>Arrival </strong> {flight.ArrivalTime}{" "}
+                   
+
                   </span>
                   <span style={{ float: "right" }}>
                     <FlightSummary row={flight} />

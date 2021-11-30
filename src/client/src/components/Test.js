@@ -24,7 +24,7 @@ var cabin = ""; // cabin class (F,B,E)
 var AdultNo = 0; // No of Passengers (Adult & childern)
 var childNo = 0;
 
-export default function DatePick() {
+export default function DatePick(props) {
   const [errVisible, setErrorVisible] = useState(false);
   const [errVisible1, setErrorVisible1] = useState(false);
   const [date, setDate] = useState({});
@@ -46,11 +46,13 @@ export default function DatePick() {
 
   // Date Values
   function onChange(dates, dateStrings) {
-    console.log("onChange");
-    console.log("From: ", dates[0], ", to: ", dates[1]);
-    console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
-    j["FlightDate"] = dateStrings[0]; // departure date
-    k["FlightDate"] = dateStrings[1]; // arrival date
+    if (dates !== null) {
+      console.log("onChange");
+      console.log("From: ", dates[0], ", to: ", dates[1]);
+      console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
+      j["FlightDate"] = dateStrings[0]; // departure date
+      k["FlightDate"] = dateStrings[1]; // arrival date
+    }
   }
   // From
   function fromValue(value3) {
@@ -132,32 +134,31 @@ export default function DatePick() {
           j["eseatsAvailable"] = AdultNo + childNo;
           k["eseatsAvailable"] = AdultNo + childNo;
 
-          j["fseatsAvailable"] = 0;
-          k["fseatsAvailable"] = 0;
-    
-          j["bseatsAvailable"] = 0;
-          k["bseatsAvailable"] = 0;
+          // j["fseatsAvailable"] = 0;
+          // k["fseatsAvailable"] = 0;
+
+          // j["bseatsAvailable"] = 0;
+          // k["bseatsAvailable"] = 0;
         }
         if (cabin === "2") {
           j["fseatsAvailable"] = AdultNo + childNo;
           k["fseatsAvailable"] = AdultNo + childNo;
 
-          j["bseatsAvailable"] = 0;
-          k["bseatsAvailable"] = 0;
-          j["eseatsAvailable"] = 0;
-          k["eseatsAvailable"] = 0;
+          // j["bseatsAvailable"] = 0;
+          // k["bseatsAvailable"] = 0;
+          // j["eseatsAvailable"] = 0;
+          // k["eseatsAvailable"] = 0;
         }
         if (cabin === "3") {
           j["bseatsAvailable"] = AdultNo + childNo;
           k["bseatsAvailable"] = AdultNo + childNo;
 
-          j["eseatsAvailable"] = 0;
-          k["eseatsAvailable"] = 0;
-          
-          j["fseatsAvailable"] = 0;
-          k["fseatsAvailable"] = 0;
-        }
+          // j["eseatsAvailable"] = 0;
+          // k["eseatsAvailable"] = 0;
 
+          // j["fseatsAvailable"] = 0;
+          // k["fseatsAvailable"] = 0;
+        }
 
         // var x = {};
         // var y = {};
@@ -187,7 +188,17 @@ export default function DatePick() {
       axios
         .post(`http://localhost:8000/flights/search-m2`, date)
         .then((res) => {
+
+
+          // let n = res.data.length;
+          // for(let i = 0; i< n; i++){
+
+
+          // }
+
           console.log(res.data);
+          props.setDepFlights(res.data);
+
           // if (res.data === "error") {
           //   console.log("error true");
           //   // err = true;
@@ -208,6 +219,8 @@ export default function DatePick() {
         .post(`http://localhost:8000/flights/search-m2`, date2)
         .then((res) => {
           console.log(res.data);
+          props.setRetFlights(res.data);
+
           // if (res.data === "error") {
           //   console.log("error true");
           //   setErrorMessage("Example error message");
@@ -237,7 +250,11 @@ export default function DatePick() {
             <h4 style={style}> Search flights </h4>
           </Col>
 
-          <Col   style={{ display: "flex", justifyContent: "flex-end" }} className="gutter-row" span={4}>
+          <Col
+            style={{ display: "flex", justifyContent: "flex-end" }}
+            className="gutter-row"
+            span={4}
+          >
             <div style={style}>
               <Dropdown overlay={menu}>
                 <a

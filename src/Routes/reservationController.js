@@ -91,7 +91,7 @@ router.get("/allreservations", async (req, res) => {
 router.get("/seatsofcabinOfaFlight", async (req, res) => {
    console.log(req.body);
   //  console.log("tigger");
-     Reservation.find({flight : "619fb71b037c50c870bc7821", choosenCabin :"Business" }) //req.body.flights, req.body.cabin
+     Reservation.find(req.body.flight,req.body.choosenCabin ) //req.body.flights, req.body.cabin
       .then((result) => {
        res.send(result);
       })

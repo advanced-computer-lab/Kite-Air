@@ -83,7 +83,7 @@ router.get("/all-flights", async (req, res) => {
 });
 
 router.get("/seats-of-flight", async (req, res) => {
-  await Flight.find({ _id: "619fb71b037c50c870bc7821" })
+  await Flight.find( req.body._id )
     .then((result) => {
       res.json(result);
       console.log("Found");
@@ -123,24 +123,26 @@ router.post("/search-m2", async (req, res) => {
   console.log("from backend search m2");
   console.log(req.body);
 
-  const {
-    From,
-    To,
-    FlightDate,
-    fseatsAvailable,
-    bseatsAvailable,
-    eseatsAvailable,
-  } = req.body;
+  // const {
+  //   From,
+  //   To,
+  //   FlightDate,
+  //   fseatsAvailable,
+  //   bseatsAvailable,
+  //   eseatsAvailable,
+  // } = req.body;
+
+  // From: From,
+  // To: To,
+  // FlightDate: FlightDate,
+  // fseatsAvailable: {$gte: fseatsAvailable},
+  // bseatsAvailable: {$gte: bseatsAvailable},
+  // eseatsAvailable: {$gte: eseatsAvailable},
 
 
-  await Flight.find({
-    From: From,
-    To: To,
-    FlightDate: FlightDate,
-    fseatsAvailable: {$gte: fseatsAvailable},
-    bseatsAvailable: {$gte: bseatsAvailable},
-    eseatsAvailable: {$gte: eseatsAvailable},
-  })
+  await Flight.find(
+    req.body
+  )
     .then((result) => {
       console.log("req.body");
       console.log(req.body);

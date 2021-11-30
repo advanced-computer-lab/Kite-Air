@@ -10,9 +10,7 @@ import { Link } from "react-router-dom";
 
 export default function SeatsDeparture(props) {
   const baseURL = "http://localhost:8000/reservations/seatsofcabinOfaFlight";
-
   const baseURLUpdate = "http://localhost:8000/reservations/updateSeats";
-
   const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
 
   var seatsarr = new Set();

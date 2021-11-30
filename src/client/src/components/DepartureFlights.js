@@ -1,10 +1,5 @@
-import * as React from 'react';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { makeStyles } from "@material-ui/core/styles";
+import * as React from "react";
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import {
   Grid,
   Card,
@@ -13,33 +8,35 @@ import {
   CardActionArea,
   Box,
 } from "@material-ui/core/";
-
 import FlightSummary from "./FlightSummary";
 
-export default function DepartureFlights({handleNext}) {
-  const [flights, setFlights] = useState([]);
+export default function DepartureFlights({ handleNext, depFlights }) {
 
-  
-  const baseURL = "http://localhost:8000/flights/all-flights";
-  const fetchFlights = () => {
-    axios
-      .get(baseURL)
-      .then((response) => {
-        setFlights(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+
+  const [flights, setFlights] = useState(depFlights);
 
   useEffect(() => {
-    fetchFlights();
-  }, []);
 
+    setFlights(depFlights);
 
+  }, [depFlights]);
+
+  function calcDuration(time2, time1) {
+    let diffHours = +time2.substring(0, 2) - +time1.substring(0, 2);
+    let diffMins = +time2.substring(3, 5) - +time1.substring(3, 5);
+
+    let diff = diffHours * 60 + diffMins;
+
+    if (diff < 60) {
+      return 0 + "h" + diff + "m";
+    } else {
+
+      return ((diff - (diff % 60))/60) + "h" + (diff % 60) + "m";
+    }
+  }
 
   return (
-    <React.Fragment style={{height:"400px"}}>
+    <React.Fragment style={{ height: "400px" }}>
       <Typography variant="h6" gutterBottom>
         Choose departure flights.
       </Typography>
@@ -83,10 +80,11 @@ export default function DepartureFlights({handleNext}) {
                     {" "}
                     <strong> &#128337; Departure </strong>{" "}
                     {flight.DepartureTime} &nbsp; &nbsp;{" "}
-                    <strong>Arrival </strong> {flight.ArrivalTime}{" "}
+                    <strong>Arrival </strong> {flight.ArrivalTime} &nbsp; &nbsp;
+                    {calcDuration(flight.ArrivalTime, flight.DepartureTime)}
                   </span>
                   <span style={{ float: "right" }}>
-                    <FlightSummary row={flight} handleNext={handleNext}/>
+                    <FlightSummary row={flight} handleNext={handleNext} />
                   </span>
                 </p>
               </Typography>
@@ -98,7 +96,6 @@ export default function DepartureFlights({handleNext}) {
           </Grid>
         ))}
       </Grid>
-     
     </React.Fragment>
   );
 }
