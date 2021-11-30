@@ -4,7 +4,17 @@ const User = require('../Models/Users');
 
 
 
-
+router.put('/:id', async(req, res) => {
+    console.log(req.params.id);
+    await User.findByIdAndUpdate(req.params.id, req.body)
+      .then(result => {
+        res.status(200).send("User updated ");
+        
+        console.log('The User is Updated successfully !');
+      }).catch(err => {
+        console.log(err);
+      })
+    });
 // User.collection.insertMany([
 //   {
 //     "username": "maryam",
