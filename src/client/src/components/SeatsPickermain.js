@@ -25,7 +25,7 @@ const steps = ['Departure Seats', 'Return Seats', 'Review'];
 
 const theme = createTheme();
 
-export default function SeatsPickermain() {
+export default function SeatsPickermain(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [dis, setDis] = React.useState(0);
   const [selectedDeparture, setSelectedDeparture] = React.useState([]);
@@ -34,7 +34,7 @@ export default function SeatsPickermain() {
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <SeatsDeparture setDis={setDis} setSelectedDeparture={setSelectedDeparture} />;
+        return <SeatsDeparture setDis={setDis} setSelectedDeparture={setSelectedDeparture}  />;
       case 1:
         return <SeatsReturn setDis={setDis} setSelectedReturn={setSelectedReturn} />;
       case 2:
