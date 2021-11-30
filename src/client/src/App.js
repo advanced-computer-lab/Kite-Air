@@ -27,6 +27,9 @@ const App = (props) => {
             <Route path="/login" element={<Login/>}></Route>
             <Route path="/Search" element={<Test />}></Route>
             <Route path="/" element={<LandingPage/>}></Route>
+            <Route path="ViewFlights"  element={<UserViewFlights/>} />
+            <Route path="Checkout"  element={<Checkout/>} />
+
           </Routes>
         </div>
       </Router>
@@ -36,5 +39,6 @@ const App = (props) => {
     </>
   );
 };
-
+//<Route path="/" element={<ProfilePage user={user}/>}></Route>
+//<Route path="/" element={<ProfilePage user={user}/>}></Route>
 export default App;

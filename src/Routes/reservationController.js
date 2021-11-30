@@ -7,9 +7,23 @@ const Reservationinstance = new Reservation({
 flight: "61879985e3e3d1284cbd294d",
 User: "619fc2769dc8cc7dc0475947",
 choosenCabin: "Economy",
-noOfPassengers: 2,
-seatsNo: ["1G","4A"]
+noOfPassengers: 3,
+seatsNo: ["1A","2A","3A"]
 });
+
+router.get("/allreservations", async (req, res) => {
+
+
+      Reservation.find()
+       .then((result) => {
+
+        res.send(result);
+       })
+       .catch((err) => {
+         res.status(400).send("Error fetching reservations!");
+         console.log(err);
+       });
+   });
 
 // Reservationinstance.save((err, doc) => {
 //     if (!err){

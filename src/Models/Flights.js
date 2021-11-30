@@ -28,7 +28,6 @@ const flightSchema = new Schema(
       required: true,
     },
 
-
     DepartureTime: {
       type: String,
       required: true,
