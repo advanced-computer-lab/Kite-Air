@@ -230,6 +230,9 @@ if(resArray!==[] && flightsArray !== []){
           setsStr = setsStr + sets[r] + "\n"
         }
         temp.push(setsStr);
+        temp.push(flightsArray[k].fseatsAvailable);
+        temp.push(flightsArray[k].bseatsAvailable);
+        temp.push(flightsArray[k].eseatsAvailable);
         //console.log(temp);
         var found = false;
         var tal = Object.keys(totalArray).length;

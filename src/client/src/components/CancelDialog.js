@@ -24,8 +24,98 @@ export default function CancelDialog({reser}) {
       .then(res => {
         console.log("success");
          window.location.reload(false);
-        setOpen(false);
+         var newSeats = 0;
+         if(reser[9] === "Business"){
+           newSeats = reser[12] + reser[16];
 
+           const data = {
+            FlightNo: reser[2],
+            From: reser[3],
+            To: reser[4],
+            Terminal: reser[8],
+            FlightDate: reser[5],
+            fseatsAvailable: reser[15],
+            bseatsAvailable: newSeats,
+            eseatsAvailable: reser[17],
+            DepartureTime: reser[6],
+            ArrivalTime: reser[7],
+          };
+      
+          axios
+            .put("http://localhost:8000/flights/" + reser[1], data)
+            .then((res) => {
+              console.log(data);
+              console.log("success");
+              alert("Success");
+              window.location.reload(false);
+            })
+            .catch((err) => {
+              console.log("Error in business seats update!");
+            });
+         }
+         else{
+          if(reser[9] === "Economy"){
+            newSeats = reser[12] + reser[17];
+ 
+            const data = {
+             FlightNo: reser[2],
+             From: reser[3],
+             To: reser[4],
+             Terminal: reser[8],
+             FlightDate: reser[5],
+             fseatsAvailable: reser[15],
+             bseatsAvailable: reser[16],
+             eseatsAvailable: newSeats,
+             DepartureTime: reser[6],
+             ArrivalTime: reser[7],
+           };
+       
+           axios
+             .put("http://localhost:8000/flights/" + reser[1], data)
+             .then((res) => {
+               console.log(data);
+               console.log("success");
+               alert("Success");
+               window.location.reload(false);
+             })
+             .catch((err) => {
+               console.log("Error in economy seats update!");
+             });
+          }
+          else{
+            if(reser[9] === "First"){
+              newSeats = reser[12] + reser[15];
+   
+              const data = {
+               FlightNo: reser[2],
+               From: reser[3],
+               To: reser[4],
+               Terminal: reser[8],
+               FlightDate: reser[5],
+               fseatsAvailable: newSeats,
+               bseatsAvailable:reser[16],
+               eseatsAvailable: reser[17],
+               DepartureTime: reser[6],
+               ArrivalTime: reser[7],
+             };
+         
+             axios
+               .put("http://localhost:8000/flights/" + reser[1], data)
+               .then((res) => {
+                 console.log(data);
+                 console.log("success");
+                 alert("Success");
+                 window.location.reload(false);
+               })
+               .catch((err) => {
+                 console.log("Error in first seats update!");
+               });
+            }
+
+          }
+         }
+
+        setOpen(false);
       })
       .catch(err => {
         console.log("Error in FlightDelete!");
