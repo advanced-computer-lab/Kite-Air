@@ -82,11 +82,16 @@ router.get("/all-flights", async (req, res) => {
     });
 });
 
-router.get("/seats-of-flight", async (req, res) => {
-  await Flight.find( req.body._id )
+router.post("/seats-of-flight", async (req, res) => {
+  // console.log("Sushi");
+  // console.log(req.body);
+
+
+  await Flight.find({_id: req.body._id})
     .then((result) => {
       res.json(result);
-      console.log("Found");
+      //console.log(result);
+
     })
     .catch((err) => {
       console.log(err);
@@ -139,20 +144,15 @@ router.post("/search-m2", async (req, res) => {
   // bseatsAvailable: {$gte: bseatsAvailable},
   // eseatsAvailable: {$gte: eseatsAvailable},
 
-if (Object.keys(req.body).length!=0 )
-{  await Flight.find(
-    req.body
-  )
-    .then((result) => {
-      console.log("req.body");
-      console.log(req.body);
-      console.log(req.body.length);
-      res.send(result);
-      console.log("Filtered From");
-    })
-    .catch((err) => {
-      console.log(err);
-    });}
+  if (Object.keys(req.body).length != 0) {
+    await Flight.find(req.body)
+      .then((result) => {
+        res.send(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 });
 
 router.route("/:id").delete(async (req, res) => {

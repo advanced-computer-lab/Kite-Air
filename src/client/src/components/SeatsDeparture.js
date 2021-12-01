@@ -9,8 +9,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function SeatsDeparture(props) {
-  const baseURL = "http://localhost:8000/reservations/seatsofcabinOfaFlight";
+
   const baseURLUpdate = "http://localhost:8000/reservations/updateSeats";
+
   const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
 
   var seatsarr = new Set();
@@ -67,18 +68,15 @@ export default function SeatsDeparture(props) {
     }
   }
 
-function getClass(){
-  if (props.searchData.fseatsAvailable) {
-    return "First";
+  function getClass() {
+    if (props.searchData.fseatsAvailable) {
+      return "First";
+    } else if (props.searchData.bseatsAvailable) {
+      return "Business";
+    } else if (props.searchData.eseatsAvailable) {
+      return "Economy";
+    }
   }
-  else if (props.searchData.bseatsAvailable) {
-    return "Business";
-  }
-  else if (props.searchData.eseatsAvailable) {
-    return "Economy";
-  }
-}
-
 
   const saveselected = () => {
     axios
@@ -92,27 +90,20 @@ function getClass(){
       });
   };
 
-
   const fetchSeats = () => {
     //gets number of seats in the flight
     axios
-      .get(baseURLSeats, {
-        params: {
-          _id: props.selectedDepF._id,
-        },
+      .post(baseURLSeats, {
+        _id: props.selectedDepF._id,
       })
       .then((response) => {
-
         if (props.searchData.fseatsAvailable) {
           setSeats(response.data[0].fseatsAvailable);
-        }
-        else if (props.searchData.bseatsAvailable) {
+        } else if (props.searchData.bseatsAvailable) {
           setSeats(response.data[0].bseatsAvailable);
-        }
-        else if (props.searchData.eseatsAvailable) {
+        } else if (props.searchData.eseatsAvailable) {
           setSeats(response.data[0].eseatsAvailable);
         }
-
       })
       .catch((error) => {
         console.log(error);
@@ -122,18 +113,17 @@ function getClass(){
   const fetchAlreadyReserved = () => {
     //gets reserved seats of a choosen cabin of a flight
     axios
-      .get(baseURL, {
-        params: {
-          flight: props.selectedDepF._id,
-          choosenCabin: getClass(), //choosen cambin
-        },
+      .post("http://localhost:8000/reservations/seatsFlight", {
+        flight: props.selectedDepF._id,
+        choosenCabin: getClass()
       })
       .then((response) => {
         setReserv(response.data);
         setloading(false);
       })
       .catch((error) => {
-        //console.log(error);
+        console.log(getClass());
+        console.log(error);
       });
   };
 
@@ -146,11 +136,9 @@ function getClass(){
   }, [seats]); //layout of seats
 
   useEffect(() => {
-    if(!fetchAlreadyReserved()){
+    if (!fetchAlreadyReserved()) {
       setReserv();
     }
-   
-
   }, [rows2]); //reserved seats
 
   useEffect(() => {

@@ -4,31 +4,28 @@ const nodemailer = require("nodemailer");
 const Reservation = require("../Models/Reservations");
 
 const Reservationinstance = new Reservation({
-flight: "61879985e3e3d1284cbd294d",
-User: "619fc2769dc8cc7dc0475947",
-choosenCabin: "Economy",
-noOfPassengers: 3,
-seatsNo: ["1A","2A","3A"]
+  flight: "61879985e3e3d1284cbd294d",
+  User: "619fc2769dc8cc7dc0475947",
+  choosenCabin: "Economy",
+  noOfPassengers: 3,
+  seatsNo: ["1A", "2A", "3A"],
 });
 
 router.get("/allreservations", async (req, res) => {
-
-
-      Reservation.find()
-       .then((result) => {
-
-        res.send(result);
-       })
-       .catch((err) => {
-         res.status(400).send("Error fetching reservations!");
-         console.log(err);
-       });
-   });
+  Reservation.find()
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(400).send("Error fetching reservations!");
+      console.log(err);
+    });
+});
 
 // Reservationinstance.save((err, doc) => {
 //     if (!err){
 //        console.log('Res SUCCESS!');
-   
+
 //     }
 //     else
 //         console.log('Error during record insertion res : ' + err);
@@ -75,62 +72,62 @@ router.post("/send", async (req, res) => {
     },
   });
 
-router.get("/allreservations", async (req, res) => {
+  router.get("/allreservations", async (req, res) => {
     console.log(req.body);
-      Reservation.find()
-       .then((result) => {  
-        res.send(result);
-       })
-       .catch((err) => {
-         res.status(400).send("Error fetching reservations!");
-         console.log(err);
-       });
-   });
-
-   
-router.get("/seatsofcabinOfaFlight", async (req, res) => {
-   console.log(req.body);
-  //  console.log("tigger");
-     Reservation.find(req.body.flight,req.body.choosenCabin ) //req.body.flights, req.body.cabin
+    Reservation.find()
       .then((result) => {
-       res.send(result);
+        res.send(result);
       })
       .catch((err) => {
-        res.status(400).send("Error fetching reservation!");
-        res.status(404).send("Not Available!");
-
+        res.status(400).send("Error fetching reservations!");
+        console.log(err);
       });
   });
 
-
+  
   router.get("/userFlightReservation", async (req, res) => {
     console.log(req.body);
-    Reservation.find({flight : req.body.flight, User : req.body.User})
-       .then((result) => { 
+    Reservation.find({ flight: req.body.flight, User: req.body.User })
+      .then((result) => {
         res.send(result);
-       })
-       .catch((err) => {
-         res.status(400).send("Error fetching user's Reservation!");
-         console.log(err);
-       });
-   });
+      })
+      .catch((err) => {
+        res.status(400).send("Error fetching user's Reservation!");
+        console.log(err);
+      });
+  });
 
-
-   router.put("/updateSeats", async (req, res) => {
+  router.put("/updateSeats", async (req, res) => {
     console.log(req.body);
-    Reservation.findByIdAndUpdate(req.body._id,{ seatsNo : req.body.seatsNo })
-       .then((result) => { 
+    Reservation.findByIdAndUpdate(req.body._id, { seatsNo: req.body.seatsNo })
+      .then((result) => {
         res.status(200).send("Updated!");
-        console.log('Update Successful');
-       })
-       .catch((err) => {
-         res.status(400).send("Error!");
-         console.log(err);
-       });
-   });
+        console.log("Update Successful");
+      })
+      .catch((err) => {
+        res.status(400).send("Error!");
+        console.log(err);
+      });
+  });
 
+  router.post("/seatsFlight", async (req, res) => {
+    
+    console.log("tigger");
+    //console.log(req.body);
 
-module.exports = router;
+    Reservation.find({
+      flight: "619fb737037c50c870bc7824",
+      choosenCabin: "First",
+    })
+      .then((result) => {
+        res.send(result);
+      })
+      .catch((err) => {
+        res.status(400).send("Error fetching reservation!");
+      });
+  });
+
+  module.exports = router;
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"NodeMailar" <winter21team@gmail.com>', // sender address
