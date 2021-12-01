@@ -59,8 +59,8 @@ export default function SeatsPickermain(props) {
             selectedDeparture={selectedDepartureSeats}
             selectedReturn={selectedReturnSeats}
 
-            selectedRetF={props.location.state.selectedRetF}
-            selectedDepF={props.location.state.selectedDepF}
+            selectedRetF={location.state.selectedRetF}
+            selectedDepF={location.state.selectedDepF}
 
 
           />

@@ -34,7 +34,7 @@ export default function SeatsDeparture(props) {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [reservationID, setReservationID] = useState();
   const [seats, setSeats] = useState(0);
-  const [maxReservableSeats, setMaxReservableSeats] = useState(getNoOfPassengers);
+  const [maxReservableSeats, setMaxReservableSeats] = useState(1);
   const [selectedSoFar, setSelectedSoFar] = useState(0);
 
   let seating = [];
@@ -117,6 +117,7 @@ export default function SeatsDeparture(props) {
           setSeats(response.data[0].eseatsAvailable);
         }
       })
+
       .catch((error) => {
         console.log(error);
       });
@@ -133,6 +134,7 @@ export default function SeatsDeparture(props) {
         setReserv(response.data);
         setloading(false);
       })
+
       .catch((error) => {
         console.log(getClass());
         console.log(error);
@@ -148,7 +150,8 @@ export default function SeatsDeparture(props) {
   }, [seats]); //layout of seats
 
   useEffect(() => {
-    if (!fetchAlreadyReserved()) {
+    if (fetchAlreadyReserved()) {
+
       setReserv();
     }
   }, [rows2]); //reserved seats
