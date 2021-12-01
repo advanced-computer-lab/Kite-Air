@@ -13,6 +13,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
+import { SettingsInputSvideoRounded } from '@material-ui/icons';
+import { useEffect, useState } from "react";
+import axios from "axios";
+//import { eventManager } from 'react-toastify/dist/core';
 
 function Copyright(props) {
   return (
@@ -27,19 +31,34 @@ function Copyright(props) {
   );
 }
 
+
 const theme = createTheme();
 
-export default function SignIn() {
-  let navigate = useNavigate();
+export default function SignIn({user, setUser}) {
 
+const [Email, setEmail] = useState("");
+const [Password, setPassword] = useState("");
+
+const inputs = {
+  Email: Email,
+  Password: Password}
+
+  const inputsHandlerPass= (e) => {
+    setPassword(e.target.value);
+  };
+  const inputsHandlerEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  let navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
+  
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      email: inputs.Email,
+      password: inputs.Password
     });
+    setUser(inputs);
     navigate("/ProfilePage");
   };
 
@@ -66,10 +85,11 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="Email"
               label="Email Address"
               name="email"
               autoComplete="email"
+              onChange={inputsHandlerEmail}
               autoFocus
             />
             <TextField
@@ -79,7 +99,8 @@ export default function SignIn() {
               name="password"
               label="Password"
               type="password"
-              id="password"
+              id="Password"
+              onChange={inputsHandlerPass}
               autoComplete="current-password"
             />
             <FormControlLabel

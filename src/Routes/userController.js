@@ -15,6 +15,23 @@ router.put('/:id', async(req, res) => {
         console.log(err);
       })
     });
+
+ 
+router.get("/loggedIn", async(req, res) => {
+  console.log("hereeejujuj");
+ console.log(req.query);
+  await User.findOne({"Email" : req.query.Email})
+    .then((result) => {
+      res.json(result);
+      console.log("Found");
+      console.log(result); 
+     console.log(req.query.Email);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // User.collection.insertMany([
 //   {
 //     "username": "maryam",

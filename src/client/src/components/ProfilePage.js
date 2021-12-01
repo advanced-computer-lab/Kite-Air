@@ -20,14 +20,40 @@ import axios from "axios";
 import BackgroundLetterAvatars from './Avatar';
 const drawerWidth = 240;
 
-export default function ProfilePage({user}) {
-
-    const [isDisplay, setisDisplay] = useState(true);
+ export default  function ProfilePage({user}) {
+  console.log(user.Password); 
+  const [isDisplay, setisDisplay] = useState(true);
 
   const handleDisplayOFF = () => {
     setisDisplay(false);
   }
+  const handleDisplayON = () => {
+    setisDisplay(true);
+  }
 
+  const [logged, setLogged] = useState({}); 
+  
+  const baseURL = "http://localhost:8000/users/loggedIn";
+    const fetchUser = () => {
+      axios
+        .get(baseURL, {
+            params: {
+              Email: user.Email,
+              Password: user.Password
+            }})
+        .then((response) => {
+            console.log("here  111 "+ response); 
+          setLogged(response.data);
+        
+        })
+        .catch((error) => {
+          console.log(error);
+        });}
+        console.log(user.Password);
+        useEffect(() => {
+          fetchUser();
+        }, [logged]);
+//hi
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -56,7 +82,7 @@ export default function ProfilePage({user}) {
                 &nbsp; &nbsp; &nbsp;
              
               <div align="center">
-                <BackgroundLetterAvatars n="Rawan Reda"/>
+                <BackgroundLetterAvatars n={logged.FirstName+" "+logged.LastName}/>
               </div>
               &nbsp; &nbsp; &nbsp;
                 <Divider />
@@ -79,7 +105,7 @@ export default function ProfilePage({user}) {
                 sx={{ flexGuser: 1, bgcolor: 'background.default', p: 3, width:1250 }}>
                 <Toolbar />
 
-                {isDisplay ? <DisplayInfo user={user} handleDisplay={handleDisplayOFF} /> : <InfoCard user={user} handleDisplay={handleDisplayOFF}/>}
+{  isDisplay ?  <DisplayInfo user={user} handleDisplay={handleDisplayOFF} /> : <InfoCard user={logged} setUser={setLogged} handleDisplay={handleDisplayON}/>}
 
 
             </Box>
