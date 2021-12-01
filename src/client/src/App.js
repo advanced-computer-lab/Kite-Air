@@ -15,6 +15,7 @@ import Test from "./components/Test"
 import SeatsPickermain from "./components/SeatsPickermain"
 import { useEffect, useState } from "react";
 
+import CollapsibleTable from "./components/CollapsibleTable";
 
 const App = () => {
 const [user, setUser] = useState({});
@@ -37,6 +38,8 @@ const [user, setUser] = useState({});
 
             <Route path="ProfilePage" element={<ProfilePage user={user}/>} />
             <Route path="login"  element={<SignIn user={user} setUser={setUser}/>} />
+            <Route path="/userReservations" element={<CollapsibleTable/>}></Route>
+
 
           </Routes>
         </div>

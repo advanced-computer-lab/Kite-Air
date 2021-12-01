@@ -22,6 +22,31 @@ router.get("/allreservations", async (req, res) => {
     });
 });
 
+
+router.get("/all-reservations", async(req, res) => {
+  await Reservation.find({User: "619fc2769dc8cc7dc0475947"})
+    .then((result) => {
+      res.send(result);
+      //console.log("Found");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.route('/:id').delete( async(req,res) => {
+  // console.log(req.params.id);
+ // console.log("heyy");
+  await Reservation.findByIdAndDelete(req.params.id)
+    .then(result => {
+      res.status(200).send("Reservation deleted ");
+      
+      console.log('The Reservation is deleted successfully !');
+    }).catch(err => {
+      console.log(err);
+    })
+  });
+  
 // Reservationinstance.save((err, doc) => {
 //     if (!err){
 //        console.log('Res SUCCESS!');

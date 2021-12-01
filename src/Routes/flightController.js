@@ -111,6 +111,42 @@ router.put("/:id", async (req, res) => {
     });
 });
 
+
+  // router.get('/seats/:id', async(req, res) => {
+  //   console.log(req.params.id);
+  //   await Flight.findById(req.params.id)
+  //     .then(result => {
+  //       //res.status(200).send("User updated ");
+  //       if(req.body === "Business"){
+  //         res.status(200).send("no. of business seats: " + result.bseatsAvailable);
+  //       }
+  //       else{
+  //         if(req.body === "Economy"){
+  //           res.status(200).send("no. of economy seats: " + result.eseatsAvailable);
+  //         }
+        
+  //       else{
+  //         res.status(200).send("no. of first seats: " + result.fseatsAvailable);
+  //       }
+  //     }
+  //       //console.log('The User is Updated successfully !');
+  //     }).catch(err => {
+  //       console.log(err);
+  //     })
+  //   });
+
+  router.get('/:id', async(req, res) => {
+    console.log(req.params.id);
+    await Flight.findById(req.params.id)
+      .then(result => {
+        res.status(200).send(result);
+        
+        console.log('Flight found successfully !');
+      }).catch(err => {
+        console.log(err);
+      })
+    });
+
 router.post("/search", async (req, res) => {
   console.log("from backend");
   console.log(req.body);
