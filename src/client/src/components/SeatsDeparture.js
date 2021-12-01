@@ -7,13 +7,10 @@ import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
 
 export default function SeatsDeparture(props) {
-
-
   const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
 
   var seatsarr = new Set();
 
-  
   function getNoOfPassengers() {
     if (props.searchData.fseatsAvailable) {
       return props.searchData.fseatsAvailable;
@@ -31,7 +28,9 @@ export default function SeatsDeparture(props) {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [reservationID, setReservationID] = useState();
   const [seats, setSeats] = useState(0);
-  const [maxReservableSeats, setMaxReservableSeats] = useState(getNoOfPassengers());
+  const [maxReservableSeats, setMaxReservableSeats] = useState(
+    getNoOfPassengers()
+  );
   const [selectedSoFar, setSelectedSoFar] = useState(0);
 
   let seating = [];
@@ -86,7 +85,6 @@ export default function SeatsDeparture(props) {
     }
   }
 
-
   const fetchSeats = () => {
     //gets number of seats in the flight
     axios
@@ -113,7 +111,7 @@ export default function SeatsDeparture(props) {
     axios
       .post("http://localhost:8000/reservations/seatsFlight", {
         flight: props.selectedDepF._id,
-        choosenCabin: getClass()
+        choosenCabin: getClass(),
       })
       .then((response) => {
         setReserv(response.data);
@@ -136,7 +134,6 @@ export default function SeatsDeparture(props) {
 
   useEffect(() => {
     if (fetchAlreadyReserved()) {
-
       setReserv();
     }
   }, [rows2]); //reserved seats
@@ -197,7 +194,10 @@ export default function SeatsDeparture(props) {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Departure Flight
+        {getClass()} Seats for Departure Flight
+        <br/>
+        { (maxReservableSeats - selectedSoFar) ?  ( <small> You have {maxReservableSeats - selectedSoFar} seat(s) left to pick </small>) : <></>}
+
       </Typography>
       <div className="">
         {selectedSoFar === maxReservableSeats

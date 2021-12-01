@@ -60,6 +60,8 @@ export default function Review(props) {
         Review
       </Typography>
       <div>
+
+      
         Departure Flight Details: <br />
         {props.selectedDepF.FlightNo} <br />
         {props.selectedDepF.From} <br />

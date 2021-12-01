@@ -43,6 +43,7 @@ export default function Checkout(props) {
             handleNext={handleNext}
             depFlights={props.depFlights}
             setselectedDep={setselectedDep}
+            searchData={props.searchData}
           />
         );
       case 1:
@@ -51,6 +52,8 @@ export default function Checkout(props) {
             handleNext={handleNext}
             depFlights={props.retlights}
             setselectedRet={setselectedRet}
+            searchData={props.searchData}
+
           />
         );
       case 2:

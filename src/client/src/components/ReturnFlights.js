@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import FlightSummary from "./FlightSummary";
 import { useState, useEffect, useRef } from "react";
 import {
@@ -10,15 +10,16 @@ import {
   Box,
 } from "@material-ui/core/";
 
-
-export default function ReturnFlights({ handleNext, depFlights,setselectedRet }) {
-
+export default function ReturnFlights({
+  handleNext,
+  depFlights,
+  setselectedRet,
+  searchData
+}) {
   const [flights, setFlights] = useState(depFlights);
 
   useEffect(() => {
-
     setFlights(depFlights);
-
   }, [depFlights]);
 
   function calcDuration(time2, time1) {
@@ -30,8 +31,7 @@ export default function ReturnFlights({ handleNext, depFlights,setselectedRet })
     if (diff < 60) {
       return 0 + "h" + diff + "m";
     } else {
-
-      return ((diff - (diff % 60))/60) + "h" + (diff % 60) + "m";
+      return (diff - (diff % 60)) / 60 + "h" + (diff % 60) + "m";
     }
   }
 
@@ -66,7 +66,12 @@ export default function ReturnFlights({ handleNext, depFlights,setselectedRet })
               <Typography sx={{ mb: 0.5 }} color="textSecondary">
                 {flight.From} 🠖 {flight.To}
                 <span style={{ float: "right" }}>
-                  <strong>${flight.fprice}</strong>{" "}
+                  <strong>
+                    $
+                    {(searchData.fseatsAvailable && flight.fprice) ||
+                      (searchData.bseatsAvailable && flight.bprice) ||
+                      (searchData.eseatsAvailable && flight.eprice)}
+                  </strong>{" "}
                 </span>
               </Typography>
 
@@ -84,7 +89,12 @@ export default function ReturnFlights({ handleNext, depFlights,setselectedRet })
                     {calcDuration(flight.ArrivalTime, flight.DepartureTime)}
                   </span>
                   <span style={{ float: "right" }}>
-                    <FlightSummary row={flight} handleNext={handleNext} setSelected={setselectedRet} />
+                    <FlightSummary
+                      row={flight}
+                      handleNext={handleNext}
+                      setSelected={setselectedRet}
+                      searchData={searchData}
+                    />
                   </span>
                 </p>
               </Typography>

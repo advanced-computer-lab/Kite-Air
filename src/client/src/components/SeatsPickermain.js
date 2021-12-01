@@ -19,7 +19,6 @@ import SeatsReturn from "./SeatsReturn";
 import Review from "./Review";
 import axios from "axios";
 
-
 const steps = ["Departure Seats", "Return Seats", "Review"];
 
 const theme = createTheme();
@@ -148,7 +147,7 @@ export default function SeatsPickermain(props) {
           sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
         >
           <Typography component="h1" variant="h4" align="center">
-            Choose your seats on the flight
+            Pick Seats
           </Typography>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
             {steps.map((label) => (

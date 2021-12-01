@@ -10,7 +10,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default function FlightSummary({ row, handleNext, setSelected }) {
+export default function FlightSummary({
+  row,
+  handleNext,
+  setSelected,
+  searchData,
+}) {
   const [FlightNo, setFlightNo] = useState(row.FlightNo);
   const [From, setFrom] = useState(row.From);
   const [To, setTo] = useState(row.To);
@@ -61,6 +66,25 @@ export default function FlightSummary({ row, handleNext, setSelected }) {
     setSelected(row);
   };
 
+  function getBaggage(selectedDepF) {
+    if (searchData.fseatsAvailable) {
+      return selectedDepF.fbaggage;
+    } else if (searchData.bseatsAvailable) {
+      return selectedDepF.bbaggage;
+    } else if (searchData.eseatsAvailable) {
+      return selectedDepF.ebaggage;
+    }
+  }
+
+  function getClass() {
+    if (searchData.fseatsAvailable) {
+      return "First";
+    } else if (searchData.bseatsAvailable) {
+      return "Business";
+    } else if (searchData.eseatsAvailable) {
+      return "Economy";
+    }
+  }
   return (
     <div>
       <Button variant="contained" onClick={handleClickOpen}>
@@ -71,42 +95,32 @@ export default function FlightSummary({ row, handleNext, setSelected }) {
         <DialogContent>
           <DialogContentText>
             <div style={{ width: "500px" }}>
-              <strong>Flight {row.FlightNo} </strong>
+              <strong>{row.FlightNo} </strong>
+        
+               ( {row.From} 🠖 {row.To}{" "})
+           
               <br />
-              <strong>
-                {row.From} 🠖 {row.To}{" "}
-              </strong>
               <br />
+
               <span>
-                {" "}
-                <strong>Departure Time</strong> {row.DepartureTime} &nbsp;
+                <strong>&#128337; Departure Time</strong> {row.DepartureTime} &nbsp;
                 &nbsp; <strong>Arrival Time </strong> {row.ArrivalTime}{" "}
               </span>
               <br />
-              <strong>Flight Date </strong>{" "}
-              {row.FlightDate.replaceAll("-", "/")} <hr />
-              <strong>Baggage Allowance </strong>
+
               <br />
-              <strong> First Class:</strong> {row.fbaggage} checked bags
+              <strong> &#128198; Date </strong>{" "}
+              {row.FlightDate.replaceAll("-", "/")}
               <br />
-              <strong>Business Class: </strong> {row.bbaggage} checked bags
               <br />
-              <strong>Economy Class: </strong> {row.ebaggage} checked bags
-              {/*
-              <strong>First Class </strong> {row.fprice}
+
+              <strong>&#128186; {getClass()} Class</strong>
+              <br/>
               <br />
-              <strong>Economy Class </strong> {row.eprice}
+
+              <strong>&#128188; Baggage Allowance </strong>{" "}
+              {getBaggage(row)} Checked Bags, 1 Carry-On.
               <br />
-              <strong>Business Class </strong> {row.bprice}
-              <br /> */}
-              {/* <strong>Departure </strong> {row.fseatsAvailable}
-              <br />
-              <strong>Departure </strong> {row.eseatsAvailable}
-              <br />
-              <strong>Departure </strong> {row.bseatsAvailable}
-              <br /> */}
-              {/* <hr/>
-               */}
             </div>
           </DialogContentText>
         </DialogContent>

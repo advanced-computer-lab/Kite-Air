@@ -208,7 +208,9 @@ export default function SeatsReturn(props) {
   return (
     <React.Fragment >
       <Typography variant="h6" gutterBottom>
-        Returning Seats
+      {getClass()} Seats for Return Flight
+        <br/>
+    { (maxReservableSeats - selectedSoFar) ?  ( <small> You have {maxReservableSeats - selectedSoFar} seat(s) left to pick </small>) : <></>}
       </Typography>
       <div className="">
         {(selectedSoFar === maxReservableSeats)? props.setDis(1) : props.setDis(0)}
