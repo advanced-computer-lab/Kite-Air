@@ -96,7 +96,7 @@ export default function ProfilePage({ user }) {
         &nbsp; &nbsp; &nbsp;
         <Divider />
         <List>
-          <Button>
+          <Button onClick={()=>{setisBooking(false);setisDisplay(true);}}>
             {" "}
             <InboxIcon /> My Details
           </Button>
