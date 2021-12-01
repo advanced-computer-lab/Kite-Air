@@ -1,16 +1,13 @@
 //import * as React from 'react';
 import Typography from "@mui/material/Typography";
 //////////////////////////////////
-import ReactDOM from "react-dom";
 import SeatPicker from "react-seat-picker";
 import "../styles.css";
 import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 export default function SeatsDeparture(props) {
 
-  const baseURLUpdate = "http://localhost:8000/reservations/updateSeats";
 
   const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
 
@@ -34,7 +31,7 @@ export default function SeatsDeparture(props) {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [reservationID, setReservationID] = useState();
   const [seats, setSeats] = useState(0);
-  const [maxReservableSeats, setMaxReservableSeats] = useState(1);
+  const [maxReservableSeats, setMaxReservableSeats] = useState(getNoOfPassengers());
   const [selectedSoFar, setSelectedSoFar] = useState(0);
 
   let seating = [];
@@ -89,18 +86,6 @@ export default function SeatsDeparture(props) {
     }
   }
 
-
-  const saveselected = () => {
-    axios
-      .post(baseURLUpdate, { seatsNo: selectedSeats, _id: reservationID })
-      .then((response) => {
-        setReserv(response.data);
-        setloading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const fetchSeats = () => {
     //gets number of seats in the flight

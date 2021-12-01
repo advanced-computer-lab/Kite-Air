@@ -88,61 +88,63 @@ router.post("/send", async (req, res) => {
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 });
 
-  router.get("/allreservations", async (req, res) => {
-
-    console.log("Hiiiiiiiiiii");
-    //console.log(req.body);
-    Reservation.find()
-      .then((result) => {
-        res.send(result);
-      })
-      .catch((err) => {
-        res.status(400).send("Error fetching reservations!");
-        console.log(err);
-      });
-  });
-
-  
-  router.get("/userFlightReservation", async (req, res) => {
-    console.log(req.body);
-    Reservation.find({ flight: req.body.flight, User: req.body.User })
-      .then((result) => {
-        res.send(result);
-      })
-      .catch((err) => {
-        res.status(400).send("Error fetching user's Reservation!");
-        console.log(err);
-      });
-  });
-
-  router.put("/updateSeats", async (req, res) => {
-    console.log(req.body);
-    Reservation.findByIdAndUpdate(req.body._id, { seatsNo: req.body.seatsNo })
-      .then((result) => {
-        res.status(200).send("Updated!");
-        console.log("Update Successful");
-      })
-      .catch((err) => {
-        res.status(400).send("Error!");
-        console.log(err);
-      });
-  });
-
-  router.post("/seatsFlight", async (req, res) => {
-    
-    console.log("tigger");
-    //console.log(req.body);
-
-    Reservation.find({
-      flight: "619fb737037c50c870bc7824",
-      choosenCabin: "First",
+router.get("/allreservations", async (req, res) => {
+  console.log("Hiiiiiiiiiii");
+  //console.log(req.body);
+  Reservation.find()
+    .then((result) => {
+      res.send(result);
     })
-      .then((result) => {
-        res.send(result);
-      })
-      .catch((err) => {
-        res.status(400).send("Error fetching reservation!");
-      });
+    .catch((err) => {
+      res.status(400).send("Error fetching reservations!");
+      console.log(err);
+    });
+});
+
+router.get("/userFlightReservation", async (req, res) => {
+  console.log(req.body);
+  Reservation.find({ flight: req.body.flight, User: req.body.User })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(400).send("Error fetching user's Reservation!");
+      console.log(err);
+    });
+});
+
+router.post("/addReservation", async (req, res) => {
+  const reser = new Reservation(req.body);
+
+  await reser
+  .save()
+  .then((result) => {
+    res.json({
+      ok: true,
+    });
+    console.log("Reservation successfully added");
+  })
+  .catch((err) => {
+    console.log(err);
   });
+
+
+});
+
+router.post("/seatsFlight", async (req, res) => {
+  console.log("tigger");
+  //console.log(req.body);
+
+  Reservation.find({
+    flight: req.body.flight,
+    choosenCabin: req.body.choosenCabin,
+  })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(400).send("Error fetching reservation!");
+    });
+});
 
 module.exports = router;

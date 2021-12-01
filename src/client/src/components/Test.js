@@ -167,16 +167,15 @@ export default function DatePick(props) {
         // setDate(Object.assign({}, j)); //Depature Flight
         // setDate2(Object.assign({}, k));
 
-        props.setSearchData(j);//searchData
 
         setFlightOne(Object.assign({}, j)); //Depature Flight
         setFlightTwo(Object.assign({}, k));
-        setSearchQuery(Object.assign({}, search));
+        //setSearchQuery(Object.assign({}, search));
+        props.setSearchData(search);//searchData
+
         console.log("Date");
         console.log(flightOne);
         console.log("Date2");
-        console.log(date2);
-     
         console.log(flightTwo);
       }
     }

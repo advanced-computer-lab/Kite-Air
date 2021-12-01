@@ -17,20 +17,76 @@ import { useLocation } from "react-router-dom";
 import SeatsDeparture from "./SeatsDeparture";
 import SeatsReturn from "./SeatsReturn";
 import Review from "./Review";
-import Payment from "./PaymentForm";
+import axios from "axios";
+
 
 const steps = ["Departure Seats", "Return Seats", "Review"];
 
 const theme = createTheme();
 
 export default function SeatsPickermain(props) {
-
   const location = useLocation();
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [dis, setDis] = React.useState(0);
   const [selectedDepartureSeats, setSelectedDepartureSeats] = React.useState();
   const [selectedReturnSeats, setSelectedReturnSeats] = React.useState([]);
+
+  function getClass() {
+    if (location.state.searchData.fseatsAvailable) {
+      return "First";
+    } else if (location.state.searchData.bseatsAvailable) {
+      return "Business";
+    } else if (location.state.searchData.eseatsAvailable) {
+      return "Economy";
+    }
+  }
+
+  function getNoOfPassengers() {
+    if (location.state.searchData.fseatsAvailable) {
+      return location.state.searchData.fseatsAvailable;
+    } else if (location.state.searchData.bseatsAvailable) {
+      return location.state.searchData.bseatsAvailable;
+    } else if (location.state.searchData.eseatsAvailable) {
+      return location.state.searchData.eseatsAvailable;
+    }
+  }
+
+  let baseURL = "http://localhost:8000/reservations/addReservation";
+
+  const saveselectedDept = () => {
+    axios
+      .post(baseURL, {
+        User: "619fc2769dc8cc7dc0475947",
+        flight: location.state.selectedRetF._id,
+        choosenCabin: getClass(),
+        noOfPassengers: getNoOfPassengers(),
+        seatsNo: selectedDepartureSeats,
+      })
+      .then((response) => {
+        console.log("saved!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const saveselectedRet = () => {
+    axios
+      .post(baseURL, {
+        User: "619fc2769dc8cc7dc0475947",
+        flight: location.state.selectedDepF._id,
+        choosenCabin: getClass(),
+        noOfPassengers: getNoOfPassengers(),
+        seatsNo: selectedReturnSeats,
+      })
+      .then((response) => {
+        console.log("saved!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   function getStepContent(step) {
     switch (step) {
@@ -41,7 +97,6 @@ export default function SeatsPickermain(props) {
             setSelectedDeparture={setSelectedDepartureSeats}
             selectedDepF={location.state.selectedDepF}
             searchData={location.state.searchData}
-
           />
         );
       case 1:
@@ -56,13 +111,11 @@ export default function SeatsPickermain(props) {
       case 2:
         return (
           <Review
-            selectedDeparture={selectedDepartureSeats}
-            selectedReturn={selectedReturnSeats}
-
-            selectedRetF={location.state.selectedRetF}
-            selectedDepF={location.state.selectedDepF}
-
-
+            selectedDepartureSeats={selectedDepartureSeats} //seats
+            selectedReturnSeats={selectedReturnSeats} //seats
+            searchData={location.state.searchData} //no of passengers and cabin
+            selectedRetF={location.state.selectedRetF} //flight
+            selectedDepF={location.state.selectedDepF} //flight
           />
         );
       default:
@@ -72,6 +125,12 @@ export default function SeatsPickermain(props) {
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+
+    if (activeStep === steps.length - 1) {
+      saveselectedRet();
+      saveselectedDept();
+      console.log("Saved");
+    }
   };
 
   const handleBack = () => {
@@ -131,7 +190,6 @@ export default function SeatsPickermain(props) {
                     sx={{ mt: 3, ml: 1 }}
                   >
                     {activeStep === steps.length - 1 ? "Confirm" : "Next"}
-                    {/* {activeStep === steps.length ? 'Proceed to Payment' : 'Next'} */}
                   </Button>
                 </Box>
               </React.Fragment>

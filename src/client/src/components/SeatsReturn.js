@@ -14,7 +14,15 @@ export default function SeatsReturn(props) {
   const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
 
   var seatsarr = new Set();
-
+  function getNoOfPassengers() {
+    if (props.searchData.fseatsAvailable) {
+      return props.searchData.fseatsAvailable;
+    } else if (props.searchData.bseatsAvailable) {
+      return props.searchData.bseatsAvailable;
+    } else if (props.searchData.eseatsAvailable) {
+      return props.searchData.eseatsAvailable;
+    }
+  }
 
   const [reserv, setReserv] = useState([]);
   const [loading, setloading] = useState(true);
@@ -23,7 +31,7 @@ export default function SeatsReturn(props) {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [reservationID, setReservationID] = useState();
   const [seats, setSeats] = useState(0);
-  const [maxReservableSeats, setMaxReservableSeats] = useState(3);
+  const [maxReservableSeats, setMaxReservableSeats] = useState(getNoOfPassengers());
   const [selectedSoFar, setSelectedSoFar] = useState(0);
 
   let seating = [];
