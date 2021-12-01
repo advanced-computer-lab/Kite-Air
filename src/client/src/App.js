@@ -8,7 +8,7 @@ import LandingPage from "./components/LandingPage";
 import CreateFlight from "./components/CreateFlight.js";
 import Search from "./components/Search.js";
 import Login from "./components/Login";
-import SeatsPicker from "./components/SeatsPickermain";
+import SeatsPickermain from "./components/SeatsPickermain";
 import Test from "./components/Test.js";
 
 import Checkout from "./components/Checkout.js";
@@ -24,7 +24,7 @@ const App = (props) => {
       <ToastContainer />
        <Header/>
           <Routes>
-            <Route path="/pickSeats" element={<SeatsPicker/>}></Route>
+            <Route path="/pickSeats" element={<SeatsPickermain/>}></Route>
             <Route path="/add-new-flight" element={<CreateFlight />} ></Route>
             <Route path="/admin" element={<Search/>}></Route>
             <Route path="/login" element={<Login/>}></Route>

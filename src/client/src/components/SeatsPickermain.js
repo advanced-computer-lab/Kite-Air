@@ -1,46 +1,72 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
-import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import SeatsDeparture from './SeatsDeparture';
-import SeatsReturn from './SeatsReturn';
-import Review from './Review';
-import Payment from './PaymentForm';
+import * as React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Toolbar from "@mui/material/Toolbar";
+import Paper from "@mui/material/Paper";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useLocation } from "react-router-dom";
 
+import SeatsDeparture from "./SeatsDeparture";
+import SeatsReturn from "./SeatsReturn";
+import Review from "./Review";
+import Payment from "./PaymentForm";
 
-
-const steps = ['Departure Seats', 'Return Seats', 'Review'];
-
-
+const steps = ["Departure Seats", "Return Seats", "Review"];
 
 const theme = createTheme();
 
 export default function SeatsPickermain(props) {
+
+  const location = useLocation();
+
   const [activeStep, setActiveStep] = React.useState(0);
   const [dis, setDis] = React.useState(0);
-  const [selectedDeparture, setSelectedDeparture] = React.useState([]);
-  const [selectedReturn, setSelectedReturn] = React.useState([]);
+  const [selectedDepartureSeats, setSelectedDepartureSeats] = React.useState();
+  const [selectedReturnSeats, setSelectedReturnSeats] = React.useState([]);
 
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <SeatsDeparture setDis={setDis} setSelectedDeparture={setSelectedDeparture}  />;
+        return (
+          <SeatsDeparture
+            setDis={setDis}
+            setSelectedDeparture={setSelectedDepartureSeats}
+            selectedDepF={location.state.selectedDepF}
+            searchData={location.state.searchData}
+
+          />
+        );
       case 1:
-        return <SeatsReturn setDis={setDis} setSelectedReturn={setSelectedReturn} />;
+        return (
+          <SeatsReturn
+            setDis={setDis}
+            setSelectedReturn={setSelectedReturnSeats}
+            selectedRetF={location.state.selectedRetF}
+            searchData={location.state.searchData}
+          />
+        );
       case 2:
-        return <Review selectedDeparture={selectedDeparture} selectedReturn={selectedReturn} />;
+        return (
+          <Review
+            selectedDeparture={selectedDepartureSeats}
+            selectedReturn={selectedReturnSeats}
+
+            selectedRetF={props.location.state.selectedRetF}
+            selectedDepF={props.location.state.selectedDepF}
+
+
+          />
+        );
       default:
-        throw new Error('Unknown step');
+        throw new Error("Unknown step");
     }
   }
 
@@ -58,9 +84,12 @@ export default function SeatsPickermain(props) {
       <br />
       <br />
       <Container component="main" maxWidth="lg" sx={{ mb: 4 }}>
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+        <Paper
+          variant="outlined"
+          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+        >
           <Typography component="h1" variant="h4" align="center">
-            Confirm
+            Choose your seats on the flight
           </Typography>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
             {steps.map((label) => (
@@ -77,15 +106,18 @@ export default function SeatsPickermain(props) {
                 </Typography>
                 <Typography variant="subtitle1">
                   Your seats have been reserved successfully! <br />
-                  You are now one step away from finalizing your reservation... <br />
+                  You are now one step away from finalizing your reservation...{" "}
+                  <br />
                   All you have to do is proceed with payment!
                 </Typography>
-                <div style={{display: 'flex', justifyContent: 'flex-end'}}><Button variant="contained">Proceed to Payment</Button></div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Button variant="contained">Proceed to Payment</Button>
+                </div>
               </React.Fragment>
             ) : (
               <React.Fragment>
                 {getStepContent(activeStep)}
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
                       Back
@@ -98,7 +130,7 @@ export default function SeatsPickermain(props) {
                     disabled={dis === 0}
                     sx={{ mt: 3, ml: 1 }}
                   >
-                    {activeStep === steps.length - 1 ? 'Confirm' : 'Next'}
+                    {activeStep === steps.length - 1 ? "Confirm" : "Next"}
                     {/* {activeStep === steps.length ? 'Proceed to Payment' : 'Next'} */}
                   </Button>
                 </Box>

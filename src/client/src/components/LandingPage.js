@@ -10,28 +10,16 @@ import Checkout from './Checkout';
 export default function LandingPage() {
   const [depFlights, setDepFlights] = useState([]);
   const [retlights, setRetFlights] = useState([]);
- 
+  const [searchData, setSearchData] = useState([]);
+
   console.log(depFlights);
   console.log(retlights);
-
+  console.log(searchData);
 
   return (
     <div>
-      <HeaderPic setDepFlights={setDepFlights} setRetFlights={setRetFlights} />
-     {!(depFlights.length === 0 ) ? <Checkout depFlights={depFlights} retlights={retlights} /> : <></>}
+      <HeaderPic setDepFlights={setDepFlights} setRetFlights={setRetFlights} setSearchData={setSearchData} />
+     {!(depFlights.length === 0 ) ? <Checkout depFlights={depFlights} retlights={retlights} searchData={searchData} /> : <></>}
     </div>
-  );
-}
-
-function Copyright() {
-  return (
-    <Typography variant="caption" color="text.secondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="/">
-        Kite Air
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
   );
 }

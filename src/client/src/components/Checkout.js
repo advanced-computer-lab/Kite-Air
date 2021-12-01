@@ -34,8 +34,6 @@ export default function Checkout(props) {
     setActiveStep(activeStep + 1);
   };
 
-  console.log("IN CHECKOUT DEP" + props.depFlights);
-  console.log("IN CHECKOUT RET" + props.retlights);
 
   function getStepContent(step) {
     switch (step) {
@@ -56,7 +54,7 @@ export default function Checkout(props) {
           />
         );
       case 2:
-        return <Summary selectedDep={selectedDep} selectedRet={selectedRet} />;
+        return <Summary selectedDep={selectedDep} selectedRet={selectedRet} searchData={props.searchData} />;
       default:
         throw new Error("Unknown step");
     }

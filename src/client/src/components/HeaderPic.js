@@ -4,9 +4,8 @@ import * as THREE from "three";
 import Test from "./Test.js";
 
 const HeaderPic = (props) => {
-
-
   const [vantaEffect, setVantaEffect] = useState(0);
+  
   const myRef = useRef(null);
   useEffect(() => {
     if (!vantaEffect) {
@@ -20,7 +19,7 @@ const HeaderPic = (props) => {
           gyroControls: false,
           minHeight: 600.0,
           minWidth: 600.0,
-          skyColor:0x191b3a, // 0x2a386e,
+          skyColor: 0x191b3a, // 0x2a386e,
           sunColor: 0xfffffff,
           sunGlareColor: 0x383e89,
           sunlightColor: 0x0,
@@ -32,20 +31,25 @@ const HeaderPic = (props) => {
       if (vantaEffect) vantaEffect.destroy();
     };
   }, [vantaEffect]);
-  return <div ref={myRef}>
-  
-  <br/>
-  <section className="showcase">
+
+
+  return (
+    <div ref={myRef}>
+      <br />
+      <section className="showcase">
         <div className="showcase-overlay">
-          <h1 style={{color: "white"}}>Kite Airlines</h1>
+          <h1 style={{ color: "white" }}>Kite Airlines</h1>
           <p>Making the sky the best place to be!</p>
 
-          <Test setRetFlights = {props.setRetFlights} setDepFlights={props.setDepFlights}/>
-          
+          <Test
+            setRetFlights={props.setRetFlights}
+            setDepFlights={props.setDepFlights}
+            setSearchData={props.setSearchData}
+          />
         </div>
       </section>
-  
-  </div>
+    </div>
+  );
 };
 
 export default HeaderPic;

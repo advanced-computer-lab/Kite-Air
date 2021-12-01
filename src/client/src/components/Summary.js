@@ -1,18 +1,25 @@
-import * as React from 'react';
-import Typography from '@mui/material/Typography';
+import * as React from "react";
+import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-
+import { useNavigate } from "react-router-dom"; // version 5.2.0
 
 export default function Summary(props) {
-
-  const [selectedDep, setselectedDep] = React.useState({});
-  const [selectedRet, setselectedRet] = React.useState({});
-
+  //searchData
+  const navigate = useNavigate();
+  let loggedIn = true;
 
   const handleRedirection = () => {
-    //redirect to seats if logged in else redirct to login page
+    console.log("In nav");
+    if (loggedIn) {
+      navigate("/pickSeats", {
+        state: {
+          searchData: props.searchData,
+          selectedDepF: props.selectedDep,
+          selectedRetF: props.selectedRet,
+        },
+      });
+    }
   };
-
 
   return (
     <React.Fragment>
@@ -21,15 +28,16 @@ export default function Summary(props) {
       </Typography>
       Departure flight Chosen: {props.selectedDep.FlightNo} <br />
       Return flight Chosen: {props.selectedRet.FlightNo}
-
-
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>  <Button
-                    variant="contained"
-                    onclick={handleRedirection}
-                    sx={{ mt: 3, ml: 1 }}
-                  >
-                    Confirm
-                  </Button></div>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        {" "}
+        <Button
+          variant="contained"
+          onClick={handleRedirection}
+          sx={{ mt: 3, ml: 1 }}
+        >
+          Confirmm
+        </Button>
+      </div>
     </React.Fragment>
   );
-  }
+}

@@ -97,7 +97,8 @@ router.get("/seatsofcabinOfaFlight", async (req, res) => {
       })
       .catch((err) => {
         res.status(400).send("Error fetching reservation!");
-        console.log(err);
+        res.status(404).send("Not Available!");
+
       });
   });
 

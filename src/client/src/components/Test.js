@@ -168,10 +168,13 @@ export default function DatePick(props) {
         setDate(Object.assign({}, j)); //Depature Flight
         setDate2(Object.assign({}, k));
 
+        props.setSearchData(j);//searchData
+
         console.log("Date");
         console.log(date);
         console.log("Date2");
         console.log(date2);
+     
       }
     }
   }
@@ -268,7 +271,7 @@ export default function DatePick(props) {
                 <AutoComplete
                   style={{ borderColor: "black", width: 150 }}
                   options={options}
-                  placeholder="From"
+                  placeholder="Leaving From"
                   filterOption={(inputValue, option) =>
                     option.value
                       .toUpperCase()
@@ -282,7 +285,7 @@ export default function DatePick(props) {
                 <AutoComplete
                   style={{ borderColor: "black", width: 200 }}
                   options={options}
-                  placeholder="To"
+                  placeholder="Going To"
                   filterOption={(inputValue, option) =>
                     option.value
                       .toUpperCase()

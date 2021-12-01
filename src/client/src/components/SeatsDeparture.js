@@ -15,7 +15,6 @@ export default function SeatsDeparture(props) {
 
   var seatsarr = new Set();
 
-  
   const [reserv, setReserv] = useState([]);
   const [loading, setloading] = useState(true);
   const [rows, setRows] = useState([]);
@@ -61,13 +60,25 @@ export default function SeatsDeparture(props) {
       letter = nextChar(letter).toUpperCase();
       seating.push(littleSeatz);
     }
-   
+
     if (seating.length != 0) {
       setRows2(seating);
       console.log("Seating length " + seating.length);
-
     }
   }
+
+function getClass(){
+  if (props.searchData.fseatsAvailable) {
+    return "First";
+  }
+  else if (props.searchData.bseatsAvailable) {
+    return "Business";
+  }
+  else if (props.searchData.eseatsAvailable) {
+    return "Economy";
+  }
+}
+
 
   const saveselected = () => {
     axios
@@ -81,28 +92,48 @@ export default function SeatsDeparture(props) {
       });
   };
 
+
   const fetchSeats = () => {
-    //gets number of seats
+    //gets number of seats in the flight
     axios
-      .get(baseURLSeats)
+      .get(baseURLSeats, {
+        params: {
+          _id: props.selectedDepF._id,
+        },
+      })
       .then((response) => {
-        setSeats(response.data[0].bseatsAvailable);
+
+        if (props.searchData.fseatsAvailable) {
+          setSeats(response.data[0].fseatsAvailable);
+        }
+        else if (props.searchData.bseatsAvailable) {
+          setSeats(response.data[0].bseatsAvailable);
+        }
+        else if (props.searchData.eseatsAvailable) {
+          setSeats(response.data[0].eseatsAvailable);
+        }
+
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const fetchFlight = () => {
+  const fetchAlreadyReserved = () => {
     //gets reserved seats of a choosen cabin of a flight
     axios
-      .get(baseURL)
+      .get(baseURL, {
+        params: {
+          flight: props.selectedDepF._id,
+          choosenCabin: getClass(), //choosen cambin
+        },
+      })
       .then((response) => {
         setReserv(response.data);
         setloading(false);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
 
@@ -115,18 +146,21 @@ export default function SeatsDeparture(props) {
   }, [seats]); //layout of seats
 
   useEffect(() => {
-    fetchFlight();
+    if(!fetchAlreadyReserved()){
+      setReserv();
+    }
+   
+
   }, [rows2]); //reserved seats
 
   useEffect(() => {
-
     seating = rows2;
     console.log(seating.length);
     if (!(typeof reserv === "undefined" || reserv.length == 0)) {
       for (var i = 0; i < reserv.length; i++) {
         for (var s = 0; s < reserv[i].seatsNo.length; s++) {
           seatsarr.add(reserv[i].seatsNo[s].toString());
-       //   console.log("res" + reserv[i].seatsNo);
+          //   console.log("res" + reserv[i].seatsNo);
         }
       }
     }
@@ -141,7 +175,6 @@ export default function SeatsDeparture(props) {
     }
 
     setRows(seating);
-
   }, [reserv]);
 
   const addSeatCallback = async ({ row, number, id }, addCb) => {
@@ -174,13 +207,15 @@ export default function SeatsDeparture(props) {
   };
 
   return (
-    <React.Fragment >
+    <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Departing Seats
+        Departure Flight
       </Typography>
       <div className="">
-        {(selectedSoFar === maxReservableSeats)? props.setDis(1) : props.setDis(0)}
-        {(loading || rows.length===0)? (
+        {selectedSoFar === maxReservableSeats
+          ? props.setDis(1)
+          : props.setDis(0)}
+        {loading || rows.length === 0 ? (
           <div>Loading...</div>
         ) : (
           <div style={{ justifyContent: "center" }}>
