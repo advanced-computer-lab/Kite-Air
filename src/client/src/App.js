@@ -8,13 +8,14 @@ import LandingPage from "./components/LandingPage";
 import CreateFlight from "./components/CreateFlight.js";
 import Search from "./components/Search.js";
 import Login from "./components/Login";
-import SeatsPickermain from "./components/SeatsPickermain";
-import Test from "./components/Test.js";
+import ProfilePage from "./components/ProfilePage.js";
+import SignIn from "./components/SignIn"
+import { useEffect, useState } from "react";
 
-import Checkout from "./components/Checkout.js";
-import UserViewFlights from "./components/UserViewFlights.js";
 
-const App = (props) => {
+const App = () => {
+const [user, setUser] = useState({});
+
   return (
     <>
 
@@ -30,7 +31,9 @@ const App = (props) => {
             <Route path="/login" element={<Login/>}></Route>
             <Route path="/Search" element={<Test />}></Route>
             <Route path="/" element={<LandingPage/>}></Route>
-            <Route path="Checkout"  element={<Checkout/>} />
+
+            <Route path="ProfilePage" element={<ProfilePage user={user}/>} />
+            <Route path="login"  element={<SignIn user={user} setUser={setUser}/>} />
 
           </Routes>
         </div>

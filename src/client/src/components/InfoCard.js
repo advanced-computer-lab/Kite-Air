@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import axios from "axios";
 //mport Typography from '@mui/material/Typography';
-export default function InfoCard({user, handleDisplay}) {
+export default function InfoCard({user,setUser,  handleDisplay}) {
   const [FirstName, setFirstName] = useState(user.FirstName);
   const [LastName, setLastName] = useState(user.LastName);
   const [Passport, setPassport] = useState(user.PassportNo);
@@ -55,9 +55,9 @@ export default function InfoCard({user, handleDisplay}) {
         //   progress: undefined,
         // });
    
-    
-        window.location.reload(false);
-        setOpen(true);
+    handleDisplay();
+    setUser(res); 
+      //  setOpen(true);
         // component: () => <Navigate to='/'/>
         // handleClose();
       })
@@ -76,8 +76,7 @@ export default function InfoCard({user, handleDisplay}) {
         </Typography>
 <br/>
 
-     
-{open? handleDisplay:" "}
+     {open? {handleDisplay} :" "}
 <TextField 
 label="First Name"  
 margin="dense"
