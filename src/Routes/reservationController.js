@@ -23,8 +23,8 @@ router.get("/allreservations", async (req, res) => {
 });
 
 
-router.get("/all-reservations", async(req, res) => {
-  await Reservation.find({User: "619fc2769dc8cc7dc0475947"})
+router.post("/all-reservations", async(req, res) => {
+  await Reservation.find(req.body)
     .then((result) => {
       res.send(result);
       //console.log("Found");

@@ -15,6 +15,10 @@ import MailIcon from "@mui/icons-material/Mail";
 import InfoCard from "./InfoCard.js";
 import DisplayInfo from "./DisplayInfo";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+
+import CollapsibleTable from "./CollapsibleTable";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BackgroundLetterAvatars from "./Avatar";
@@ -23,6 +27,9 @@ const drawerWidth = 240;
 export default function ProfilePage({ user }) {
   console.log(user.Password);
   const [isDisplay, setisDisplay] = useState(true);
+  const [isBooking, setisBooking] = useState(false);
+
+  // const [loading, setLoading] = useState(true);
 
   const handleDisplayOFF = () => {
     setisDisplay(false);
@@ -32,9 +39,9 @@ export default function ProfilePage({ user }) {
   };
 
   const [logged, setLogged] = useState({});
-  const flag=false;
 
   const baseURL = "http://localhost:8000/users/loggedIn";
+  
   const fetchUser = () => {
     axios
       .get(baseURL, {
@@ -51,10 +58,11 @@ export default function ProfilePage({ user }) {
         console.log(error);
       });
   };
-  console.log(user.Password);
+
+  // console.log(user.Password);
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [logged]);
   //hi
   return (
     <Box sx={{ display: "flex" }}>
@@ -62,14 +70,7 @@ export default function ProfilePage({ user }) {
       <AppBar
         position="fixed"
         sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-      >
-        {/* <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Settings
-          </Typography>
-        </Toolbar> */}
-      </AppBar>
-
+      ></AppBar>
 
       <div
         sx={{
@@ -83,9 +84,9 @@ export default function ProfilePage({ user }) {
         variant="permanent"
         anchor="left"
       >
-      <br/>
-      <br/>
-      <br/>
+        <br />
+        <br />
+        <br />
         &nbsp; &nbsp; &nbsp;
         <div align="center">
           <BackgroundLetterAvatars
@@ -95,33 +96,35 @@ export default function ProfilePage({ user }) {
         &nbsp; &nbsp; &nbsp;
         <Divider />
         <List>
-          {[
-            "My details",
-            "My Bookings",
-            "Payment methods",
-            "Email subscriptions",
-          ].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <Button>
+            {" "}
+            <InboxIcon /> My Details
+          </Button>
+          <br />
+          <br />
+
+          <Button onClick={()=>{setisBooking(true);setisDisplay(false);}}>
+            {" "}
+            <MailIcon /> My Bookings
+          </Button>
         </List>
         <Divider />
       </div>
 
-
-
-
       <Box
         component="main"
-        sx={{ flexGuser: 1, bgcolor: "background.default", p: 3, width: "1025px",}}
+        sx={{
+          flexGuser: 1,
+          bgcolor: "background.default",
+          p: 3,
+          width: "1025px",
+        }}
       >
         <Toolbar />
 
-        {isDisplay ? (
+        {isBooking ? (
+          <CollapsibleTable userid = {logged._id}/>
+        ) : isDisplay ? (
           <DisplayInfo user={user} handleDisplay={handleDisplayOFF} />
         ) : (
           <InfoCard
