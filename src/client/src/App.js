@@ -10,6 +10,9 @@ import Search from "./components/Search.js";
 import Login from "./components/Login";
 import ProfilePage from "./components/ProfilePage.js";
 import SignIn from "./components/SignIn"
+import Test from "./components/Test"
+
+import SeatsPickermain from "./components/SeatsPickermain"
 import { useEffect, useState } from "react";
 
 
@@ -28,7 +31,7 @@ const [user, setUser] = useState({});
             <Route path="/pickSeats" element={<SeatsPickermain/>}></Route>
             <Route path="/add-new-flight" element={<CreateFlight />} ></Route>
             <Route path="/admin" element={<Search/>}></Route>
-            <Route path="/login" element={<Login/>}></Route>
+          {/* <Route path="/login" element={<Login/>}></Route> */}
             <Route path="/Search" element={<Test />}></Route>
             <Route path="/" element={<LandingPage/>}></Route>
 

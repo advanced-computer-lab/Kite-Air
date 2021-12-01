@@ -70,7 +70,7 @@ const [logged, setLogged] = useState({});
         console.log(user.Password);
         useEffect(() => {
           fetchUser();
-        }, [logged]);
+        }, []);
   return (
 
 

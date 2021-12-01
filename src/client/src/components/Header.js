@@ -21,7 +21,7 @@ export default function Header() {
 
   const navigate = useNavigate();
 
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   const isAdmin = false;
 
   const faireRedirection = () => {
