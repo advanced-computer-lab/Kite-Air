@@ -22,7 +22,6 @@ router.get("/allreservations", async (req, res) => {
     });
 });
 
-
 router.post("/all-reservations", async(req, res) => {
   await Reservation.find(req.body)
     .then((result) => {
@@ -46,116 +45,38 @@ router.route('/:id').delete( async(req,res) => {
       console.log(err);
     })
   });
+
+  router.get("/userFlightReservation", async (req, res) => {
+    console.log(req.body);
+    Reservation.find({ flight: req.body.flight, User: req.body.User })
+      .then((result) => {
+        res.send(result);
+      })
+      .catch((err) => {
+        res.status(400).send("Error fetching user's Reservation!");
+        console.log(err);
+      });
+  });
+
+  router.post("/addReservation", async (req, res) => {
+    const reser = new Reservation(req.body);
   
-// Reservationinstance.save((err, doc) => {
-//     if (!err){
-//        console.log('Res SUCCESS!');
-
-//     }
-//     else
-//         console.log('Error during record insertion res : ' + err);
-// });
-//        console.log('SUCCESS!');
-
-//     }
-//     else
-//         console.log('Error during record insertion : ' + err);
-// });
-
-// Reservation.collection.insertOne([
-// {
-//     // flight: "61879985e3e3d1284cbd294d",
-//     seatsNo: ['10A','667']
-
-// }
-//  ]
-// ).then(function(){
-//     console.log("Data inserted")  // Success
-// }).catch(function(error){
-//     console.log(error)      // Failure
-// });
-
-// const showAllSeatNo = async function() {
-//     const identifiers = await Reservation.find().populate("seatNo");
-
-//     console.log("> All Identifiers\n", identifiers);
-//   };
-
-router.post("/send", async (req, res) => {
-  const output = `Hello from the back end`;
-
-  let transporter = nodemailer.createTransport({
-    host: "main.google.com",
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: "winter21team@gmail.com", // generated ethereal user
-      pass: "MRRHMETCSEN#7#", // generated ethereal password
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
-  //send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: '"NodeMailar" <winter21team@gmail.com>', // sender address
-    to: "hadeerelhussen1111@gmail.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: output, // html body
-  });
-
-  console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-  // Preview only available when sending through an Ethereal account
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-});
-
-router.get("/allreservations", async (req, res) => {
-  console.log("Hiiiiiiiiiii");
-  //console.log(req.body);
-  Reservation.find()
+    await reser
+    .save()
     .then((result) => {
-      res.send(result);
+      res.json({
+        ok: true,
+      });
+      console.log("Reservation successfully added");
     })
     .catch((err) => {
-      res.status(400).send("Error fetching reservations!");
       console.log(err);
     });
-});
-
-router.get("/userFlightReservation", async (req, res) => {
-  console.log(req.body);
-  Reservation.find({ flight: req.body.flight, User: req.body.User })
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      res.status(400).send("Error fetching user's Reservation!");
-      console.log(err);
-    });
-});
-
-router.post("/addReservation", async (req, res) => {
-  const reser = new Reservation(req.body);
-
-  await reser
-  .save()
-  .then((result) => {
-    res.json({
-      ok: true,
-    });
-    console.log("Reservation successfully added");
-  })
-  .catch((err) => {
-    console.log(err);
+  
+  
   });
 
-
-});
-
+  
 router.post("/seatsFlight", async (req, res) => {
   console.log("tigger");
   //console.log(req.body);
@@ -170,6 +91,44 @@ router.post("/seatsFlight", async (req, res) => {
     .catch((err) => {
       res.status(400).send("Error fetching reservation!");
     });
+});
+
+router.post("/send", (req, res) => {
+  try {
+    const output = `Hello from the back end ${req.body.data}`;
+    console.log({ req });
+    let transporter = nodemailer.createTransport({
+      service: "Gmail",
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: "winter21team@gmail.com", // generated ethereal user
+        pass: "MRRHMETCSEN#7#", // generated ethereal password
+      },
+      connectionTimeout: 5 * 60 * 1000,
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
+    // send mail with defined transport object
+    let info = transporter.sendMail({
+      // i deleted await
+      from: '"NodeMailar" <winter21team@gmail.com>', // sender address
+      to: "hadeerelhussen1111@gmail.com", // list of receivers
+      subject: "Hello ✔", // Subject line
+      text: "Hello world?", // plain text body
+      html: output, // html body
+    });
+  } catch (err) {
+    console.log("Message sent: %s", info.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+    // Preview only available when sending through an Ethereal account
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    console.log(err);
+    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+  }
 });
 
 module.exports = router;
