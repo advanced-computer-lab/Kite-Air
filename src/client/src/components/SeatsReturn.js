@@ -9,10 +9,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function SeatsReturn(props) {
-  const baseURL = "http://localhost:8000/reservations/seatsofcabinOfaFlight";
-
+  const baseURL = "http://localhost:8000/reservations/seatsFlight";
   const baseURLUpdate = "http://localhost:8000/reservations/updateSeats";
-
   const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
 
   var seatsarr = new Set();
@@ -71,6 +69,18 @@ export default function SeatsReturn(props) {
     }
   }
 
+  
+  function getClass() {
+    if (props.searchData.fseatsAvailable) {
+      return "First";
+    } else if (props.searchData.bseatsAvailable) {
+      return "Business";
+    } else if (props.searchData.eseatsAvailable) {
+      return "Economy";
+    }
+  }
+
+
   const saveselected = () => {
     axios
       .post(baseURLUpdate, { seatsNo: selectedSeats, _id: reservationID })
@@ -84,27 +94,38 @@ export default function SeatsReturn(props) {
   };
 
   const fetchSeats = () => {
-    //gets number of seats
+    //gets number of seats in the flight
     axios
-      .get(baseURLSeats)
+      .post(baseURLSeats, {
+        _id: props.selectedRetF._id,
+      })
       .then((response) => {
-        setSeats(response.data[0].bseatsAvailable);
-//        setloading(false);
+        if (props.searchData.fseatsAvailable) {
+          setSeats(response.data[0].fseatsAvailable);
+        } else if (props.searchData.bseatsAvailable) {
+          setSeats(response.data[0].bseatsAvailable);
+        } else if (props.searchData.eseatsAvailable) {
+          setSeats(response.data[0].eseatsAvailable);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const fetchFlight = () => {
+  const fetchAlreadyReserved = () => {
     //gets reserved seats of a choosen cabin of a flight
     axios
-      .get(baseURL)
+      .post("http://localhost:8000/reservations/seatsFlight", {
+        flight: props.selectedRetF._id,
+        choosenCabin: getClass()
+      })
       .then((response) => {
         setReserv(response.data);
         setloading(false);
       })
       .catch((error) => {
+        console.log(getClass());
         console.log(error);
       });
   };
@@ -118,7 +139,7 @@ export default function SeatsReturn(props) {
   }, [seats]); //layout of seats
 
   useEffect(() => {
-    fetchFlight();
+    fetchAlreadyReserved();
   }, [rows2]); //reserved seats
 
   useEffect(() => {
