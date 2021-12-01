@@ -20,6 +20,11 @@ const { RangePicker } = DatePicker;
 const filter = createFilterOptions();
 var j = {}; // Depature flight
 var k = {}; // arrival flight
+var search = {};
+j["From"] = "";
+j["To"] = "";
+j["FlightDate"] = "";
+k["FlightDate"] = "";
 var cabin = ""; // cabin class (F,B,E)
 var AdultNo = 0; // No of Passengers (Adult & childern)
 var childNo = 0;
@@ -27,8 +32,9 @@ var childNo = 0;
 export default function DatePick(props) {
   const [errVisible, setErrorVisible] = useState(false);
   const [errVisible1, setErrorVisible1] = useState(false);
-  const [date, setDate] = useState({});
-  const [date2, setDate2] = useState({});
+  const [flightOne, setFlightOne] = useState({});
+  const [flightTwo, setFlightTwo] = useState({});
+  const [searchQuery, setSearchQuery] = useState({});
   const [chosenClass, setChosenClass] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const style = {};
@@ -108,32 +114,27 @@ export default function DatePick(props) {
   );
   // Search Button
   function buttonClicked() {
-    console.log("buttonClicked");
-    console.log("date old");
-    console.log(date);
-    console.log("date 2 old");
-    console.log(date2);
-
-    if (j["From"] === j["To"]) {
-      setErrorVisible(true);
+    if (
+      j["From"] === "" ||
+      j["To"] === "" ||
+      j["FlightDate"] === "" ||
+      k["FlightDate"] === "" ||
+      cabin === "" ||
+      AdultNo === 0
+    ) {
+      setErrorVisible1(true);
     } else {
-      if (cabin === "" && AdultNo !== 0) {
-        console.log(" cabin = 0");
-        setErrorVisible1(true);
+      if (j["From"] === j["To"]) {
+        setErrorVisible(true);
       } else {
         setErrorVisible(false);
         setErrorVisible1(false);
-        delete j.fseatsAvailable;
-        delete k.fseatsAvailable;
-        delete j.bseatsAvailable;
-        delete k.bseatsAvailable;
-        delete j.eseatsAvailable;
-        delete k.eseatsAvailable;
+        delete search.fseatsAvailable;
+        delete search.bseatsAvailable;
+        delete search.eseatsAvailable;
 
         if (cabin === "1") {
-          j["eseatsAvailable"] = AdultNo + childNo;
-          k["eseatsAvailable"] = AdultNo + childNo;
-
+          search["eseatsAvailable"] = AdultNo + childNo;
           // j["fseatsAvailable"] = 0;
           // k["fseatsAvailable"] = 0;
 
@@ -141,8 +142,7 @@ export default function DatePick(props) {
           // k["bseatsAvailable"] = 0;
         }
         if (cabin === "2") {
-          j["fseatsAvailable"] = AdultNo + childNo;
-          k["fseatsAvailable"] = AdultNo + childNo;
+          search["fseatsAvailable"] = AdultNo + childNo;
 
           // j["bseatsAvailable"] = 0;
           // k["bseatsAvailable"] = 0;
@@ -150,8 +150,7 @@ export default function DatePick(props) {
           // k["eseatsAvailable"] = 0;
         }
         if (cabin === "3") {
-          j["bseatsAvailable"] = AdultNo + childNo;
-          k["bseatsAvailable"] = AdultNo + childNo;
+          search["bseatsAvailable"] = AdultNo + childNo;
 
           // j["eseatsAvailable"] = 0;
           // k["eseatsAvailable"] = 0;
@@ -160,18 +159,13 @@ export default function DatePick(props) {
           // k["fseatsAvailable"] = 0;
         }
 
-        // var x = {};
-        // var y = {};
-
-        // x = j;
-        // y = k;
-        setDate(Object.assign({}, j)); //Depature Flight
-        setDate2(Object.assign({}, k));
-
+        setFlightOne(Object.assign({}, j)); //Depature Flight
+        setFlightTwo(Object.assign({}, k));
+        setSearchQuery(Object.assign({}, search));
         console.log("Date");
-        console.log(date);
+        console.log(flightOne);
         console.log("Date2");
-        console.log(date2);
+        console.log(flightTwo);
       }
     }
   }
@@ -183,50 +177,71 @@ export default function DatePick(props) {
   // }, []);
 
   useEffect(() => {
-    console.log("use1");
-    if (date !== {}) {
+    if (flightOne !== {}) {
       axios
-        .post(`http://localhost:8000/flights/search-m2`, date)
+        .post(`http://localhost:8000/flights/search-m2`, flightOne)
         .then((res) => {
-          // let n = res.data.length;
-          // for(let i = 0; i< n; i++){
+          let n = Object.keys(res.data).length;
+          let arr = [];
+          let result = [];
+          arr = res.data;
+          let noOfPassengers = AdultNo + childNo;
+          for (let i = 0; i < n; i++) {
+            if (cabin === "1") {
+              if (noOfPassengers <= arr[i].eseatsAvailable) {
+                result.push(arr[i]);
+              }
+            }
+            if (cabin === "2") {
+              if (noOfPassengers <= arr[i].fseatsAvailable) {
+                result.push(arr[i]);
+              }
+            }
+            if (cabin === "3") {
+              if (noOfPassengers <= arr[i].bseatsAvailable) {
+                result.push(arr[i]);
+              }
+            }
+          }
 
-          // }
-
-          console.log(res.data);
-          props.setDepFlights(res.data);
-
-          // if (res.data === "error") {
-          //   console.log("error true");
-          //   // err = true;
-          //   // console.log(err);
-          //   setErrorMessage("Example error message");
-          // } else {
-          //   err = false;
-          //   console.log(err);
-          // }
-          //document.getElementById("tag");
+          console.log(result);
+          props.setDepFlights(result);
         });
     }
-  }, [date]);
+  }, [flightOne]);
 
   useEffect(() => {
-    if (date2 !== {}) {
+    if (flightTwo !== {}) {
       axios
-        .post(`http://localhost:8000/flights/search-m2`, date2)
+        .post(`http://localhost:8000/flights/search-m2`, flightTwo)
         .then((res) => {
-          console.log(res.data);
-          props.setRetFlights(res.data);
-
-          // if (res.data === "error") {
-          //   console.log("error true");
-          //   setErrorMessage("Example error message");
-          //   // err = true;
-          //   // console.log(err);
-          // }
+          let n = Object.keys(res.data).length;
+          let arr = [];
+          let result = [];
+          arr = res.data;
+          let noOfPassengers = AdultNo + childNo;
+          for (let i = 0; i < n; i++) {
+            if (cabin === "1") {
+              if (noOfPassengers <= arr[i].eseatsAvailable) {
+                result.push(arr[i]);
+              }
+            }
+            if (cabin === "2") {
+              if (noOfPassengers <= arr[i].fseatsAvailable) {
+                result.push(arr[i]);
+              }
+            }
+            if (cabin === "3") {
+              if (noOfPassengers <= arr[i].bseatsAvailable) {
+                result.push(arr[i]);
+              }
+            }
+          }
+          console.log(result);
+          props.setRetFlights(result);
         });
     }
-  }, [date2]);
+  }, [flightTwo]);
 
   return (
     <div>
@@ -235,12 +250,17 @@ export default function DatePick(props) {
       <br />
 
       <Content style={{}}>
-      
         <table>
           <thead>
             <tr>
-              <td style={{ display: "flex", justifyContent: "flex-start",color: "white"}}>
-               <h2 style={{color: "white"}}>Search flights</h2>{" "}
+              <td
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  color: "white",
+                }}
+              >
+                <h2 style={{ color: "white" }}>Search flights</h2>{" "}
               </td>
               <td></td>
               <td></td>
@@ -323,7 +343,7 @@ export default function DatePick(props) {
                 />
               </td>
             </tr>
-            <tr style={{padding:"100px"}}>
+            <tr style={{ padding: "100px" }}>
               <td class="tg-hfk9"></td>
               <td class="tg-hfk9"></td>
               <td class="tg-hfk9"></td>
@@ -334,13 +354,15 @@ export default function DatePick(props) {
                   type="primary"
                   icon={<SearchOutlined />}
                   onClick={buttonClicked}
-                >Search</Button>
+                >
+                  Search
+                </Button>
               </td>
             </tr>
           </tbody>
         </table>
 
-         {/* <Row gutter={20}>
+        {/* <Row gutter={20}>
           <Col className="gutter-row" span={1}>
             <div style={style}></div>
           </Col>
@@ -458,7 +480,6 @@ export default function DatePick(props) {
             </Button>
           </Col>
         </Row> */}
-
       </Content>
 
       {errVisible ? (
@@ -487,7 +508,7 @@ export default function DatePick(props) {
           visible={errVisible1}
           id="tag"
         >
-          Please choose the cabin class
+          Please enter all the fields
         </Tag>
       ) : (
         <Tag
@@ -496,7 +517,7 @@ export default function DatePick(props) {
           visible={errVisible1}
           id="tag"
         >
-          Please choose the cabin class
+          Please enter all the fields
         </Tag>
       )}
     </div>
