@@ -188,11 +188,8 @@ export default function DatePick(props) {
       axios
         .post(`http://localhost:8000/flights/search-m2`, date)
         .then((res) => {
-
-
           // let n = res.data.length;
           // for(let i = 0; i< n; i++){
-
 
           // }
 
@@ -238,7 +235,112 @@ export default function DatePick(props) {
       <br />
 
       <Content style={{}}>
-        <Row gutter={20}>
+      
+        <table>
+          <thead>
+            <tr>
+              <td style={{ display: "flex", justifyContent: "flex-start",color: "white"}}>
+               <h2 style={{color: "white"}}>Search flights</h2>{" "}
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                {" "}
+                <Dropdown overlay={menu}>
+                  <a
+                    className="ant-dropdown-link"
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    {chosenClass.localeCompare("") === 0
+                      ? "Cabin Class "
+                      : chosenClass + " "}
+                    <DownOutlined />
+                  </a>
+                </Dropdown>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tg-hfk9">
+                {" "}
+                <AutoComplete
+                  style={{ borderColor: "black", width: 150 }}
+                  options={options}
+                  placeholder="From"
+                  filterOption={(inputValue, option) =>
+                    option.value
+                      .toUpperCase()
+                      .indexOf(inputValue.toUpperCase()) !== -1
+                  }
+                  onChange={fromValue}
+                />
+              </td>
+              <td class="tg-hfk9">
+                {" "}
+                <AutoComplete
+                  style={{ borderColor: "black", width: 200 }}
+                  options={options}
+                  placeholder="To"
+                  filterOption={(inputValue, option) =>
+                    option.value
+                      .toUpperCase()
+                      .indexOf(inputValue.toUpperCase()) !== -1
+                  }
+                  onChange={toValue}
+                />
+              </td>
+              <td class="tg-hfk9">
+                {" "}
+                <RangePicker
+                  format="MM-DD-YYYY"
+                  onChange={onChange}
+                  autoFocus={true}
+                  allowClear
+                  style={{}}
+                />
+              </td>
+              <td class="tg-hfk9">
+                {" "}
+                <InputNumber
+                  placeholder="Adult"
+                  min={1}
+                  max={10}
+                  onChange={onChangeAdult}
+                  style={{ width: 100 }}
+                />
+              </td>
+              <td class="tg-hfk9">
+                {" "}
+                <InputNumber
+                  style={{ width: 200 }}
+                  placeholder="Child"
+                  min={0}
+                  max={10}
+                  onChange={onChangeChildren}
+                  style={{ width: 100 }}
+                />
+              </td>
+            </tr>
+            <tr style={{padding:"100px"}}>
+              <td class="tg-hfk9"></td>
+              <td class="tg-hfk9"></td>
+              <td class="tg-hfk9"></td>
+              <td class="tg-hfk9"></td>
+              <td class="tg-hfk9" style={{}}>
+                {" "}
+                <Button
+                  type="primary"
+                  icon={<SearchOutlined />}
+                  onClick={buttonClicked}
+                >Search</Button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+         {/* <Row gutter={20}>
           <Col className="gutter-row" span={1}>
             <div style={style}></div>
           </Col>
@@ -355,7 +457,8 @@ export default function DatePick(props) {
               Search
             </Button>
           </Col>
-        </Row>
+        </Row> */}
+
       </Content>
 
       {errVisible ? (
