@@ -8,7 +8,6 @@ export default function Summary(props) {
   const navigate = useNavigate();
   let loggedIn = true;
 
-  
   function getBaggage(selectedDepF) {
     if (props.searchData.fseatsAvailable) {
       return selectedDepF.fbaggage;
@@ -67,78 +66,185 @@ export default function Summary(props) {
       <Typography variant="h6" gutterBottom>
         Reservation Summary
       </Typography>
-      <table class="tg" style={{width:"100%"}}>
+      <table class="tg" style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
-          <tr>
-          <td class="tg-0lax" style={{fontWeight: "bold"}}></td>
+          <tr style={{}}>
+            <td class="tg-0lax" style={{ fontWeight: "bold" }}></td>
 
-            <td class="tg-0lax" style={{fontWeight: "bold"}}> Departure flight</td>
-            <td class="tg-0lax" style={{fontWeight: "bold"}}>Return Flight</td>
+            <td class="tg-0lax" style={{ fontWeight: "bold" }}>
+              {" "}
+              Departure Flight
+            </td>
+            <td class="tg-0lax" style={{ fontWeight: "bold" }}>
+              Return Flight
+            </td>
           </tr>
         </thead>
         <tbody>
-        <tr>
-          <td class="tg-0lax" style={{fontWeight: "bold"}}>&nbsp; </td>
+          <tr>
+            <td class="tg-0lax" style={{ fontWeight: "bold" }}>
+              &nbsp;{" "}
+            </td>
 
             <td class="tg-0lax"> &nbsp;</td>
             <td class="tg-0lax">&nbsp; </td>
           </tr>
           <tr>
-          <td class="tg-0lax" style={{fontWeight: "bold"}}> Flight Number</td>
+            <td
+              class="tg-0lax"
+              style={{
+                borderBottom: "1px solid #ddd",
+                padding: "8px",
+                fontWeight: "bold",
+              }}
+            >
+              {" "}
+              Flight No.{" "}
+            </td>
 
-            <td class="tg-0lax">{props.selectedDep.FlightNo}</td>
-            <td class="tg-0lax">{props.selectedRet.FlightNo}</td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {props.selectedDep.FlightNo}
+            </td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {props.selectedRet.FlightNo}
+            </td>
           </tr>
           <tr>
-          <td class="tg-0lax" style={{fontWeight: "bold"}}> From-To</td>
+            <td
+              style={{
+                borderBottom: "1px solid #ddd",
+                padding: "8px",
+                fontWeight: "bold",
+              }}
+            >
+              {" "}
+              From - To
+            </td>
 
-            <td class="tg-0lax">{props.selectedDep.From} - {props.selectedDep.To}</td>
-            <td class="tg-0lax">{props.selectedRet.From} - {props.selectedRet.To}</td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {props.selectedDep.From} - {props.selectedDep.To}
+            </td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {props.selectedRet.From} - {props.selectedRet.To}
+            </td>
           </tr>
           <tr>
-          <td class="tg-0lax" style={{fontWeight: "bold"}}> Departure Date </td>
+            <td
+              style={{
+                borderBottom: "1px solid #ddd",
+                padding: "8px",
+                fontWeight: "bold",
+              }}
+            >
+              {" "}
+              Departure Date{" "}
+            </td>
 
-            <td class="tg-0lax">{props.selectedDep.FlightDate.replaceAll("-", "/")} </td>
-            <td class="tg-0lax">{props.selectedRet.FlightDate.replaceAll("-", "/")} </td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {props.selectedDep.FlightDate.replaceAll("-", "/")}{" "}
+            </td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {props.selectedRet.FlightDate.replaceAll("-", "/")}{" "}
+            </td>
           </tr>
           <tr>
-          <td class="tg-0lax" style={{fontWeight: "bold"}}> Departure - Arrival</td>
+            <td
+              style={{
+                borderBottom: "1px solid #ddd",
+                padding: "8px",
+                fontWeight: "bold",
+              }}
+            >
+              {" "}
+              Departure - Arrival
+            </td>
 
-            <td class="tg-0lax">{props.selectedDep.DepartureTime} - {props.selectedDep.ArrivalTime}</td>
-            <td class="tg-0lax">{props.selectedRet.DepartureTime} - {props.selectedRet.ArrivalTime}</td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {props.selectedDep.DepartureTime} -{" "}
+              {props.selectedDep.ArrivalTime}
+            </td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {props.selectedRet.DepartureTime} -{" "}
+              {props.selectedRet.ArrivalTime}
+            </td>
           </tr>
-          
+
           <tr>
-          <td class="tg-0lax" style={{fontWeight: "bold"}}>Cabin Class</td>
+            <td
+              style={{
+                borderBottom: "1px solid #ddd",
+                padding: "8px",
+                fontWeight: "bold",
+              }}
+            >
+              Cabin Class
+            </td>
 
-            <td class="tg-0lax">{getClass()}</td>
-            <td class="tg-0lax">{getClass()}</td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {getClass()}
+            </td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {getClass()}
+            </td>
           </tr>
 
           <tr>
-          <td class="tg-0lax" style={{fontWeight: "bold"}}>Baggage Allowance</td>
+            <td
+              style={{
+                borderBottom: "1px solid #ddd",
+                padding: "8px",
+                fontWeight: "bold",
+              }}
+            >
+              Baggage Allowance
+            </td>
 
-            <td class="tg-0lax">{getBaggage(props.selectedDep)} checked bags 1 Carry-on</td>
-            <td class="tg-0lax">{getBaggage(props.selectedRet)} checked bags 1 Carry-on</td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {getBaggage(props.selectedDep)} checked bags, 1 Carry-on
+            </td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {getBaggage(props.selectedRet)} checked bags, 1 Carry-on
+            </td>
           </tr>
           <tr>
-         
-          <td class="tg-0lax" style={{fontWeight: "bold"}}>Number of Passengers</td>
+            <td
+              style={{
+                borderBottom: "1px solid #ddd",
+                padding: "8px",
+                fontWeight: "bold",
+              }}
+            >
+              Number of Passengers
+            </td>
 
-            <td class="tg-0lax">{getNoOfPassengers()}</td>
-            <td class="tg-0lax">{getNoOfPassengers()}</td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {getNoOfPassengers()}
+            </td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              {getNoOfPassengers()}
+            </td>
           </tr>
           <tr>
-          <td class="tg-0lax" style={{fontWeight: "bold"}}>Ticket Price (per 1)</td>
+            <td
+              style={{
+                borderBottom: "1px solid #ddd",
+                padding: "8px",
+                fontWeight: "bold",
+              }}
+            >
+              Ticket Price (per 1)
+            </td>
 
-            <td class="tg-0lax">${getPrice(props.selectedDep)}</td>
-            <td class="tg-0lax">${getPrice(props.selectedRet)}</td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              ${getPrice(props.selectedDep)}
+            </td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+              ${getPrice(props.selectedRet)}
+            </td>
           </tr>
-        
-       
         </tbody>
       </table>
-   
+
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         {" "}
         <Button
