@@ -3,6 +3,7 @@ import "antd/dist/antd.css";
 import { DatePicker, Space } from "antd";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import $ from "jquery";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { Menu, Dropdown, message } from "antd";
 import { DownOutlined } from "@ant-design/icons";
@@ -167,11 +168,10 @@ export default function DatePick(props) {
         // setDate(Object.assign({}, j)); //Depature Flight
         // setDate2(Object.assign({}, k));
 
-
         setFlightOne(Object.assign({}, j)); //Depature Flight
         setFlightTwo(Object.assign({}, k));
         //setSearchQuery(Object.assign({}, search));
-        props.setSearchData(search);//searchData
+        props.setSearchData(search); //searchData
 
         console.log("Date");
         console.log(flightOne);
@@ -217,6 +217,18 @@ export default function DatePick(props) {
 
           console.log(result);
           props.setDepFlights(result);
+
+          if (result.length!==0) {
+            console.log("Hi Maryam");
+
+            $(document).scrollTop(10000); // any value you need
+
+          } else {
+            console.log("Hi Hadeer");
+            $(document).scrollTop(10000); // any value you need
+
+            props.setshowEmpty("No Flights Found");
+          }
         });
     }
   }, [flightOne]);
@@ -362,6 +374,7 @@ export default function DatePick(props) {
               <td class="tg-hfk9" style={{}}>
                 {" "}
                 <Button
+                  id="searchOutput"
                   type="primary"
                   icon={<SearchOutlined />}
                   onClick={buttonClicked}

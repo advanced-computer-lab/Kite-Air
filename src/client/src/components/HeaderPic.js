@@ -5,7 +5,7 @@ import Test from "./Test.js";
 
 const HeaderPic = (props) => {
   const [vantaEffect, setVantaEffect] = useState(0);
-  
+
   const myRef = useRef(null);
   useEffect(() => {
     if (!vantaEffect) {
@@ -32,7 +32,6 @@ const HeaderPic = (props) => {
     };
   }, [vantaEffect]);
 
-
   return (
     <div ref={myRef}>
       <br />
@@ -45,6 +44,7 @@ const HeaderPic = (props) => {
             setRetFlights={props.setRetFlights}
             setDepFlights={props.setDepFlights}
             setSearchData={props.setSearchData}
+            setshowEmpty={props.setshowEmpty}
           />
         </div>
       </section>
