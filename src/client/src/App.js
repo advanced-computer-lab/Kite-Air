@@ -10,6 +10,7 @@ import CreateFlight from "./components/CreateFlight.js";
 import Search from "./components/Search.js";
 import Login from "./components/Login";
 import ProfilePage from "./components/ProfilePage.js";
+import MyBookings from "./components/MyBookings.js";
 import SignIn from "./components/SignIn";
 import Test from "./components/Test";
 
@@ -36,6 +37,8 @@ const App = () => {
             <Route path="/" element={<LandingPage />}></Route>
 
             <Route path="ProfilePage" element={<ProfilePage user={user} />} />
+            <Route path="mybookings" element={<MyBookings />} />
+
             <Route
               path="login"
               element={<SignIn user={user} setUser={setUser} />}

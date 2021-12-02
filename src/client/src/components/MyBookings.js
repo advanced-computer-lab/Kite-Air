@@ -18,21 +18,19 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 import CollapsibleTable from "./CollapsibleTable";
-
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useNavigate,useLocation } from "react-router-dom";
 import axios from "axios";
 import BackgroundLetterAvatars from "./Avatar";
 const drawerWidth = 340;
 
-export default function ProfilePage({ user }) {
+export default function MyBookings() {
   const location = useLocation();
   const navigate = useNavigate();
 
   const [isDisplay, setisDisplay] = useState(true);
   const [isBooking, setisBooking] = useState(false);
-
-  // const [loading, setLoading] = useState(true);
 
   const handleDisplayOFF = () => {
     setisDisplay(false);
@@ -49,8 +47,8 @@ export default function ProfilePage({ user }) {
     axios
       .get(baseURL, {
         params: {
-          username: user.username ,
-          Password: user.Password,
+          username: location.state.user.username,
+          Password: location.state.user.Password,
         },
       })
       .then((response) => {
@@ -99,22 +97,20 @@ export default function ProfilePage({ user }) {
         &nbsp; &nbsp; &nbsp;
         <Divider />
         <List>
-          <Button onClick={() => {}}>
+          <Button
+            onClick={() => {
+              navigate("/ProfilePage", {
+                state: { user: location.state.user },
+              });
+            }}
+          >
             {" "}
             <InboxIcon /> My Details
           </Button>
           <br />
           <br />
 
-          <Button
-            onClick={() => {
-              navigate("/mybookings", {
-                state: {
-                  user: user,
-                },
-              });
-            }}
-          >
+          <Button onClick={() => {}}>
             {" "}
             <MailIcon /> My Bookings
           </Button>
@@ -132,18 +128,7 @@ export default function ProfilePage({ user }) {
         }}
       >
         <Toolbar />
-
-        {isBooking ? (
-          <CollapsibleTable userid={logged._id} /> //here
-        ) : isDisplay ? (
-          <DisplayInfo user={user} handleDisplay={handleDisplayOFF} />
-        ) : (
-          <InfoCard
-            user={logged}
-            setUser={setLogged}
-            handleDisplay={handleDisplayON}
-          />
-        )}
+        <CollapsibleTable userid={logged._id} /> //here
       </Box>
     </Box>
   );

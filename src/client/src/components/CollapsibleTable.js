@@ -103,7 +103,9 @@ export default function CollapsibleTable(props) {
   useEffect(() => {
     if (reservations !== []) {
       axios
-        .post(`http://localhost:8000/reservations/all-reservations`,{User: props.userid})
+        .post(`http://localhost:8000/reservations/all-reservations`, {
+          User: props.userid,
+        })
         .then((res) => {
           setRes(res.data);
           resArray = res.data;
@@ -116,7 +118,7 @@ export default function CollapsibleTable(props) {
               setFlights([]);
             });
           }
-   
+
           setRes([]);
         });
     }

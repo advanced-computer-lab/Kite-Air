@@ -48,10 +48,13 @@ export default function CancelDialog({ reser }) {
               console.log(data);
               console.log("success");
               alert("Success");
+              window.location.reload(false);
+
             })
             .catch((err) => {
               console.log("Error in business seats update!");
             });
+
         } else {
           if (reser[9] === "Economy") {
             newSeats = reser[12] + reser[17];
@@ -75,6 +78,8 @@ export default function CancelDialog({ reser }) {
                 console.log(data);
                 console.log("success");
                 alert("Success");
+                window.location.reload(false);
+
               })
               .catch((err) => {
                 console.log("Error in economy seats update!");
@@ -103,6 +108,8 @@ export default function CancelDialog({ reser }) {
                   console.log("success");
 
                   alert("Success");
+                  window.location.reload(false);
+
                 })
                 .catch((err) => {
                   console.log("Error in first seats update!");

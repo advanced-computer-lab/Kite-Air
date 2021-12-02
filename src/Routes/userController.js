@@ -32,28 +32,7 @@ router.get("/loggedIn", async(req, res) => {
     });
 });
 
-// User.collection.insertMany([
-//   {
-//     "username": "maryam",
-//     "Password": "123456",
-//     "FirstName": "maryam",
-//     "LastName": "Kite Air",
-//     "Address": "Company",
-//     "PassportNo": "03123131",
-//     "CountryCode": "EGY",
-//     "TelephoneNo": "0",
-//     "Email": "admin-kiteair@gmail.com",
-//     "Admin": "0",
-//     "Reservations": ["619d51edfb493b373ad3da34"],
-     
-//   }
-//    ]
-//   ).then(function(){
-//       console.log("User w reservation inserted")  // Success
-//   }).catch(function(error){
-//       console.log(error)      // Failure
-//   });
-  
+
 
 // const userinstance = new User({
 //   username: "User1",
