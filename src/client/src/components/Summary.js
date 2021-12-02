@@ -59,6 +59,17 @@ export default function Summary(props) {
         },
       });
     }
+    else{
+      
+      navigate("/login", {
+        state: {
+          searchData: props.searchData,
+          selectedDepF: props.selectedDep,
+          selectedRetF: props.selectedRet,
+        },
+      });
+      
+    }
   };
 
   return (
