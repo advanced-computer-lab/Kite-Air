@@ -159,15 +159,28 @@ export default function SeatsPickermain(props) {
           <React.Fragment>
             {activeStep === steps.length ? (
               <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for choosing to fly with KiteAir!
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your seats have been reserved successfully! <br />
-                  You are now one step away from finalizing your reservation...{" "}
+                <div style={{ justifyContent: "center" }}>
+                  <Typography
+                    variant="h5"
+                    gutterBottom
+                    style={{ justifyContent: "center", textAlign: "center" }}
+                  >
+                    Thank you for choosing to fly with KiteAir!
+                  </Typography>
+                
+                </div>
+
+                <div style={{textAlign: "center"}}>
+                  <div style={{display: "inline-block", textAlign: "left"}}>
                   <br />
-                  All you have to do is proceed with payment!
-                </Typography>
+                  
+                  Your seats have been reserved successfully! <br />
+                    You are now one step away from finalizing your reservation,{" "}
+                    <br />
+                    All you have to do is proceed with payment!
+                  </div>
+                </div>
+
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
                   <Button variant="contained">Proceed to Payment</Button>
                 </div>

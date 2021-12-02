@@ -46,7 +46,7 @@ export default function ProfilePage({ user }) {
     axios
       .get(baseURL, {
         params: {
-          Email: user.Email,
+          username: user.username,
           Password: user.Password,
         },
       })
@@ -62,7 +62,7 @@ export default function ProfilePage({ user }) {
   // console.log(user.Password);
   useEffect(() => {
     fetchUser();
-  }, [logged]);
+  }, []);
   //hi
   return (
     <Box sx={{ display: "flex" }}>

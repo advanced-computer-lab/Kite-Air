@@ -17,37 +17,8 @@ export default function  DisplayInfo({ user, handleDisplay }) {
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [Passport, setPassport] = useState("");
-    const [Email, setEmail] = useState("");
-  // const [Address, setAddress] = useState(user.Address);
-  // const [username, setUsername] = useState(user.username);
-  // const [Password, setPassword] = useState(user.Password);
-  // const [CountryCode, setCountryCode] = useState(user.CountryCode);
-  // const [TelephoneNo, setTelephoneNo] = useState(user.TelephoneNo);
+    const [username, setusername] = useState("");
 
-
-//  // const [loading, setLoading] = useState(user.Email);
-//  const [logged, setLogged] = useState(user); 
-  
-//  const baseURL = "http://localhost:8000/users/loggedIn";
-//  const fetchUser = () => {
-//   axios
-//     .get(baseURL, {
-//         params: {
-//           Email: user.Email,
-//           Password: user.Password
-//         }})
-//     .then((response) => {
-//         console.log("here  111 "+ response); 
-//       setLogged(response.data);
-    
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });}
-//     console.log(user.Password);
-//     useEffect(() => {
-//       fetchUser();
-//     }, [logged]);
 
 const [logged, setLogged] = useState({}); 
   
@@ -56,7 +27,7 @@ const [logged, setLogged] = useState({});
       axios
         .get(baseURL, {
             params: {
-              Email: user.Email,
+              username: user.username,
               Password: user.Password
             }})
         .then((response) => {
@@ -67,12 +38,11 @@ const [logged, setLogged] = useState({});
         .catch((error) => {
           console.log(error);
         });}
-        console.log(user.Password);
+        console.log("pass"+user.Password);
         useEffect(() => {
           fetchUser();
-        }, [logged]);
+        }, []);
   return (
-
 
     <Card style={{ maxWidth: 500 }}>
       <CardContent style={{backgroundColor: "	whitesmoke"}}>
@@ -116,11 +86,11 @@ margin="dense"
 <TextField margin="dense"
 variant="standard"
 InputLabelProps={{ shrink: true }}
-label="Email"
-            id="Email"
+label="Username"
+            id="email"
             value={logged.Email}
             onChange={(e) => {
-              setEmail(e.target.value);
+              setusername(e.target.value);
             }}
             disabled={true}
             type="text"
@@ -131,8 +101,9 @@ label="Email"
 
 
 <div>
-<TextField label="Passport Number"  margin="dense"
-            id="Passport"
+<TextField label="Passport Number"  
+            margin="dense"
+            id="PassportNo"
             value={logged.PassportNo}
             onChange={(e) => {
               setPassport(e.target.value);

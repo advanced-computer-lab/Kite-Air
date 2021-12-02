@@ -8,11 +8,12 @@ import Typography from '@mui/material/Typography';
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 //mport Typography from '@mui/material/Typography';
 export default function InfoCard({user,setUser,  handleDisplay}) {
   const [FirstName, setFirstName] = useState(user.FirstName);
   const [LastName, setLastName] = useState(user.LastName);
-  const [Passport, setPassport] = useState(user.PassportNo);
+  const [PassportNo, setPassportNo] = useState(user.PassportNo);
   const [Address, setAddress] = useState(user.Address);
   const [username, setUsername] = useState(user.username);
   const [Password, setPassword] = useState(user.Password);
@@ -28,14 +29,12 @@ export default function InfoCard({user,setUser,  handleDisplay}) {
       FirstName: FirstName,
       LastName: LastName,
       Email: Email,
-      PassportNo: Passport,
-     
+      PassportNo: PassportNo,
       Address:Address,
       username:username,
       Password: Password,
       CountryCode:CountryCode,
       TelephoneNo : TelephoneNo
-
     };
 
     axios
@@ -62,6 +61,7 @@ export default function InfoCard({user,setUser,  handleDisplay}) {
         // handleClose();
       })
       .catch((err) => {
+        toast.error(err.response.data);
         console.log("Error in Update!");
       });
   }
@@ -120,10 +120,10 @@ margin="dense"
 
 <div>
 <TextField label="Passport Number"  margin="dense"
-            id="Passport"
-            value={Passport}
+            id="PassportNo"
+            value={PassportNo}
             onChange={(e) => {
-              setPassword(e.target.value);
+              setPassportNo(e.target.value);
             }}
             type="text"
             variant="standard"/>
