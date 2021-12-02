@@ -36,8 +36,8 @@ const App = () => {
             <Route path="/Search" element={<Test />}></Route>
             <Route path="/" element={<LandingPage />}></Route>
 
-            <Route path="ProfilePage" element={<ProfilePage user={user} />} />
-            <Route path="mybookings" element={<MyBookings />} />
+            {/*<Route path="ProfilePage" element={<ProfilePage user={user} />} />
+  <Route path="mybookings" element={<MyBookings />} />*/}
 
             <Route
               path="login"

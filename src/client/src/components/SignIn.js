@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { SettingsInputSvideoRounded } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { UserContext } from "../context";
+import { useContext } from "react";
 //import { eventManager } from 'react-toastify/dist/core';
 
 const theme = createTheme();
@@ -23,6 +25,8 @@ const theme = createTheme();
 export default function SignIn({ user, setUser }) {
   const [username, setusername] = useState("");
   const [Password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [state, setState] = useContext(UserContext);
 
   const inputs = {
     username: username,
@@ -45,8 +49,37 @@ export default function SignIn({ user, setUser }) {
       password: inputs.Password,
     });
     setUser(inputs);
-    navigate("/ProfilePage");
+    navigate("/");
   };
+  const [logged, setLogged] = useState({});
+  const baseURL = "http://localhost:8000/users/loggedIn";
+
+  const fetchUser = () => {
+    axios
+      .get(baseURL, {
+        params: {
+          username: user.username,
+          Password: user.Password,
+        },
+      })
+      .then((response) => {
+        setState({
+          user: response.data,
+        });
+        window.localStorage.setItem("auth", JSON.stringify(response.data));
+        console.log("here  111 " + response);
+        setLogged(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  console.log(state);
+
+  // console.log(user.Password);
+  useEffect(() => {
+    fetchUser();
+  }, [logged]);
 
   return (
     <ThemeProvider theme={theme}>
