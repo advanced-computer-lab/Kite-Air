@@ -113,7 +113,7 @@ export default function CancelDialog({ reser }) {
 
         setOpen(false);
 
-        var info = `you have canceled this flight No ${reser[2]} from ${reser[3]} to ${reser[4]} at date ${reser[5]}. Your refund amount is ${reser[13]}`;
+        var info = `you have canceled this flight No ${reser[2]} from ${reser[3]} to ${reser[4]} at date ${reser[5]}. Your refund amount is ${reser[13]}.`;
         var json = {};
         json["info"] = info.toString();
         axios
@@ -129,7 +129,6 @@ export default function CancelDialog({ reser }) {
       });
   };
 
- 
   return (
     <div>
       <Button variant="contained" color="error" onClick={handleClickOpen}>
