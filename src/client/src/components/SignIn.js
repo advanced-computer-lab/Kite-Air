@@ -76,7 +76,7 @@ const inputs = {
               required
               fullWidth
               id="username"
-              label="username Address"
+              label="Username"
               name="username"
               autoComplete="username"
               onChange={inputsHandlerusername}

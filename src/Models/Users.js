@@ -22,7 +22,7 @@ const userSchema = new Schema(
         validator: function(v) {
              return /^[A-Za-z]+$/.test(v);
          },
-         message: "Please enter only letters"
+         message: "-Only characters are allowed in First Name field!"
      }
     },
     LastName: {
@@ -33,7 +33,7 @@ const userSchema = new Schema(
         validator: function(v) {
              return /^[A-Za-z]+$/.test(v);
          },
-         message: "Please enter only letters"
+         message: "-Only characters are allowed in Last Name field!"
      }
     },
     Address: {
@@ -45,9 +45,9 @@ const userSchema = new Schema(
       required: true,
       validate: {
         validator: function(v) {
-             return /^\d[A-Z]{1}[0-9]{8}$/.test(v);
+             return /^[A-Z]{1}[0-9]{8}$/.test(v);
          },
-         message: "Please enter a valid passport no"
+         message: "-Please enter a valid Passport Number!"
      }
   },
     CountryCode: {
@@ -67,7 +67,7 @@ const userSchema = new Schema(
            validator: function(v) {
                 return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
             },
-            message: "Please enter a valid email"
+            message: "-Please enter a valid Email!"
         }
     },
     Admin: {

@@ -14,7 +14,9 @@ router.put('/:id', async(req, res) => {
         
         console.log('The User is Updated successfully !');
       }).catch(err => {
+     
         res.status(400).send(err.message);
+
         console.log(err.message);
       })
     });
