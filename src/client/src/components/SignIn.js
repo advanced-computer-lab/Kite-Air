@@ -24,18 +24,18 @@ const theme = createTheme();
 
 export default function SignIn({user, setUser}) {
 
-const [Email, setEmail] = useState("");
+const [username, setusername] = useState("");
 const [Password, setPassword] = useState("");
 
 const inputs = {
-  Email: Email,
+  username: username,
   Password: Password}
 
   const inputsHandlerPass= (e) => {
     setPassword(e.target.value);
   };
-  const inputsHandlerEmail = (e) => {
-    setEmail(e.target.value);
+  const inputsHandlerusername = (e) => {
+    setusername(e.target.value);
   };
 
   let navigate = useNavigate();
@@ -43,7 +43,7 @@ const inputs = {
     event.preventDefault();
   
     console.log({
-      email: inputs.Email,
+      username: inputs.username,
       password: inputs.Password
     });
     setUser(inputs);
@@ -75,11 +75,11 @@ const inputs = {
               margin="normal"
               required
               fullWidth
-              id="Email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              onChange={inputsHandlerEmail}
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              onChange={inputsHandlerusername}
               autoFocus
             />
             <TextField

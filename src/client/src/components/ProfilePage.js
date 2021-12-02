@@ -22,7 +22,7 @@ import CollapsibleTable from "./CollapsibleTable";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BackgroundLetterAvatars from "./Avatar";
-const drawerWidth = 240;
+const drawerWidth = 340;
 
 export default function ProfilePage({ user }) {
   console.log(user.Password);
@@ -46,7 +46,7 @@ export default function ProfilePage({ user }) {
     axios
       .get(baseURL, {
         params: {
-          Email: user.Email,
+          username: user.username,
           Password: user.Password,
         },
       })

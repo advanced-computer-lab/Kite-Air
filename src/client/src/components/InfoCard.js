@@ -1,18 +1,19 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import * as React from "react";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 //mport Typography from '@mui/material/Typography';
-export default function InfoCard({user,setUser,  handleDisplay}) {
+export default function InfoCard({ user, setUser, handleDisplay }) {
   const [FirstName, setFirstName] = useState(user.FirstName);
   const [LastName, setLastName] = useState(user.LastName);
-  const [Passport, setPassport] = useState(user.PassportNo);
+  const [PassportNo, setPassportNo] = useState(user.PassportNo);
   const [Address, setAddress] = useState(user.Address);
   const [username, setUsername] = useState(user.username);
   const [Password, setPassword] = useState(user.Password);
@@ -28,14 +29,12 @@ export default function InfoCard({user,setUser,  handleDisplay}) {
       FirstName: FirstName,
       LastName: LastName,
       Email: Email,
-      PassportNo: Passport,
-     
-      Address:Address,
-      username:username,
+      PassportNo: PassportNo,
+      Address: Address,
+      username: username,
       Password: Password,
-      CountryCode:CountryCode,
-      TelephoneNo : TelephoneNo
-
+      CountryCode: CountryCode,
+      TelephoneNo: TelephoneNo,
     };
 
     axios
@@ -54,86 +53,113 @@ export default function InfoCard({user,setUser,  handleDisplay}) {
         //   draggable: true,
         //   progress: undefined,
         // });
-   
-    handleDisplay();
-    setUser(res); 
-      //  setOpen(true);
+
+        handleDisplay();
+        setUser(res);
+        //  setOpen(true);
         // component: () => <Navigate to='/'/>
         // handleClose();
       })
       .catch((err) => {
-        console.log("Error in Update!");
+      //  toast.error(err.response.data);
+
+        console.log(err.response.data.split("-"));
+        let arr = err.response.data.split("-");
+        for (let e = 0; e < arr.length; e++) {
+          if (arr[e].includes(",")) toast.error(arr[e].split(',')[0],{
+            position: "top-right",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          if(e===arr.length-1){
+            toast.error(arr[e],{
+              position: "top-right",
+              autoClose: 10000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+        }
       });
   }
 
-
   return (
     <Card style={{ maxWidth: 500 }}>
-
-      <CardContent style={{backgroundColor: "	whitesmoke"}}>
+      <CardContent style={{ backgroundColor: "	whitesmoke" }}>
         <Typography gutterBottom variant="h5" component="div">
-        Basic Information
+          Basic Information
         </Typography>
-<br/>
-
-     {open? {handleDisplay} :" "}
-<TextField 
-label="First Name"  
-margin="dense"
-            id="FirstName"
-            value={FirstName}
-            onChange={(e) => {
-              setFirstName(e.target.value);
-            }}
-            type="text"
-            variant="standard"/>
-
-&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; 
-
-<TextField  label="Last Name"    
+        <br />
+        {open ? { handleDisplay } : " "}
+        <TextField
+          label="First Name"
+          margin="dense"
+          id="FirstName"
+          value={FirstName}
+          onChange={(e) => {
+            setFirstName(e.target.value);
+          }}
+          type="text"
+          variant="standard"
+        />
+        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+        <TextField
+          label="Last Name"
+          margin="dense"
+          id="LastName"
+          value={LastName}
+          onChange={(e) => {
+            setLastName(e.target.value);
+          }}
+          type="text"
+          variant="standard"
+        />
+        <br />
+        <br />
+        <br />
+        <TextField
+          label="Email"
+          margin="dense"
+          id="Email"
+          value={Email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          type="text"
+          variant="standard"
+        />
+        <br />
+        <br />
+        <div>
+          <TextField
+            label="Passport Number"
             margin="dense"
-            id="LastName"
-            value={LastName}
+            id="PassportNo"
+            value={PassportNo}
             onChange={(e) => {
-              setLastName(e.target.value);
+              setPassportNo(e.target.value);
             }}
             type="text"
-            variant="standard"/>
-
-<br/>
-<br/>
-<br/>
-
-
-<TextField  label="Email"  margin="dense"
-            id="Email"
-            value={Email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            type="text"
-            variant="standard"/>
-
-<br/>
-<br/>
-
-
-<div>
-<TextField label="Passport Number"  margin="dense"
-            id="Passport"
-            value={Passport}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            type="text"
-            variant="standard"/>
-</div>
-
-<div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button onClick={updatePersonalInfo}  variant="contained" size="medium">Confirm</Button>
-      </div>
+            variant="standard"
+          />
+        </div>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            onClick={updatePersonalInfo}
+            variant="contained"
+            size="medium"
+          >
+            Confirm
+          </Button>
+        </div>
       </CardContent>
-
     </Card>
   );
 }

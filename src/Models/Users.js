@@ -18,11 +18,23 @@ const userSchema = new Schema(
       type: String,
       required: true,
       trim: true,
+      validate: {
+        validator: function(v) {
+             return /^[A-Za-z]+$/.test(v);
+         },
+         message: "-Only characters are allowed in First Name field!"
+     }
     },
     LastName: {
       type: String,
       required: true,
       trim: true,
+      validate: {
+        validator: function(v) {
+             return /^[A-Za-z]+$/.test(v);
+         },
+         message: "-Only characters are allowed in Last Name field!"
+     }
     },
     Address: {
       type: String,
@@ -31,7 +43,13 @@ const userSchema = new Schema(
     PassportNo: {
       type: String,
       required: true,
-    },
+      validate: {
+        validator: function(v) {
+             return /^[A-Z]{1}[0-9]{8}$/.test(v);
+         },
+         message: "-Please enter a valid Passport Number!"
+     }
+  },
     CountryCode: {
     type: String,
     required: true,
@@ -45,6 +63,12 @@ const userSchema = new Schema(
         Unique: true,
         required: true,
         trim: true,
+        validate: {
+           validator: function(v) {
+                return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+            },
+            message: "-Please enter a valid Email!"
+        }
     },
     Admin: {
         type: String, //1 if admin 0/null if user 3ady

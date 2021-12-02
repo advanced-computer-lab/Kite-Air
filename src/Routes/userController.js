@@ -6,22 +6,26 @@ const User = require('../Models/Users');
 
 router.put('/:id', async(req, res) => {
     console.log(req.params.id);
-    await User.findByIdAndUpdate(req.params.id, req.body)
+    const opts = { runValidators: true };
+    await User.findByIdAndUpdate(req.params.id, req.body, opts)
       .then(result => {
+
         res.status(200).send("User updated ");
         
         console.log('The User is Updated successfully !');
       }).catch(err => {
-        console.log(err);
+     
+        res.status(400).send(err.message);
+
+        console.log(err.message);
       })
     });
 
  
 router.get("/loggedIn", async(req, res) => {
-  await User.findOne({"Email" : req.query.Email})
+  await User.findOne({"username" : req.query.username})
     .then((result) => {
       res.json(result);
-    
     })
     .catch((err) => {
       console.log(err);
