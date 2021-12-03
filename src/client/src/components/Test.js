@@ -274,8 +274,11 @@ export default function DatePick(props) {
       <br />
       <br />
       <br />
+      
+      <br />
 
-      <Content style={{}}>
+
+      <Content>
         <table>
           <thead>
             <tr>
@@ -291,10 +294,10 @@ export default function DatePick(props) {
               <td></td>
               <td></td>
               <td></td>
-              <td style={{ backgroundColor: "rgb(190 190 190 / 55%)" }}>
+              <td >
                 {" "}
                 <Dropdown overlay={menu} trigger="click">
-                  <a
+                  <Button 
                     className="ant-dropdown-link"
                     onClick={(e) => e.preventDefault()}
                   >
@@ -302,7 +305,7 @@ export default function DatePick(props) {
                       ? "Cabin Class "
                       : chosenClass + " "}
                     <DownOutlined />
-                  </a>
+                  </Button>
                 </Dropdown>
               </td>
             </tr>
@@ -311,7 +314,7 @@ export default function DatePick(props) {
             <tr>
               <td class="tg-hfk9">
                 {" "}
-                <AutoComplete
+                <AutoComplete size="large"
                   style={{ borderColor: "black", width: 150 }}
                   options={options}
                   placeholder="Leaving From"
@@ -325,8 +328,8 @@ export default function DatePick(props) {
               </td>
               <td class="tg-hfk9">
                 {" "}
-                <AutoComplete
-                  style={{ borderColor: "black", width: 200 }}
+                <AutoComplete size="large"
+                  style={{ borderColor: "black", width: 150 }}
                   options={options}
                   placeholder="Going To"
                   filterOption={(inputValue, option) =>
@@ -339,28 +342,26 @@ export default function DatePick(props) {
               </td>
               <td class="tg-hfk9">
                 {" "}
-                <RangePicker
+                <RangePicker size="large"
                   format="MM-DD-YYYY"
                   onChange={onChange}
                   autoFocus={true}
                   allowClear
-                  style={{}}
                 />
               </td>
-              <td class="tg-hfk9">
+              <td class="tg-hfk9" style={{paddingLeft:"10px"}}>
                 {" "}
-                <InputNumber
+                <InputNumber size="large"
                   placeholder="Adult"
                   min={1}
                   max={10}
                   onChange={onChangeAdult}
-                  style={{ width: 100 }}
+                  style={{ width: 100}}
                 />
               </td>
               <td class="tg-hfk9">
                 {" "}
-                <InputNumber
-                  style={{ width: 200 }}
+                <InputNumber size="large"
                   placeholder="Child"
                   min={0}
                   max={10}
@@ -376,7 +377,7 @@ export default function DatePick(props) {
               <td class="tg-hfk9"></td>
               <td class="tg-hfk9" style={{ paddingTop: 5 }}>
                 {" "}
-                <Button
+                <Button size="large"
                   id="searchOutput"
                   type="primary"
                   icon={<SearchOutlined />}
