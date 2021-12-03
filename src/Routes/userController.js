@@ -29,16 +29,16 @@ const User = require('../Models/Users');
   
 
 // const userinstance = new User({
-//   username: "admin1",
+//   username: "User1",
 //   Password: "123456",
-//   FirstName: "Admin",
-//   LastName: "Kite Air",
+//   FirstName: "User",
+//   LastName: "New",
 //   Address: "Company",
-//   PassportNo: "0",
+//   PassportNo: "A234567",
 //   CountryCode: "EGY",
 //   TelephoneNo: "0",
-//   Email: "admin-kiteair@gmail.com",
-//   Admin: "1"
+//   Email: "user1@gmail.com",
+//   Admin: "0"
 
 // });
 
