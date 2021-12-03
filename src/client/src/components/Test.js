@@ -286,12 +286,12 @@ export default function DatePick(props) {
                   color: "white",
                 }}
               >
-                <h2 style={{ color: "white" }}>Search flights</h2>{" "}
+                <h2 style={{ color: "white" }}>Search Flights</h2>{" "}
               </td>
               <td></td>
               <td></td>
               <td></td>
-              <td>
+              <td style={{ backgroundColor: "rgb(190 190 190 / 55%)" }}>
                 {" "}
                 <Dropdown overlay={menu} trigger="click">
                   <a
@@ -374,7 +374,7 @@ export default function DatePick(props) {
               <td class="tg-hfk9"></td>
               <td class="tg-hfk9"></td>
               <td class="tg-hfk9"></td>
-              <td class="tg-hfk9" style={{}}>
+              <td class="tg-hfk9" style={{ paddingTop: 5 }}>
                 {" "}
                 <Button
                   id="searchOutput"
