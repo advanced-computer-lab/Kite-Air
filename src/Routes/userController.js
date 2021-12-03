@@ -4,29 +4,37 @@ const User = require('../Models/Users');
 
 
 
+router.put('/:id', async(req, res) => {
+    console.log(req.params.id);
+    const opts = { runValidators: true };
+    await User.findByIdAndUpdate(req.params.id, req.body, opts)
+      .then(result => {
 
-// User.collection.insertMany([
-//   {
-//     "username": "maryam",
-//     "Password": "123456",
-//     "FirstName": "maryam",
-//     "LastName": "Kite Air",
-//     "Address": "Company",
-//     "PassportNo": "03123131",
-//     "CountryCode": "EGY",
-//     "TelephoneNo": "0",
-//     "Email": "admin-kiteair@gmail.com",
-//     "Admin": "0",
-//     "Reservations": ["619d51edfb493b373ad3da34"],
+        res.status(200).send("User updated ");
+        
+        console.log('The User is Updated successfully !');
+      }).catch(err => {
      
-//   }
-//    ]
-//   ).then(function(){
-//       console.log("User w reservation inserted")  // Success
-//   }).catch(function(error){
-//       console.log(error)      // Failure
-//   });
-  
+        res.status(400).send(err.message);
+
+        console.log(err.message);
+      })
+    });
+
+ 
+router.post("/loggedIn", async(req, res) => {
+
+  await User.findOne({"username" : req.body.username})
+    .then((result) => {
+      res.json(result);
+      console.log("plz " + result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+
 
 // const userinstance = new User({
 //   username: "User1",
@@ -55,5 +63,4 @@ const User = require('../Models/Users');
 
 
 module.exports = router;
-
 

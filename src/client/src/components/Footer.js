@@ -24,13 +24,13 @@ export default function Footer() {
   return (
     <div>
       <footer className="footer">
-        <p style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center" }}>
         
         <br/>
         <br/>
           <Copyright />
          
-        </p>
+        </div>
       </footer>
     </div>
   );

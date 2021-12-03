@@ -79,7 +79,10 @@ function Search() {
     if (flights !== {}) {
       axios
         .post(`http://localhost:8000/flights/search`, flights)
-        .then((res) => setFs(res.data));
+        .then((res) => {
+          setFs(res.data)
+          console.log("hi");
+        });
     }
   }, [flights]);
 

@@ -1,0 +1,64 @@
+
+  
+  .seat {
+    background: #191b3a;
+    height: 40px;
+    width: 45px;
+    color: #fff;
+   
+   }
+   .seat:hover {
+    background-color: #1976d2;
+    border-color: #1976d2;
+   }
+   .seat--selected {
+    background-color:#1976d2;
+   }
+   .seat--reserved {
+    background-color: gray;
+   }
+   
+   .seat-picker {
+     width: auto;
+     margin-bottom: 4px;
+     background: transparent;
+   }
+   
+   .seat-picker__row__number {
+     font-size: 25px;
+     color: #191b3a;
+     margin-right: 4px;
+   }
+   .seat__number {
+     font-size: 20px;
+   }
+   
+   @media (min-width: 768px) {
+    .showcase {
+      background-position: top;
+    }
+  
+    .showcase .showcase-overlay h1 {
+      font-size: 84px;
+    }
+  
+    .showcase .showcase-overlay p {
+      font-size: 18px;
+    }
+}
+
+  .showcase .showcase-overlay {
+    background-color: rgba(0, 0, 0, 0.329);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    color: #fff;
+  }
+  
+  .showcase .showcase-overlay h1 {
+    font-size: 66px;
+    padding-bottom: 20px;
+  }
