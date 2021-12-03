@@ -8,16 +8,15 @@ import Header from "./components/Header";
 import LandingPage from "./components/LandingPage";
 import CreateFlight from "./components/CreateFlight.js";
 import Search from "./components/Search.js";
-import Login from "./components/Login";
 import ProfilePage from "./components/ProfilePage.js";
 import MyBookings from "./components/MyBookings.js";
 import SignIn from "./components/SignIn";
 import Test from "./components/Test";
-
+import CollapsibleTable from "./components/CollapsibleTable";
 import SeatsPickermain from "./components/SeatsPickermain";
+
 import { useEffect, useState } from "react";
 
-import CollapsibleTable from "./components/CollapsibleTable";
 
 // import { useContext } from "react";
 // import { UserContext } from "./context/index.js";
@@ -36,13 +35,10 @@ const App = () => {
             <Route path="/pickSeats" element={<SeatsPickermain />}></Route>
             <Route path="/add-new-flight" element={<CreateFlight />}></Route>
             <Route path="/admin" element={<Search />}></Route>
-            {/* <Route path="/login" element={<Login/>}></Route> */}
             <Route path="/Search" element={<Test />}></Route>
             <Route path="/" element={<LandingPage />}></Route>
-
             <Route path="ProfilePage" element={<ProfilePage />} />
             <Route path="mybookings" element={<MyBookings />} />
-
             <Route path="login" element={<SignIn />} />
             <Route
               path="/userReservations"
