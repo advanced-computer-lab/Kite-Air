@@ -64,7 +64,7 @@ function Row(e) {
                   <TableRow>
                     <TableCell>Terminal</TableCell>
                     <TableCell>Cabin</TableCell>
-                    <TableCell align="left">Baggage(per ticket)</TableCell>
+                    <TableCell align="left" >Baggage(per ticket)</TableCell>
                     <TableCell align="left">Price(per ticket)</TableCell>
                     <TableCell align="left">Passengers#</TableCell>
                     <TableCell align="left">Seats</TableCell>
@@ -214,6 +214,10 @@ export default function CollapsibleTable() {
 
   return (
     <div>
+<br/>
+      <h2>My Bookings</h2>
+      <br/>
+
       {loading && (
         <Box sx={{ width: "100%" }}>
           <LinearProgress />
@@ -225,12 +229,12 @@ export default function CollapsibleTable() {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell>Flight No.</TableCell>
-              <TableCell align="right">From</TableCell>
-              <TableCell align="right">To</TableCell>
-              <TableCell align="right">Date(mm/dd/yyyy)</TableCell>
-              <TableCell align="right">Departure</TableCell>
-              <TableCell align="right">Arrival</TableCell>
+              <TableCell style={{fontWeight:"bolder"}}>Flight No.</TableCell>
+              <TableCell align="right" style={{fontWeight:"bolder"}}>From</TableCell>
+              <TableCell align="right" style={{fontWeight:"bolder"}}>To</TableCell>
+              <TableCell align="right" style={{fontWeight:"bolder"}}>Date(mm/dd/yyyy)</TableCell>
+              <TableCell align="right" style={{fontWeight:"bolder"}}>Departure</TableCell>
+              <TableCell align="right" style={{fontWeight:"bolder"}}>Arrival</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
