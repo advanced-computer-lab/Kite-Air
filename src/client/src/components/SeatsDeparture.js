@@ -195,9 +195,15 @@ export default function SeatsDeparture(props) {
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
         {getClass()} Seats for Departure Flight
-        <br/>
-        { (maxReservableSeats - selectedSoFar) ?  ( <small> You have {maxReservableSeats - selectedSoFar} seat(s) left to pick </small>) : <></>}
-
+        <br />
+        {maxReservableSeats - selectedSoFar ? (
+          <small>
+            {" "}
+            You have {maxReservableSeats - selectedSoFar} seat(s) left to pick{" "}
+          </small>
+        ) : (
+          <></>
+        )}
       </Typography>
       <div className="">
         {selectedSoFar === maxReservableSeats

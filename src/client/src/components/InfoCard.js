@@ -6,77 +6,106 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import { UserContext } from "../context/index.js";
+
 import { toast } from "react-toastify";
 //mport Typography from '@mui/material/Typography';
-export default function InfoCard({ user, setUser, handleDisplay }) {
-  const [FirstName, setFirstName] = useState(user.FirstName);
-  const [LastName, setLastName] = useState(user.LastName);
-  const [PassportNo, setPassportNo] = useState(user.PassportNo);
-  const [Address, setAddress] = useState(user.Address);
-  const [username, setUsername] = useState(user.username);
-  const [Password, setPassword] = useState(user.Password);
-  const [CountryCode, setCountryCode] = useState(user.CountryCode);
-  const [TelephoneNo, setTelephoneNo] = useState(user.TelephoneNo);
-  const [Email, setEmail] = useState(user.Email);
+export default function InfoCard({ handleDisplay }) {
+  const [state, setState] = useContext(UserContext);
+
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [PassportNo, setPassportNo] = useState("");
+  const [Address, setAddress] = useState(state.user.Address);
+  const [username, setUsername] = useState(state.user.username);
+  const [Password, setPassword] = useState(state.user.Password);
+  const [CountryCode, setCountryCode] = useState(state.user.CountryCode);
+  const [TelephoneNo, setTelephoneNo] = useState(state.user.TelephoneNo);
+  const [Email, setEmail] = useState("");
+  const [ok, setOk] = useState(false);
+
+ 
 
   // const [redirect, setRedirect] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
+  
+  useEffect(() => {
+    if (state && state.user) {
+      console.log("user from state => ", state.user);
+      setEmail(state.user.Email);
+      setPassportNo(state.user.PassportNo);
+      setFirstName(state.user.FirstName);
+      setLastName(state.user.LastName);
+    }
+  }, [state && state.user]);
+
+
   function updatePersonalInfo() {
+    
     const data = {
+      _id: state.user._id,
+      username: username,
       FirstName: FirstName,
       LastName: LastName,
-      Email: Email,
-      PassportNo: PassportNo,
       Address: Address,
-      username: username,
+      PassportNo: PassportNo,
       Password: Password,
       CountryCode: CountryCode,
       TelephoneNo: TelephoneNo,
+      Email: Email,
+      Admin: "0",
     };
 
     axios
-      .put("http://localhost:8000/users/" + user._id, data)
+      .put("http://localhost:8000/users/" + state.user._id, data)
       .then((res) => {
-        console.log(data);
-        console.log("success");
-        alert("Success");
+        //  console.log(data);
 
-        // toast.success("Flight Updated!", {
-        //   position: "top-right",
-        //   autoClose: 5000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        // });
+        // console.log("success");
+        // alert("Success");
+ 
+        let auth = JSON.parse(window.localStorage.getItem("auth"));
+        auth.user = data;
+        window.localStorage.setItem("auth", JSON.stringify(auth));
+        // console.log("setting auth");
+        // console.log(auth);
+
+        // update context
+        setState({ ...state, user: data });
+              
+        
+        toast.success("Profile Updated!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setOk(true);
 
         handleDisplay();
-        setUser(res);
-        //  setOpen(true);
-        // component: () => <Navigate to='/'/>
-        // handleClose();
       })
       .catch((err) => {
-      //  toast.error(err.response.data);
-
-        console.log(err.response.data.split("-"));
+        // console.log(err.response.data.split("-"));
         let arr = err.response.data.split("-");
         for (let e = 0; e < arr.length; e++) {
-          if (arr[e].includes(",")) toast.error(arr[e].split(',')[0],{
-            position: "top-right",
-            autoClose: 10000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          if(e===arr.length-1){
-            toast.error(arr[e],{
+          if (arr[e].includes(","))
+            toast.error(arr[e].split(",")[0], {
+              position: "top-right",
+              autoClose: 10000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          if (e === arr.length - 1) {
+            toast.error(arr[e], {
               position: "top-right",
               autoClose: 10000,
               hideProgressBar: false,

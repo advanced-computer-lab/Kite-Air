@@ -12,7 +12,11 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Link from "@mui/material/Link";
 
+import { useContext, useEffect } from "react";
+import { UserContext } from "../context/index.js";
+
 export default function Header() {
+  const [state, setState] = useContext(UserContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -21,7 +25,12 @@ export default function Header() {
 
   const navigate = useNavigate();
 
-  const isLoggedIn = false;
+  // useEffect(() => {
+  //   setState(JSON.parse(window.localStorage.getItem("auth")));
+  // }, []);
+
+  //console.log(state);
+  const isLoggedIn =  state && state.user;
   const isAdmin = false;
 
   const faireRedirection = () => {
@@ -50,6 +59,21 @@ export default function Header() {
     navigate("/login");
   };
 
+  const handleProfileClick = (event) => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+    navigate("/ProfilePage");
+  };
+
+
+
+  const logout = () => {
+    window.localStorage.removeItem("auth");
+    setState(null);
+    navigate("/login");
+    handleMobileMenuClose();
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -67,8 +91,8 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Log-out</MenuItem>
+      <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+      <MenuItem onClick={logout}>Log-out</MenuItem>
     </Menu>
   );
 
@@ -89,7 +113,7 @@ export default function Header() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleProfileClick}>
         {/* <IconButton
           size="large"
           aria-label="account of current user"
@@ -102,7 +126,7 @@ export default function Header() {
         <p>Profile</p>
       </MenuItem>
 
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={logout}>
         <p>Log-out</p>
       </MenuItem>
     </Menu>
@@ -118,9 +142,15 @@ export default function Header() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            <Link color="inherit" href="/" style={{ textDecoration: "none" }}>
+            <div
+              color="inherit"
+              onClick={() => {
+                navigate("/");
+              }}
+              style={{ textDecoration: "none", cursor: "pointer" }}
+            >
               Kite Air
-            </Link>{" "}
+            </div>{" "}
           </Typography>
 
           {/* {isLoggedIn ? (
@@ -135,7 +165,6 @@ export default function Header() {
           ) : (
             <></>
           )} */}
-
 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>

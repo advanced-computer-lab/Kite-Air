@@ -22,10 +22,12 @@ router.put('/:id', async(req, res) => {
     });
 
  
-router.get("/loggedIn", async(req, res) => {
-  await User.findOne({"username" : req.query.username})
+router.post("/loggedIn", async(req, res) => {
+
+  await User.findOne({"username" : req.body.username})
     .then((result) => {
       res.json(result);
+      console.log("plz " + result);
     })
     .catch((err) => {
       console.log(err);

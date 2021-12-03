@@ -53,7 +53,7 @@ export default function DepartureFlights({
 
             <div
               style={{
-                cursor: "pointer",
+               
                 boxShadow: "2px 2px 3px rgb(136 136 136 / 41%)",
                 padding: "20px",
               }}

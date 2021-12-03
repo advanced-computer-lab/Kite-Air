@@ -5,6 +5,8 @@ const UserContext = createContext();
 const UserProvider = ({ children }) => {
   const [state, setState] = useState({
     user: {},
+    token:"",
+
   });
 
   useEffect(() => {

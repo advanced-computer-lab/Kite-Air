@@ -13,12 +13,16 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import CancelDialog from "./CancelDialog";
+import { UserContext } from "../context/index.js";
+
+
 var resArray = [];
 var flightsArray = [];
 var totalArray = []; //2D array to fill the table
+
 
 function Row(e) {
   // count = count + 1;
@@ -96,7 +100,10 @@ function Row(e) {
   );
 }
 
-export default function CollapsibleTable(props) {
+export default function CollapsibleTable() {
+
+  const [state, setState] = useContext(UserContext);
+
   const [reservations, setRes] = React.useState([]);
   const [flights, setFlights] = React.useState([]);
 
@@ -104,7 +111,7 @@ export default function CollapsibleTable(props) {
     if (reservations !== []) {
       axios
         .post(`http://localhost:8000/reservations/all-reservations`, {
-          User: props.userid,
+          User: state.user._id,
         })
         .then((res) => {
           setRes(res.data);

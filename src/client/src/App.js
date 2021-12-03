@@ -1,5 +1,5 @@
 import React from "react";
-import { UserProvider } from "./context";
+import { UserProvider } from "./context/index";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,8 +19,12 @@ import { useEffect, useState } from "react";
 
 import CollapsibleTable from "./components/CollapsibleTable";
 
+// import { useContext } from "react";
+// import { UserContext } from "./context/index.js";
+
 const App = () => {
   const [user, setUser] = useState({});
+  // const [state, setState] = useContext(UserContext);
 
   return (
     <UserProvider>
@@ -36,13 +40,10 @@ const App = () => {
             <Route path="/Search" element={<Test />}></Route>
             <Route path="/" element={<LandingPage />}></Route>
 
-            {/*<Route path="ProfilePage" element={<ProfilePage user={user} />} />
-  <Route path="mybookings" element={<MyBookings />} />*/}
+            <Route path="ProfilePage" element={<ProfilePage />} />
+            <Route path="mybookings" element={<MyBookings />} />
 
-            <Route
-              path="login"
-              element={<SignIn user={user} setUser={setUser} />}
-            />
+            <Route path="login" element={<SignIn />} />
             <Route
               path="/userReservations"
               element={<CollapsibleTable />}
@@ -55,6 +56,5 @@ const App = () => {
     </UserProvider>
   );
 };
-//<Route path="/" element={<ProfilePage user={user}/>}></Route>
-//<Route path="/" element={<ProfilePage user={user}/>}></Route>
+
 export default App;

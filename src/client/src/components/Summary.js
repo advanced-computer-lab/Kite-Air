@@ -2,11 +2,14 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom"; // version 5.2.0
+import { useContext } from "react";
+import { UserContext } from "../context/index.js";
 
 export default function Summary(props) {
   //searchData
+  const [state, setState] = useContext(UserContext);
   const navigate = useNavigate();
-  let loggedIn = true;
+  let loggedIn =  state && state.user;
 
   function getBaggage(selectedDepF) {
     if (props.searchData.fseatsAvailable) {
@@ -61,13 +64,7 @@ export default function Summary(props) {
     }
     else{
       
-      navigate("/login", {
-        state: {
-          searchData: props.searchData,
-          selectedDepF: props.selectedDep,
-          selectedRetF: props.selectedRet,
-        },
-      });
+      navigate("/login");
       
     }
   };

@@ -20,17 +20,22 @@ import Button from "@mui/material/Button";
 import CollapsibleTable from "./CollapsibleTable";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { UserContext } from "../context/index.js";
+
+import { useEffect, useState,useContext } from "react";
 import axios from "axios";
 import BackgroundLetterAvatars from "./Avatar";
+import { STATES } from "mongoose";
 const drawerWidth = 340;
 
 export default function MyBookings() {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [isDisplay, setisDisplay] = useState(true);
   const [isBooking, setisBooking] = useState(false);
+  const [state, setState] = useContext(UserContext);
+
+
 
   const handleDisplayOFF = () => {
     setisDisplay(false);
@@ -39,32 +44,36 @@ export default function MyBookings() {
     setisDisplay(true);
   };
 
-  const [logged, setLogged] = useState({});
+  // const [logged, setLogged] = useState({});
 
-  const baseURL = "http://localhost:8000/users/loggedIn";
+  // const baseURL = "http://localhost:8000/users/loggedIn";
 
-  const fetchUser = () => {
-    axios
-      .get(baseURL, {
-        params: {
-          username: location.state.user.username,
-          Password: location.state.user.Password,
-        },
-      })
-      .then((response) => {
-        console.log("here  111 " + response);
-        setLogged(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const fetchUser = () => {
+  //   axios
+  //     .get(baseURL, {
+  //       params: {
+  //         username: location.state.user.username,
+  //         Password: location.state.user.Password,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log("here  111 " + response);
+  //       setLogged(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   // console.log(user.Password);
-  useEffect(() => {
-    fetchUser();
-  }, [logged]);
-  //hi
+  // useEffect(() => {
+  //   fetchUser();
+  // }, [logged]);
+  // //hi
+
+
+
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -91,7 +100,7 @@ export default function MyBookings() {
         &nbsp; &nbsp; &nbsp;
         <div align="center">
           <BackgroundLetterAvatars
-            n={logged.FirstName + " " + logged.LastName}
+            n={state.user.FirstName + " " + state.user.LastName}
           />
         </div>
         &nbsp; &nbsp; &nbsp;
@@ -99,9 +108,7 @@ export default function MyBookings() {
         <List>
           <Button
             onClick={() => {
-              navigate("/ProfilePage", {
-                state: { user: location.state.user },
-              });
+              navigate("/ProfilePage");
             }}
           >
             {" "}
@@ -128,7 +135,7 @@ export default function MyBookings() {
         }}
       >
         <Toolbar />
-        <CollapsibleTable userid={logged._id} /> //here
+        <CollapsibleTable />
       </Box>
     </Box>
   );
