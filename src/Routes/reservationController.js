@@ -94,8 +94,10 @@ router.post("/seatsFlight", async (req, res) => {
 router.post("/send", (req, res) => {
   try {
     const output = `<p>Hello,</p>
-    <br/>
     ${req.body.data}
+    If you think this cancellation is in error or you have other questions, please contact us on this email.
+    <br/>
+    KITE AIR :)
     `;
     console.log({ req });
     let transporter = nodemailer.createTransport({
@@ -115,9 +117,9 @@ router.post("/send", (req, res) => {
     // send mail with defined transport object
     let info = transporter.sendMail({
       // i deleted await
-      from: '"NodeMailar" <winter21team@gmail.com>', // sender address
+      from: '"Kite Air" <winter21team@gmail.com>', // sender address
       to: "hadeerelhussen1111@gmail.com", // list of receivers
-      subject: "Hello ✔", // Subject line
+      subject: "Reservation cancelled", // Subject line
       text: "Hello world?", // plain text body
       html: output, // html body
     });
