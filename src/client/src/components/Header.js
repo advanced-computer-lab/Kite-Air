@@ -71,7 +71,7 @@ export default function Header() {
     window.localStorage.removeItem("auth");
     setState(null);
     navigate("/login");
-    handleMobileMenuClose();
+    handleMenuClose();
   };
 
   const menuId = "primary-search-account-menu";

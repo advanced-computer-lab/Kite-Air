@@ -2,12 +2,16 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom"; // version 5.2.0
-import { useContext } from "react";
+import { useContext,useState } from "react";
 import { UserContext } from "../context/index.js";
+import { toast } from "react-toastify";
+
 
 export default function Summary(props) {
   //searchData
   const [state, setState] = useContext(UserContext);
+  const [ok, setOk] = useState(false);
+
   const navigate = useNavigate();
   let loggedIn =  state && state.user;
 
@@ -63,7 +67,16 @@ export default function Summary(props) {
       });
     }
     else{
-      
+      toast.warning("Please login first!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setOk(true);
       navigate("/login");
       
     }
