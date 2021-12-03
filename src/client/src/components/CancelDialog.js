@@ -113,7 +113,12 @@ export default function CancelDialog({ reser }) {
 
         setOpen(false);
 
-        var info = `you have canceled this flight No ${reser[2]} from ${reser[3]} to ${reser[4]} at date ${reser[5]}. Your refund amount is ${reser[13]}.`;
+        var info = `This email confirms that your reservation with details: 
+        <p>Flight Number: ${reser[2]} <strong>from</strong> ${reser[3]} <strong>to</strong> ${reser[4]} with flight depature date ${reser[5]} has been cancelled.
+        <br/>
+        Your refund amount is ${reser[13]}.
+        </p>
+      `;
         var json = {};
         json["info"] = info.toString();
         axios
