@@ -42,13 +42,14 @@ export default function DatePick(props) {
 
   // Flight Code
   const options = [
-    { value: "JFK" },
-    { value: "CAI" },
     { value: "ASU" },
-    { value: "CGD" },
-    { value: "SYD" },
-    { value: "BEY" },
     { value: "BEI" },
+    { value: "BEY" },
+    { value: "CAI" },
+    { value: "CGD" },
+    { value: "JFK" },
+    { value: "MED" },
+    { value: "SYD" },
   ];
 
   // Date Values
@@ -115,6 +116,7 @@ export default function DatePick(props) {
   );
   // Search Button
   function buttonClicked() {
+    props.setLoading(true);
     if (
       j["From"] === "" ||
       j["To"] === "" ||
@@ -124,9 +126,11 @@ export default function DatePick(props) {
       AdultNo === 0
     ) {
       setErrorVisible1(true);
+      props.setLoading(false);
     } else {
       if (j["From"] === j["To"]) {
         setErrorVisible(true);
+        props.setLoading(false);
       } else {
         setErrorVisible(false);
         setErrorVisible1(false);
@@ -218,16 +222,15 @@ export default function DatePick(props) {
           console.log(result);
           props.setDepFlights(result);
 
-          if (result.length!==0) {
-            console.log("Hi Maryam");
-
-            $(document).scrollTop(10000); // any value you need
-
+          if (result.length !== 0) {
+            $(document).scrollTop(1000);
+            props.setLoading(false);
+            // any value you need
           } else {
-            console.log("Hi Hadeer");
-            $(document).scrollTop(10000); // any value you need
+            $(document).scrollTop(1000); // any value you need
 
             props.setshowEmpty("No Flights Found");
+            props.setLoading(false);
           }
         });
     }
@@ -290,7 +293,7 @@ export default function DatePick(props) {
               <td></td>
               <td>
                 {" "}
-                <Dropdown overlay={menu}>
+                <Dropdown overlay={menu} trigger="click">
                   <a
                     className="ant-dropdown-link"
                     onClick={(e) => e.preventDefault()}

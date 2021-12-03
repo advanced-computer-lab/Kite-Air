@@ -7,6 +7,9 @@ import HeaderPic from "./HeaderPic";
 import { useState, useEffect } from "react";
 import Checkout from "./Checkout";
 
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
+
 export default function LandingPage() {
   const [state, setState] = useContext(UserContext);
   const [depFlights, setDepFlights] = useState([]);
@@ -14,7 +17,8 @@ export default function LandingPage() {
   const [searchData, setSearchData] = useState([]);
   const [showEmpty, setshowEmpty] = useState("");
 
-
+  const [loading, setLoading] = useState(false);
+  
 
   return (
     <div>
@@ -23,8 +27,12 @@ export default function LandingPage() {
         setRetFlights={setRetFlights}
         setSearchData={setSearchData}
         setshowEmpty={setshowEmpty}
+        setLoading={setLoading}
       />
 
+    {loading &&  <Box sx={{ width: "100%" }}>
+        <LinearProgress />
+      </Box>}
       {/* { state.user && state!==null && JSON.stringify(state)} */}
 
       {depFlights.length ? (

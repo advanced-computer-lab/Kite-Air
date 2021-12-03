@@ -17,12 +17,11 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import CancelDialog from "./CancelDialog";
 import { UserContext } from "../context/index.js";
-
+import LinearProgress from '@mui/material/LinearProgress';
 
 var resArray = [];
 var flightsArray = [];
 var totalArray = []; //2D array to fill the table
-
 
 function Row(e) {
   // count = count + 1;
@@ -101,8 +100,8 @@ function Row(e) {
 }
 
 export default function CollapsibleTable() {
-
   const [state, setState] = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
 
   const [reservations, setRes] = React.useState([]);
   const [flights, setFlights] = React.useState([]);
@@ -123,6 +122,7 @@ export default function CollapsibleTable() {
               setFlights(res.data);
               flightsArray.push(res.data);
               setFlights([]);
+              setLoading(false);
             });
           }
 
@@ -213,7 +213,12 @@ export default function CollapsibleTable() {
   //console.log(totalArray);
 
   return (
-    <>
+    <div>
+      {loading && (
+        <Box sx={{ width: "100%" }}>
+          <LinearProgress />
+        </Box>
+      )}
       <br />
       <br />
       <br />
@@ -238,6 +243,6 @@ export default function CollapsibleTable() {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </div>
   );
 }

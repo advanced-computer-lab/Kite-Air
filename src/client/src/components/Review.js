@@ -1,6 +1,7 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 
+
 export default function Review(props) {
   /*
   selectedDepF
@@ -10,6 +11,8 @@ export default function Review(props) {
   
   selectedReturnSeats
   selectedDepartureSeats*/
+
+
 
 
 // flight id , user id, choosenCabin, noOfpassengers, seatsNo

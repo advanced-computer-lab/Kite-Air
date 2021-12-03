@@ -5,6 +5,8 @@ import SeatPicker from "react-seat-picker";
 import "../styles.css";
 import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
+import Box from '@mui/material/Box';
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function SeatsDeparture(props) {
   const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
@@ -202,7 +204,7 @@ export default function SeatsDeparture(props) {
             You have {maxReservableSeats - selectedSoFar} seat(s) left to pick{" "}
           </small>
         ) : (
-          <></>
+          <> &nbsp;</>
         )}
       </Typography>
       <div className="">
@@ -210,7 +212,23 @@ export default function SeatsDeparture(props) {
           ? props.setDis(1)
           : props.setDis(0)}
         {loading || rows.length === 0 ? (
-          <div>Loading...</div>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ m: 1}}>
+              {loading && (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    color: "blue",
+                    position: "absolute",
+                    top: "45%",
+                    left: "50%",
+                    //marginTop: "-12px",
+                    marginLeft: "-12px",
+                  }}
+                />
+              )}
+            </Box>
+          </Box>
         ) : (
           <div style={{ justifyContent: "center" }}>
             <div style={{ marginTop: "100px" }}>

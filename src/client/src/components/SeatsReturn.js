@@ -6,7 +6,8 @@ import SeatPicker from "react-seat-picker";
 import "../styles.css";
 import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import Box from '@mui/material/Box';
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function SeatsReturn(props) {
   const baseURL = "http://localhost:8000/reservations/seatsFlight";
@@ -31,7 +32,9 @@ export default function SeatsReturn(props) {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [reservationID, setReservationID] = useState();
   const [seats, setSeats] = useState(0);
-  const [maxReservableSeats, setMaxReservableSeats] = useState(getNoOfPassengers());
+  const [maxReservableSeats, setMaxReservableSeats] = useState(
+    getNoOfPassengers()
+  );
   const [selectedSoFar, setSelectedSoFar] = useState(0);
 
   let seating = [];
@@ -69,15 +72,13 @@ export default function SeatsReturn(props) {
       letter = nextChar(letter).toUpperCase();
       seating.push(littleSeatz);
     }
-   
+
     if (seating.length != 0) {
       setRows2(seating);
       console.log("Seating length " + seating.length);
-
     }
   }
 
-  
   function getClass() {
     if (props.searchData.fseatsAvailable) {
       return "First";
@@ -87,7 +88,6 @@ export default function SeatsReturn(props) {
       return "Economy";
     }
   }
-
 
   const saveselected = () => {
     axios
@@ -126,7 +126,7 @@ export default function SeatsReturn(props) {
     axios
       .post("http://localhost:8000/reservations/seatsFlight", {
         flight: props.selectedRetF._id,
-        choosenCabin: getClass()
+        choosenCabin: getClass(),
       })
       .then((response) => {
         setReserv(response.data);
@@ -151,14 +151,13 @@ export default function SeatsReturn(props) {
   }, [rows2]); //reserved seats
 
   useEffect(() => {
-
     seating = rows2;
     console.log(seating.length);
     if (!(typeof reserv === "undefined" || reserv.length == 0)) {
       for (var i = 0; i < reserv.length; i++) {
         for (var s = 0; s < reserv[i].seatsNo.length; s++) {
           seatsarr.add(reserv[i].seatsNo[s].toString());
-       //   console.log("res" + reserv[i].seatsNo);
+          //   console.log("res" + reserv[i].seatsNo);
         }
       }
     }
@@ -173,7 +172,6 @@ export default function SeatsReturn(props) {
     }
 
     setRows(seating);
-
   }, [reserv]);
 
   const addSeatCallback = async ({ row, number, id }, addCb) => {
@@ -206,16 +204,41 @@ export default function SeatsReturn(props) {
   };
 
   return (
-    <React.Fragment >
+    <React.Fragment>
       <Typography variant="h6" gutterBottom>
-      {getClass()} Seats for Return Flight
-        <br/>
-    { (maxReservableSeats - selectedSoFar) ?  ( <small> You have {maxReservableSeats - selectedSoFar} seat(s) left to pick </small>) : <></>}
+        {getClass()} Seats for Return Flight
+        <br />
+        {maxReservableSeats - selectedSoFar ? (
+          <small>
+            {" "}
+            You have {maxReservableSeats - selectedSoFar} seat(s) left to pick{" "}
+          </small>
+        ) : (
+          <> &nbsp;</>
+        )}
       </Typography>
       <div className="">
-        {(selectedSoFar === maxReservableSeats)? props.setDis(1) : props.setDis(0)}
-        {(loading || rows.length===0)? (
-          <div>Loading...</div>
+        {selectedSoFar === maxReservableSeats
+          ? props.setDis(1)
+          : props.setDis(0)}
+        {loading || rows.length === 0 ? (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ m: 1}}>
+              {loading && (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    color: "blue",
+                    position: "absolute",
+                    top: "45%",
+                    left: "50%",
+                    //marginTop: "-12px",
+                    marginLeft: "-12px",
+                  }}
+                />
+              )}
+            </Box>
+          </Box>
         ) : (
           <div style={{ justifyContent: "center" }}>
             <div style={{ marginTop: "100px" }}>

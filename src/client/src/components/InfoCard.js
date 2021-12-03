@@ -9,6 +9,8 @@ import TextField from "@mui/material/TextField";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../context/index.js";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { toast } from "react-toastify";
 //mport Typography from '@mui/material/Typography';
@@ -26,12 +28,11 @@ export default function InfoCard({ handleDisplay }) {
   const [Email, setEmail] = useState("");
   const [ok, setOk] = useState(false);
 
- 
+  const [loading, setLoading] = useState(false);
 
   // const [redirect, setRedirect] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
-  
   useEffect(() => {
     if (state && state.user) {
       console.log("user from state => ", state.user);
@@ -42,9 +43,8 @@ export default function InfoCard({ handleDisplay }) {
     }
   }, [state && state.user]);
 
-
   function updatePersonalInfo() {
-    
+    setLoading(true);
     const data = {
       _id: state.user._id,
       username: username,
@@ -66,7 +66,7 @@ export default function InfoCard({ handleDisplay }) {
 
         // console.log("success");
         // alert("Success");
- 
+
         let auth = JSON.parse(window.localStorage.getItem("auth"));
         auth.user = data;
         window.localStorage.setItem("auth", JSON.stringify(auth));
@@ -75,8 +75,9 @@ export default function InfoCard({ handleDisplay }) {
 
         // update context
         setState({ ...state, user: data });
-              
-        
+
+        setLoading(false);
+
         toast.success("Profile Updated!", {
           position: "top-right",
           autoClose: 5000,
@@ -87,10 +88,11 @@ export default function InfoCard({ handleDisplay }) {
           progress: undefined,
         });
         setOk(true);
-
         handleDisplay();
       })
       .catch((err) => {
+        setLoading(false);
+
         // console.log(err.response.data.split("-"));
         let arr = err.response.data.split("-");
         for (let e = 0; e < arr.length; e++) {
@@ -180,13 +182,30 @@ export default function InfoCard({ handleDisplay }) {
           />
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button
-            onClick={updatePersonalInfo}
-            variant="contained"
-            size="medium"
-          >
-            Confirm
-          </Button>
+          <Box sx={{ m: 1, position: "relative" }}>
+            <Button
+              variant="contained"
+              disabled={loading}
+              //onClick={handleButtonClick}
+              onClick={updatePersonalInfo}
+              size="medium"
+            >
+              Confirm
+            </Button>
+            {loading && (
+              <CircularProgress
+                size={24}
+                sx={{
+                  color: "blue",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  marginTop: "-12px",
+                  marginLeft: "-12px",
+                }}
+              />
+            )}
+          </Box>
         </div>
       </CardContent>
     </Card>

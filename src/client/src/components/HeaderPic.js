@@ -45,9 +45,12 @@ const HeaderPic = (props) => {
             setDepFlights={props.setDepFlights}
             setSearchData={props.setSearchData}
             setshowEmpty={props.setshowEmpty}
+            setLoading={props.setLoading}
           />
+          
         </div>
       </section>
+      
     </div>
   );
 };
