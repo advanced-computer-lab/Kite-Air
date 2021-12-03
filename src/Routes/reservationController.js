@@ -22,7 +22,7 @@ router.get("/allreservations", async (req, res) => {
     });
 });
 
-router.post("/all-reservations", async(req, res) => {
+router.post("/all-reservations", async (req, res) => {
   await Reservation.find(req.body)
     .then((result) => {
       res.send(result);
@@ -33,35 +33,36 @@ router.post("/all-reservations", async(req, res) => {
     });
 });
 
-router.route('/:id').delete( async(req,res) => {
+router.route("/:id").delete(async (req, res) => {
   // console.log(req.params.id);
- // console.log("heyy");
+  // console.log("heyy");
   await Reservation.findByIdAndDelete(req.params.id)
-    .then(result => {
+    .then((result) => {
       res.status(200).send("Reservation deleted ");
-      
-      console.log('The Reservation is deleted successfully !');
-    }).catch(err => {
-      console.log(err);
+
+      console.log("The Reservation is deleted successfully !");
     })
-  });
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
-  router.get("/userFlightReservation", async (req, res) => {
-    console.log(req.body);
-    Reservation.find({ flight: req.body.flight, User: req.body.User })
-      .then((result) => {
-        res.send(result);
-      })
-      .catch((err) => {
-        res.status(400).send("Error fetching user's Reservation!");
-        console.log(err);
-      });
-  });
+router.get("/userFlightReservation", async (req, res) => {
+  console.log(req.body);
+  Reservation.find({ flight: req.body.flight, User: req.body.User })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(400).send("Error fetching user's Reservation!");
+      console.log(err);
+    });
+});
 
-  router.post("/addReservation", async (req, res) => {
-    const reser = new Reservation(req.body);
-  
-    await reser
+router.post("/addReservation", async (req, res) => {
+  const reser = new Reservation(req.body);
+
+  await reser
     .save()
     .then((result) => {
       res.json({
@@ -72,11 +73,8 @@ router.route('/:id').delete( async(req,res) => {
     .catch((err) => {
       console.log(err);
     });
-  
-  
-  });
+});
 
-  
 router.post("/seatsFlight", async (req, res) => {
   console.log("tigger");
   //console.log(req.body);
@@ -95,7 +93,12 @@ router.post("/seatsFlight", async (req, res) => {
 
 router.post("/send", (req, res) => {
   try {
-    const output = `Hello from the back end ${req.body.data}`;
+    const output = `<p>Hello,</p>
+    ${req.body.data}
+    If you think this cancellation is in error or you have other questions, please contact us on this email.
+    <br/>
+    KITE AIR :)
+    `;
     console.log({ req });
     let transporter = nodemailer.createTransport({
       service: "Gmail",
@@ -114,9 +117,9 @@ router.post("/send", (req, res) => {
     // send mail with defined transport object
     let info = transporter.sendMail({
       // i deleted await
-      from: '"NodeMailar" <winter21team@gmail.com>', // sender address
+      from: '"Kite Air" <winter21team@gmail.com>', // sender address
       to: "hadeerelhussen1111@gmail.com", // list of receivers
-      subject: "Hello ✔", // Subject line
+      subject: "Reservation cancelled", // Subject line
       text: "Hello world?", // plain text body
       html: output, // html body
     });
