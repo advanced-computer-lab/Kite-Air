@@ -22,7 +22,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/index.js";
 
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import BackgroundLetterAvatars from "./Avatar";
 import { STATES } from "mongoose";
@@ -34,8 +34,6 @@ export default function MyBookings() {
   const [isDisplay, setisDisplay] = useState(true);
   const [isBooking, setisBooking] = useState(false);
   const [state, setState] = useContext(UserContext);
-
-
 
   const handleDisplayOFF = () => {
     setisDisplay(false);
@@ -70,9 +68,6 @@ export default function MyBookings() {
   //   fetchUser();
   // }, [logged]);
   // //hi
-
-
-
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -117,7 +112,7 @@ export default function MyBookings() {
           <br />
           <br />
 
-          <Button onClick={() => {}}>
+          <Button onClick={() => {}} variant="outlined">
             {" "}
             <MailIcon /> My Bookings
           </Button>

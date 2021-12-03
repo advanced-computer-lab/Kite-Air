@@ -219,10 +219,7 @@ export default function CollapsibleTable() {
           <LinearProgress />
         </Box>
       )}
-      <br />
-      <br />
-      <br />
-      <br />
+  
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>

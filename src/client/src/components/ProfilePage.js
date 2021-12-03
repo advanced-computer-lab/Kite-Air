@@ -79,7 +79,7 @@ export default function ProfilePage() {
             &nbsp; &nbsp; &nbsp;
             <Divider />
             <List>
-              <Button onClick={() => {}}>
+              <Button onClick={() => {}} variant={"outlined"}>
                 {" "}
                 <InboxIcon /> My Details
               </Button>
@@ -104,14 +104,12 @@ export default function ProfilePage() {
               flexGuser: 1,
               bgcolor: "background.default",
               p: 3,
-              width: "1025px",
+              width: 700,
             }}
           >
             <Toolbar />
 
-            {isBooking ? (
-              <CollapsibleTable /> //here
-            ) : isDisplay ? (
+            {isDisplay ? (
               <DisplayInfo handleDisplay={handleDisplayOFF} />
             ) : (
               <InfoCard handleDisplay={handleDisplayON} />

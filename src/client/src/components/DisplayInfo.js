@@ -54,8 +54,8 @@ export default function DisplayInfo({ handleDisplay }) {
   //       fetchUser();
   //     }, []);
   return (
-    <Card style={{ maxWidth: 500 }}>
-      <CardContent style={{ backgroundColor: "	whitesmoke" }}>
+    <Card style={{}}>
+      <CardContent style={{ backgroundColor: "whitesmoke",padding:25}}>
         <Typography gutterBottom variant="h5" component="div">
           Basic Information
         </Typography>
@@ -65,9 +65,6 @@ export default function DisplayInfo({ handleDisplay }) {
           margin="dense"
           id="FirstName"
           value={FirstName}
-          // onChange={(e) => {
-          //   setFirstName(e.target.value);
-          // }}
           InputLabelProps={{ shrink: true }}
           disabled={true}
           type="text"
@@ -80,9 +77,6 @@ export default function DisplayInfo({ handleDisplay }) {
           id="LastName"
           InputLabelProps={{ shrink: true }}
           value={LastName}
-          // onChange={(e) => {
-          //   setLastName(e.target.value);
-          // }}
           disabled={true}
           type="text"
           variant="standard"
@@ -94,15 +88,23 @@ export default function DisplayInfo({ handleDisplay }) {
           margin="dense"
           variant="standard"
           InputLabelProps={{ shrink: true }}
-          label="Username"
+          label="Email"
           id="email"
           value={email}
-          // onChange={(e) => {
-          //   setusername(e.target.value);
-          // }}
           disabled={true}
           type="text"
         />
+         {/* &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+         <TextField
+          margin="dense"
+          variant="standard"
+          InputLabelProps={{ shrink: true }}
+          label="Username"
+          id="username"
+          value={state.user.username}
+          disabled={true}
+          type="text"
+        /> */}
         <br />
         <br />
         <div>
@@ -111,9 +113,6 @@ export default function DisplayInfo({ handleDisplay }) {
             margin="dense"
             id="PassportNo"
             value={Passport}
-            // onChange={(e) => {
-            //   setPassport(e.target.value);
-            // }}
             InputLabelProps={{ shrink: true }}
             disabled={true}
             type="text"

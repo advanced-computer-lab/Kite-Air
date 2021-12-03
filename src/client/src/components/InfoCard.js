@@ -122,8 +122,8 @@ export default function InfoCard({ handleDisplay }) {
   }
 
   return (
-    <Card style={{ maxWidth: 500 }}>
-      <CardContent style={{ backgroundColor: "	whitesmoke" }}>
+    <Card style={{ }}>
+      <CardContent style={{ backgroundColor: "	whitesmoke",padding:25}}>
         <Typography gutterBottom variant="h5" component="div">
           Basic Information
         </Typography>
