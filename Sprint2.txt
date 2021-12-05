@@ -1,0 +1,9 @@
+Kite-Air 
+
+team member         id                tasks accomplished 
+---------------------------------------------------------------------------
+Maryam ElOraby 46-3294: search results, seats selection and UI  --> Scrum Master
+Rawan Reda Fouda 46-13489: search results, user profile, update personal info
+Rowan Amgad Nabil 46-5055: user reservations table, cancel reservation
+Hadeer ElHussen Badereldin 46-0280: search operation, email (nodemailer)
+Mariam Tamer 46-0774: seats selection and UI 
