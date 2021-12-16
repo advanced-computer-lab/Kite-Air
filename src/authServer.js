@@ -14,7 +14,7 @@ mongoose
   .then((result) => console.log("MongoDB is now connected"))
   .catch((err) => console.log(err));
 
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -75,7 +75,7 @@ app.post("/register", async (req, res) => {
         const usertoken = new accessTokens(usertokenObject);
         console.log("created usertoken");
         usertoken.save();
-        res.json({ token: accessToken });
+        res.json({ user:user2, token: accessToken });
         res.send("Success");
       } else {
         res.send("Not Allowed");

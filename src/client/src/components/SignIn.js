@@ -65,14 +65,14 @@ export default function SignIn() {
       })
       .then((response) => { 
         setState({
-          user: response.data,
-          token: "",
+          user: response.data.user,
+          token: response.data.token ,
         });
         //console.log(response.data);
 
         window.localStorage.setItem(
           "auth",
-          JSON.stringify({ user: response.data, token: "" })
+          JSON.stringify({ user: response.data.user, token:  response.data.token })
         );
 
         let auth = JSON.parse(window.localStorage.getItem("auth"));
