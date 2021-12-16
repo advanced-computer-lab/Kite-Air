@@ -55,15 +55,15 @@ export default function SignIn() {
   };
 
   const [logged, setLogged] = useState({});
-  const baseURL = "http://localhost:8000/users/loggedIn";
+  const baseURL = "http://localhost:4000/login";
 
   const fetchUser = () => {
     axios
       .post(baseURL, {
         username: username,
-        password: Password,
+        Password: Password
       })
-      .then((response) => {
+      .then((response) => { 
         setState({
           user: response.data,
           token: "",
