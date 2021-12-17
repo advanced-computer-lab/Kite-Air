@@ -110,7 +110,7 @@ export default function CollapsibleTable() {
     if (reservations !== []) {
       axios
         .post(`http://localhost:8000/reservations/all-reservations`, {
-          User: state.user._id,
+          User: state.user._id, 
         })
         .then((res) => {
           setRes(res.data);

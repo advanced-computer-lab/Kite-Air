@@ -13,6 +13,8 @@ import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useLocation } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../context/index.js";
 
 import SeatsDeparture from "./SeatsDeparture";
 import SeatsReturn from "./SeatsReturn";
@@ -30,6 +32,8 @@ export default function SeatsPickermain(props) {
   const [dis, setDis] = React.useState(0);
   const [selectedDepartureSeats, setSelectedDepartureSeats] = React.useState();
   const [selectedReturnSeats, setSelectedReturnSeats] = React.useState([]);
+  const [state, setState] = useContext(UserContext);
+
 
   function getClass() {
     if (location.state.searchData.fseatsAvailable) {
@@ -56,7 +60,7 @@ export default function SeatsPickermain(props) {
   const saveselectedDept = () => {
     axios
       .post(baseURL, {
-        User: "619fc2769dc8cc7dc0475947",
+        User: state.user._id,
         flight: location.state.selectedRetF._id,
         choosenCabin: getClass(),
         noOfPassengers: getNoOfPassengers(),
@@ -73,7 +77,7 @@ export default function SeatsPickermain(props) {
   const saveselectedRet = () => {
     axios
       .post(baseURL, {
-        User: "619fc2769dc8cc7dc0475947",
+        User: state.user._id,
         flight: location.state.selectedDepF._id,
         choosenCabin: getClass(),
         noOfPassengers: getNoOfPassengers(),
