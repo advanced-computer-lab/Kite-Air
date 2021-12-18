@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/index.js";
 
@@ -27,13 +27,12 @@ const theme = createTheme();
 
 export default function SeatsPickermain(props) {
   const location = useLocation();
-
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
   const [dis, setDis] = React.useState(0);
   const [selectedDepartureSeats, setSelectedDepartureSeats] = React.useState();
   const [selectedReturnSeats, setSelectedReturnSeats] = React.useState([]);
   const [state, setState] = useContext(UserContext);
-
 
   function getClass() {
     if (location.state.searchData.fseatsAvailable) {
@@ -171,14 +170,12 @@ export default function SeatsPickermain(props) {
                   >
                     Thank you for choosing to fly with KiteAir!
                   </Typography>
-                
                 </div>
 
-                <div style={{textAlign: "center"}}>
-                  <div style={{display: "inline-block", textAlign: "left"}}>
-                  <br />
-                  
-                  Your seats have been reserved successfully! <br />
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ display: "inline-block", textAlign: "left" }}>
+                    <br />
+                    Your seats have been reserved successfully! <br />
                     You are now one step away from finalizing your reservation,{" "}
                     <br />
                     All you have to do is proceed with payment!
