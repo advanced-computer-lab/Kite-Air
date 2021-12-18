@@ -13,7 +13,9 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import InfoCard from "./InfoCard.js";
+import UpdatePassword from "./UpdatePassword";
 import DisplayInfo from "./DisplayInfo";
+import LoginInfo from "./LoginInfo";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import CollapsibleTable from "./CollapsibleTable";
@@ -110,9 +112,18 @@ export default function ProfilePage() {
             <Toolbar />
 
             {isDisplay ? (
+              <div>
               <DisplayInfo handleDisplay={handleDisplayOFF} />
+              <br/>
+              <br/>
+              <LoginInfo handleDisplay={handleDisplayOFF} /> </div>
             ) : (
+              <div>
               <InfoCard handleDisplay={handleDisplayON} />
+              <br/>
+              <br/>
+              <UpdatePassword handleDisplay={handleDisplayOFF} />
+              </div>
             )}
           </Box>
         </Box>

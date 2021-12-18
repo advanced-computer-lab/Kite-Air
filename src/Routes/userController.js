@@ -21,7 +21,35 @@ router.put('/:id', async(req, res) => {
       })
     });
 
- 
+    router.post('checkPassword/:id', async(req, res) => {
+      console.log("heyhey"+req.params.id);
+      const opts = { runValidators: true };
+      
+      // await User.findByIdAndUpdate(req.params.id, req.body, opts)
+      //   .then(result => {
+  
+      //     res.status(200).send("User updated ");
+          
+      //     console.log('The User is Updated successfully !');
+      //   }).catch(err => {
+       
+      //     res.status(400).send(err.message);
+  
+      //     console.log(err.message);
+      //   })
+        await User.findOne({"_id" : req.params.id, "password": req.body.Password}, opts)
+        .then((result) => {
+          res.json(result);
+          
+          console.log("plz " + result);
+        })
+        .catch((err) => {
+          res.status(400).send("Current Password is not correct");
+          console.log(err);
+        });
+      });
+
+
 router.post("/loggedIn", async(req, res) => {
 
   await User.findOne({"username" : req.body.username})
