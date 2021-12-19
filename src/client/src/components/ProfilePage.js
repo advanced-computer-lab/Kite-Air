@@ -14,6 +14,8 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import InfoCard from "./InfoCard.js";
 import DisplayInfo from "./DisplayInfo";
+import LoginInfo from "./LoginInfo";
+import UpdatePassword from "./UpdatePassword";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import CollapsibleTable from "./CollapsibleTable";
@@ -30,6 +32,7 @@ export default function ProfilePage() {
 
   const [state, setState] = useContext(UserContext);
   const [isDisplay, setisDisplay] = useState(true);
+  const [isPasswordUpdate, setisPasswordUpdate] = useState(true);
   const [isBooking, setisBooking] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -40,6 +43,12 @@ export default function ProfilePage() {
     setisDisplay(true);
   };
 
+  const handleLoginOFF = () => {
+    setisPasswordUpdate(false);
+  };
+  const handleLoginON = () => {
+    setisPasswordUpdate(true);
+  };
   return (
     <>
       {" "}
@@ -109,10 +118,26 @@ export default function ProfilePage() {
           >
             <Toolbar />
 
-            {isDisplay ? (
+{ 
+}
+            {isDisplay && isPasswordUpdate? (
+              <div>
               <DisplayInfo handleDisplay={handleDisplayOFF} />
+              <br/>
+              <LoginInfo handleDisplay={handleLoginOFF} />
+              </div>
+            ) : isDisplay && !isPasswordUpdate ? (
+              <div>
+              <DisplayInfo handleDisplay={handleDisplayOFF} />
+              <br/>
+              <UpdatePassword handleDisplay={handleLoginON} />
+              </div>
             ) : (
+              <div>
               <InfoCard handleDisplay={handleDisplayON} />
+              <br/>
+              <LoginInfo handleDisplay={handleLoginOFF} />
+              </div>
             )}
           </Box>
         </Box>
