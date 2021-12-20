@@ -19,41 +19,27 @@ const Payment = () => {
     console.log(input);
   }
 
-  const cardsLogo = [
-    "amex",
-    "cirrus",
-    "diners",
-    "dankort",
-    "discover",
-    "jcb",
-    "maestro",
-    "mastercard",
-    "visa",
-    "visaelectron",
-  ];
+  // const cardsLogo = [
+  //   "amex",
+  //   "cirrus",
+  //   "diners",
+  //   "dankort",
+  //   "discover",
+  //   "jcb",
+  //   "maestro",
+  //   "mastercard",
+  //   "visa",
+  //   "visaelectron",
+  // ];
 
   return (
     <>
-      <Grid container item xs={12}>
-        <Grid item xs={12} sm={3}>
-          <Typography variant="h6">Payment Data</Typography>
-        </Grid>
-        <Grid container item xs={12} sm={9} justify="space-between">
-          {cardsLogo.map((e) => (
-            <img
-              key={e}
-              src={`./cards/${e}.png`}
-              alt={e}
-              width="50px"
-              align="bottom"
-              style={{ padding: "0 5px" }}
-            />
-          ))}
+      <Grid container item spacing={4} xs={15}>
+        <Grid item xs={8} spacing={6}>
+          <Typography variant="h6"> Payment Data </Typography>
         </Grid>
       </Grid>
-      <Grid item xs={6} sm={3}></Grid>
-      <Grid item xs={6} sm={3}></Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} sm={6} spacing={10}>
         <TextField
           label="Credit Card Number"
           name="ccnumber"
@@ -69,7 +55,7 @@ const Payment = () => {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid item xs={6} sm={6}>
+      <Grid item xs={6} sm={6} spacing={4}>
         <TextField
           label="Expiration Date"
           name="ccexp"
@@ -85,7 +71,7 @@ const Payment = () => {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid item xs={6} sm={6}>
+      <Grid item xs={6} sm={6} spacing={7}>
         <TextField
           label="CVC"
           name="cvc"
@@ -1172,3 +1158,13 @@ const currencies = [
     name_plural: "Zambian kwachas",
   },
 ];
+// {cardsLogo.map((e) => (
+//   <img
+//     key={e}
+//     src={`./cards/${e}.png`}
+//     alt={e}
+//     width="50px"
+//     align="bottom"
+//     style={{ padding: "0 5px" }}
+//   />
+// ))}

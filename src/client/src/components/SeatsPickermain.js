@@ -15,13 +15,15 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/index.js";
-
+import Payment from "./Payment.js";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import SeatsDeparture from "./SeatsDeparture";
 import SeatsReturn from "./SeatsReturn";
 import Review from "./Review";
 import axios from "axios";
 
-const steps = ["Departure Seats", "Return Seats", "Review"];
+const steps = ["Departure Seats", "Return Seats", "Review", "Payment"];
 
 const theme = createTheme();
 
@@ -33,6 +35,17 @@ export default function SeatsPickermain(props) {
   const [selectedDepartureSeats, setSelectedDepartureSeats] = React.useState();
   const [selectedReturnSeats, setSelectedReturnSeats] = React.useState([]);
   const [state, setState] = useContext(UserContext);
+  //const stripePromise = loadStripe("STRIPE_PUBLISHABLE_API_KEY");
+  const [stripePromise, setStripePromise] = useState(null);
+
+  useEffect(() => {
+    const retrievePublishableKey = async () => {
+      // const publishableKey = await publishableKeyGet();
+      const stripe = loadStripe("pk_test_nqH70Fb8FmabuVsU5kp4gpYf00XGNeVxyf");
+      setStripePromise(stripe);
+    };
+    retrievePublishableKey();
+  }, []);
 
   function getClass() {
     if (location.state.searchData.fseatsAvailable) {
@@ -119,6 +132,22 @@ export default function SeatsPickermain(props) {
             selectedRetF={location.state.selectedRetF} //flight
             selectedDepF={location.state.selectedDepF} //flight
           />
+        );
+      case 3:
+        return (
+          <React.Fragment>
+            <Box>
+              <Container maxWidth="md">
+                <Paper elevation={5}>
+                  {stripePromise ? (
+                    <Elements stripe={stripePromise}>
+                      <Payment />
+                    </Elements>
+                  ) : null}
+                </Paper>
+              </Container>
+            </Box>
+          </React.Fragment>
         );
       default:
         throw new Error("Unknown step");
