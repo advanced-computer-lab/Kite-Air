@@ -92,7 +92,7 @@ function Row(e) {
                     <TableCell align="left">{entry[14]}</TableCell>
                     <TableCell align="left">{entry[13]}</TableCell>
                     <TableCell
-                      style={{ display: "flex", justifyContent: "flex-end" }}
+                      align="right" style={{ display: "flex", justifyContent: "flex-end" }}
                     >
                       <CancelDialog align="center" reser={entry}></CancelDialog>
                     </TableCell>

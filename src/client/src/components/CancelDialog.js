@@ -164,7 +164,7 @@ export default function CancelDialog({ reser }) {
           <Button align="left" onClick={handleClose}>
             Back
           </Button>
-          <Button color="error" align="right" onClick={cancelFlight} autoFocus>
+          <Button color="error" align="center" onClick={cancelFlight} autoFocus>
             Cancel
           </Button>
         </DialogActions>
