@@ -17,9 +17,9 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import CancelDialog from "./CancelDialog";
 import { UserContext } from "../context/index.js";
-import LinearProgress from '@mui/material/LinearProgress';
+import LinearProgress from "@mui/material/LinearProgress";
 import Button from "@mui/material/Button";
-
+import EmailButton from "./EmailButton";
 
 var resArray = [];
 var flightsArray = [];
@@ -54,7 +54,7 @@ function Row(e) {
         <TableCell align="right">{entry[6]}</TableCell>
         <TableCell align="right">{entry[7]}</TableCell>
         <TableCell align="left">
-          <Button style={{ background: "#191b3a" }} variant="contained">Email</Button>
+          <EmailButton entry={entry}></EmailButton>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -69,16 +69,21 @@ function Row(e) {
                   <TableRow>
                     <TableCell>Terminal</TableCell>
                     <TableCell>Cabin</TableCell>
-                    <TableCell align="left" >Baggage(per ticket)</TableCell>
+                    <TableCell align="left">Baggage(per ticket)</TableCell>
                     <TableCell align="left">Price(per ticket)</TableCell>
                     <TableCell align="left">Passengers#</TableCell>
                     <TableCell align="left">Seats</TableCell>
                     <TableCell align="left">Total price</TableCell>
-                    <TableCell align="left" style = {{width: "170px"}}>
-                      <Button color = "primary" variant="contained" style = {{width: "170px"}}>Update Seat(s)</Button>
+                    <TableCell align="left" style={{ width: "170px" }}>
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        style={{ width: "170px" }}
+                      >
+                        Update Seat(s)
+                      </Button>
                     </TableCell>
-                                    
-                </TableRow>
+                  </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow key={entry[1]}>
@@ -222,31 +227,41 @@ export default function CollapsibleTable() {
 
   return (
     <div>
-<br/>
+      <br />
       <h2>My Bookings</h2>
-      <br/>
+      <br />
 
       {loading && (
         <Box sx={{ width: "100%" }}>
           <LinearProgress />
         </Box>
       )}
-  
+
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell style={{fontWeight:"bolder"}}>Flight No.</TableCell>
-              <TableCell align="right" style={{fontWeight:"bolder"}}>From</TableCell>
-              <TableCell align="right" style={{fontWeight:"bolder"}}>To</TableCell>
-              <TableCell align="right" style={{fontWeight:"bolder"}}>Date(mm/dd/yyyy)</TableCell>
-              <TableCell align="right" style={{fontWeight:"bolder"}}>Departure</TableCell>
-              <TableCell align="right" style={{fontWeight:"bolder"}}>Arrival</TableCell>
-              <TableCell align="right" style={{fontWeight:"bolder"}}></TableCell>
-
-              
-
+              <TableCell style={{ fontWeight: "bolder" }}>Flight No.</TableCell>
+              <TableCell align="right" style={{ fontWeight: "bolder" }}>
+                From
+              </TableCell>
+              <TableCell align="right" style={{ fontWeight: "bolder" }}>
+                To
+              </TableCell>
+              <TableCell align="right" style={{ fontWeight: "bolder" }}>
+                Date(mm/dd/yyyy)
+              </TableCell>
+              <TableCell align="right" style={{ fontWeight: "bolder" }}>
+                Departure
+              </TableCell>
+              <TableCell align="right" style={{ fontWeight: "bolder" }}>
+                Arrival
+              </TableCell>
+              <TableCell
+                align="right"
+                style={{ fontWeight: "bolder" }}
+              ></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
