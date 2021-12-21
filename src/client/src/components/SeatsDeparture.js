@@ -94,11 +94,18 @@ export default function SeatsDeparture(props) {
         _id: props.selectedDepF._id,
       })
       .then((response) => {
+        console.log(props.searchData);
+
         if (props.searchData.fseatsAvailable) {
           setSeats(response.data[0].ftotalSeats);
+
         } else if (props.searchData.bseatsAvailable) {
           setSeats(response.data[0].btotalSeats);
+
         } else if (props.searchData.eseatsAvailable) {
+          console.log("here if economy");
+          console.log(response.data[0].etotalSeats);
+
           setSeats(response.data[0].etotalSeats);
         }
       })
@@ -147,7 +154,7 @@ export default function SeatsDeparture(props) {
       for (var i = 0; i < reserv.length; i++) {
         for (var s = 0; s < reserv[i].seatsNo.length; s++) {
           seatsarr.add(reserv[i].seatsNo[s].toString());
-          //   console.log("res" + reserv[i].seatsNo);
+             console.log("seat " + reserv[i].seatsNo[s]);
         }
       }
     }

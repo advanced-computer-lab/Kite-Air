@@ -79,15 +79,6 @@ export default function ChangingSeats() {
     }
   }
 
-  // function getClass() {
-  //   if (props.searchData.fseatsAvailable) {
-  //     return "First";
-  //   } else if (props.searchData.bseatsAvailable) {
-  //     return "Business";
-  //   } else if (props.searchData.eseatsAvailable) {
-  //     return "Economy";
-  //   }
-  // }
 
   const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
 
@@ -112,22 +103,22 @@ export default function ChangingSeats() {
       });
   };
 
-    const fetchAlreadyReserved = () => {
-      //gets reserved seats of a choosen cabin of a flight
-      axios
-        .post("http://localhost:8000/reservations/seatsFlight", {
-          flight: allflightData[1],
-          choosenCabin:allflightData[9] ,
-        })
-        .then((response) => {
-          setReserv(response.data);
-          setloading(false);
-        })
+    // const fetchAlreadyReserved = () => {
+    //   //gets reserved seats of a choosen cabin of a flight
+    //   axios
+    //     .post("http://localhost:8000/reservations/seatsFlight", {
+    //       flight: allflightData[1],
+    //       choosenCabin:allflightData[9],
+    //     })
+    //     .then((response) => {
+    //       setReserv(response.data);
+    //       setloading(false);
+    //     })
 
-        .catch((error) => {
-          console.log(error);
-        });
-    };
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // };
 
     useEffect(() => {
       fetchSeats(); //number of seats
@@ -137,44 +128,35 @@ export default function ChangingSeats() {
       sit(seats);
     }, [seats]); //layout of seats
 
-    useEffect(() => {
-      if (fetchAlreadyReserved()) {
-        setReserv();
-      }
-    }, [rows2]); //reserved seats
+    // useEffect(() => {
+    //   if (fetchAlreadyReserved()) {
+    //     setReserv();
+    //   }
+    // }, [rows2]); //reserved seats
 
-    useEffect(() => {
-      seating = rows2;
-      console.log(seating.length);
-      if (!(typeof reserv === "undefined" || reserv.length == 0)) {
-        for (var i = 0; i < reserv.length; i++) {
-          for (var s = 0; s < reserv[i].seatsNo.length; s++) {
-            seatsarr.add(reserv[i].seatsNo[s].toString());
-            //   console.log("res" + reserv[i].seatsNo);
-          }
-        }
-      }
-      for (var i = 0; i < seating.length; i++) {
-        for (var j = 0; j < seating[i].length; j++) {
-          if (seating[i][j] != null) {
-            if (seatsarr.has(seating[i][j].id)) {
-  			 // if(selectedSeatsArr.has(seating[i][j].id)){
-  				  //   selectedSeats.push(id);
-  					// setSelectedSeats(selectedSeats);
-  					 //setSelectedSoFar(selectedSoFar + 1);
-  					 //props.setSelectedDeparture(selectedSeats);
-  				//seating[i][j].isSelected = true;
-  				//addSeatCallback()
-  			  //}
-  			  //else{
-  				seating[i][j].isReserved = true;
-  			 // }
-  		  }
-          }
-        }
-      }
-      setRows(seating);
-    }, [reserv]);
+    // useEffect(() => {
+    //   seating = rows2;
+    //   console.log(seating.length);
+    //   if (!(typeof reserv === "undefined" || reserv.length == 0)) {
+    //     for (var i = 0; i < reserv.length; i++) {
+    //       for (var s = 0; s < reserv[i].seatsNo.length; s++) {
+    //         seatsarr.add(reserv[i].seatsNo[s].toString());
+    //         //   console.log("res" + reserv[i].seatsNo);
+    //       }
+    //     }
+    //   }
+    //   for (var i = 0; i < seating.length; i++) {
+    //     for (var j = 0; j < seating[i].length; j++) {
+    //       if (seating[i][j] != null) {
+    //         if (seatsarr.has(seating[i][j].id)) {
+    //           seating[i][j].isReserved = true;
+    //         }
+    //       }
+    //     }
+    //   }
+  
+    //   setRows(seating);
+    // }, [reserv]);
 
     const addSeatCallback = async ({ row, number, id }, addCb) => {
       //setloading(true);
