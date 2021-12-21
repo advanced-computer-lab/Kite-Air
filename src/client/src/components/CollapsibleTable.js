@@ -74,8 +74,8 @@ function Row(e) {
                     <TableCell align="left">Passengers#</TableCell>
                     <TableCell align="left">Seats</TableCell>
                     <TableCell align="left">Total price</TableCell>
-                    <TableCell align="left" style = {{width: "170px"}}>
-                      <Button color = "primary" variant="contained" style = {{width: "170px"}}>Update Seat(s)</Button>
+                    <TableCell align="left" style = {{width: "160px"}}>
+                      <Button color = "primary" variant="contained" style = {{width: "160px"}}>Update Seat(s)</Button>
                     </TableCell>
                                     
                 </TableRow>
@@ -94,7 +94,7 @@ function Row(e) {
                     <TableCell
                       align="right" style={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                      <CancelDialog align="center" reser={entry}></CancelDialog>
+                      <CancelDialog style={{align:"center"}} align="center" reser={entry}></CancelDialog>
                     </TableCell>
                   </TableRow>
                 </TableBody>
