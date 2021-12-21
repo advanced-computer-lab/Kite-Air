@@ -5,29 +5,21 @@ import SeatPicker from "react-seat-picker";
 import "../styles.css";
 import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useLocation } from "react-router-dom";
-
-
-
 
 //get selected seats as well, mmkn thru props
 //selectedSeatsArr  = new Set();
 //what we need: flight ID, cabin class
 
-
 export default function ChangingSeats() {
+  const location = useLocation();
+  console.log(location.state.allDetails);
 
-
-    const location = useLocation();
-    console.log(location.state.allDetails);
-
-
-//   const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
+  const allflightData = location.state.allDetails;
 
   var seatsarr = new Set();
-
 
   const [reserv, setReserv] = useState([]);
   const [loading, setloading] = useState(true);
@@ -36,7 +28,9 @@ export default function ChangingSeats() {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [reservationID, setReservationID] = useState();
   const [seats, setSeats] = useState(0);
-  const [maxReservableSeats, setMaxReservableSeats] = useState( location.state.allDetails[12]  );
+  const [maxReservableSeats, setMaxReservableSeats] = useState(
+    location.state.allDetails[12]
+  );
   const [selectedSoFar, setSelectedSoFar] = useState(0);
 
   let seating = [];
@@ -45,8 +39,6 @@ export default function ChangingSeats() {
     var i = (parseInt(c, 36) + 1) % 36;
     return (!i * 10 + i).toString(36);
   }
-  
-
 
   function sit(n) {
     var totalRows = Math.ceil(n / 4); //no of rows
@@ -87,204 +79,191 @@ export default function ChangingSeats() {
     }
   }
 
-//   function getClass() {
-//     if (props.searchData.fseatsAvailable) {
-//       return "First";
-//     } else if (props.searchData.bseatsAvailable) {
-//       return "Business";
-//     } else if (props.searchData.eseatsAvailable) {
-//       return "Economy";
-//     }
-//   }
+  // function getClass() {
+  //   if (props.searchData.fseatsAvailable) {
+  //     return "First";
+  //   } else if (props.searchData.bseatsAvailable) {
+  //     return "Business";
+  //   } else if (props.searchData.eseatsAvailable) {
+  //     return "Economy";
+  //   }
+  // }
 
-//   const fetchSeats = () => {
-//     //gets number of seats in the flight
-//     axios
-//       .post(baseURLSeats, {
-//         _id: props.selectedDepF._id,
-//       })
-// .then((response) => {
-//   if (props.searchData.fseatsAvailable) {
-//     setSeats(response.data[0].ftotalSeats);
-//   } else if (props.searchData.bseatsAvailable) {
-//     setSeats(response.data[0].btotalSeats);
-//   } else if (props.searchData.eseatsAvailable) {
-//     setSeats(response.data[0].etotalSeats);
-//   }
-// })
+  const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
 
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
+  const fetchSeats = () => {
+    //gets number of seats in the flight
+    axios
+      .post(baseURLSeats, {
+        _id: allflightData[1],
+      })
+      .then((response) => {
+        if (allflightData[9] == "First") {
+          setSeats(response.data[0].ftotalSeats);
+        } else if (allflightData[9] == "Business") {
+          setSeats(response.data[0].btotalSeats);
+        } else if (allflightData[9] == "Economy") {
+          setSeats(response.data[0].etotalSeats);
+        }
+      })
 
-//   const fetchAlreadyReserved = () => {
-//     //gets reserved seats of a choosen cabin of a flight
-//     axios
-//       .post("http://localhost:8000/reservations/seatsFlight", {
-//         flight: props.selectedDepF._id,
-//         choosenCabin: getClass(),
-//       })
-//       .then((response) => {
-//         setReserv(response.data);
-//         setloading(false);
-//       })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-//       .catch((error) => {
-//         console.log(getClass());
-//         console.log(error);
-//       });
-//   };
+    const fetchAlreadyReserved = () => {
+      //gets reserved seats of a choosen cabin of a flight
+      axios
+        .post("http://localhost:8000/reservations/seatsFlight", {
+          flight: allflightData[1],
+          choosenCabin:allflightData[9] ,
+        })
+        .then((response) => {
+          setReserv(response.data);
+          setloading(false);
+        })
 
-//   useEffect(() => {
-//     fetchSeats(); //number of seats
-//   }, []);
+        .catch((error) => {
+          console.log(error);
+        });
+    };
 
-//   useEffect(() => {
-//     sit(seats);
-//   }, [seats]); //layout of seats
+    useEffect(() => {
+      fetchSeats(); //number of seats
+    }, []);
 
-//   useEffect(() => {
-//     if (fetchAlreadyReserved()) {
-//       setReserv();
-//     }
-//   }, [rows2]); //reserved seats
+    useEffect(() => {
+      sit(seats);
+    }, [seats]); //layout of seats
 
-//   useEffect(() => {
-//     seating = rows2;
-//     console.log(seating.length);
-//     if (!(typeof reserv === "undefined" || reserv.length == 0)) {
-//       for (var i = 0; i < reserv.length; i++) {
-//         for (var s = 0; s < reserv[i].seatsNo.length; s++) {
-//           seatsarr.add(reserv[i].seatsNo[s].toString());
-//           //   console.log("res" + reserv[i].seatsNo);
-//         }
-//       }
-//     }
-//     for (var i = 0; i < seating.length; i++) {
-//       for (var j = 0; j < seating[i].length; j++) {
-//         if (seating[i][j] != null) {
-//           if (seatsarr.has(seating[i][j].id)) {
-// 			 // if(selectedSeatsArr.has(seating[i][j].id)){
-// 				  //   selectedSeats.push(id);
-// 					// setSelectedSeats(selectedSeats);
-// 					 //setSelectedSoFar(selectedSoFar + 1);
-// 					 //props.setSelectedDeparture(selectedSeats);
-// 				//seating[i][j].isSelected = true;
-// 				//addSeatCallback()
-// 			  //}
-// 			  //else{
-// 				seating[i][j].isReserved = true;
-// 			 // }
-// 		  }
-//         }
-//       }
-//     }
+    useEffect(() => {
+      if (fetchAlreadyReserved()) {
+        setReserv();
+      }
+    }, [rows2]); //reserved seats
 
-//     setRows(seating);
-//   }, [reserv]);
+    useEffect(() => {
+      seating = rows2;
+      console.log(seating.length);
+      if (!(typeof reserv === "undefined" || reserv.length == 0)) {
+        for (var i = 0; i < reserv.length; i++) {
+          for (var s = 0; s < reserv[i].seatsNo.length; s++) {
+            seatsarr.add(reserv[i].seatsNo[s].toString());
+            //   console.log("res" + reserv[i].seatsNo);
+          }
+        }
+      }
+      for (var i = 0; i < seating.length; i++) {
+        for (var j = 0; j < seating[i].length; j++) {
+          if (seating[i][j] != null) {
+            if (seatsarr.has(seating[i][j].id)) {
+  			 // if(selectedSeatsArr.has(seating[i][j].id)){
+  				  //   selectedSeats.push(id);
+  					// setSelectedSeats(selectedSeats);
+  					 //setSelectedSoFar(selectedSoFar + 1);
+  					 //props.setSelectedDeparture(selectedSeats);
+  				//seating[i][j].isSelected = true;
+  				//addSeatCallback()
+  			  //}
+  			  //else{
+  				seating[i][j].isReserved = true;
+  			 // }
+  		  }
+          }
+        }
+      }
+      setRows(seating);
+    }, [reserv]);
 
-//   const addSeatCallback = async ({ row, number, id }, addCb) => {
-//     //setloading(true);
-//     //await new Promise((resolve) => setTimeout(resolve, 1500));
-//     console.log(`Added seat ${number}, row ${row}, id ${id}`);
+    const addSeatCallback = async ({ row, number, id }, addCb) => {
+      //setloading(true);
+      //await new Promise((resolve) => setTimeout(resolve, 1500));
+      console.log(`Added seat ${number}, row ${row}, id ${id}`);
 
-//     const newTooltip = `Seat-${id} Selected`;
-//     addCb(row, number, id, newTooltip);
+      const newTooltip = `Seat-${id} Selected`;
+      addCb(row, number, id, newTooltip);
 
-//     selectedSeats.push(id);
-//     setSelectedSeats(selectedSeats);
-//     setSelectedSoFar(selectedSoFar + 1);
-//     props.setSelectedDeparture(selectedSeats);
-//     // setloading(false);
-//   };
+      selectedSeats.push(id);
+      setSelectedSeats(selectedSeats);
+      setSelectedSoFar(selectedSoFar + 1);
+    //  props.setSelectedDeparture(selectedSeats);
+      // setloading(false);
+    };
 
-//   const removeSeatCallback = async ({ row, number, id }, removeCb) => {
-//     //   setloading(true);
-//     //  await new Promise((resolve) => setTimeout(resolve, 1500));
-//     console.log(`Removed seat ${number}, row ${row}, id ${id}`);
-//     selectedSeats.pop(id);
-//     setSelectedSeats(selectedSeats);
-//     // A value of null will reset the tooltip to the original while '' will hide the tooltip
-//     const newTooltip = ["A", "B", "C"].includes(row) ? null : "";
-//     removeCb(row, number, newTooltip);
-//     setSelectedSoFar(selectedSoFar - 1);
-//     props.setSelectedDeparture(selectedSeats);
-//     // setloading(false);
-//   };
+    const removeSeatCallback = async ({ row, number, id }, removeCb) => {
+      //   setloading(true);
+      //  await new Promise((resolve) => setTimeout(resolve, 1500));
+      console.log(`Removed seat ${number}, row ${row}, id ${id}`);
+      selectedSeats.pop(id);
+      setSelectedSeats(selectedSeats);
+      // A value of null will reset the tooltip to the original while '' will hide the tooltip
+      const newTooltip = ["A", "B", "C"].includes(row) ? null : "";
+      removeCb(row, number, newTooltip);
+      setSelectedSoFar(selectedSoFar - 1);
+   //   props.setSelectedDeparture(selectedSeats);
+      // setloading(false);
+    };
 
   return (
-    <></>
+   
 
-
-
-    // <React.Fragment>
-    //   <Typography variant="h6" gutterBottom>
-    //     {getClass()} Seats for Departure Flight
-    //     <br />
-    //     {maxReservableSeats - selectedSoFar ? (
-    //       <small>
-    //         {" "}
-    //         You have {maxReservableSeats - selectedSoFar} seat(s) left to pick{" "}
-    //       </small>
-    //     ) : (
-    //       <> &nbsp;</>
-    //     )}
-    //   </Typography>
-    //   <div className="">
-    //     {selectedSoFar === maxReservableSeats
-    //       ? props.setDis(1)
-    //       : props.setDis(0)}
-    //     {loading || rows.length === 0 ? (
-    //       <Box sx={{ display: "flex", alignItems: "center" }}>
-    //         <Box sx={{ m: 1}}>
-    //           {loading && (
-    //             <CircularProgress
-    //               size={24}
-    //               sx={{
-    //                 color: "blue",
-    //                 position: "absolute",
-    //                 top: "45%",
-    //                 left: "50%",
-    //                 //marginTop: "-12px",
-    //                 marginLeft: "-12px",
-    //               }}
-    //             />
-    //           )}
-    //         </Box>
-    //       </Box>
-    //     ) : (
-    //       <div style={{ justifyContent: "center" }}>
-    //         <div style={{ marginTop: "100px" }}>
-    //           <SeatPicker
-    //             addSeatCallback={addSeatCallback}
-    //             removeSeatCallback={removeSeatCallback}
-    //             rows={rows}
-    //             maxReservableSeats={maxReservableSeats}
-    //             alpha
-    //             visible
-    //             selectedByDefault
-    //             loading={loading}
-    //             tooltipProps={{ multiline: true }}
-    //           />
-    //         </div>
-    //       </div>
-    //     )}
-
-    //     <div>
-    //       {/* {reserv &&
-    //       reserv.map((flight) => (
-    //         <h2 key={flight._id}>
-    //           {" "}
-    //           {flight.User} {flight.seatsNo} {flight.flight}{" "}
-    //           {flight.noOfPassengers} {flight.choosenCabin}{" "}
-    //         </h2>
-    //       ))} */}
-    //     </div>
-    //   </div>
-    // </React.Fragment>
+    <React.Fragment>
+     <br />
+     <br />
+     <br />
+     <br />
+      <Typography variant="h6" gutterBottom>
+        {allflightData[9]} Seats for Departure Flight
+        <br />
+        {maxReservableSeats - selectedSoFar ? (
+          <small>
+            {" "}
+            You have {maxReservableSeats - selectedSoFar} seat(s) left to pick{" "}
+          </small>
+        ) : (
+          <> &nbsp;</>
+        )}
+      </Typography>
+      <div className="">
  
- 
- 
- );
+        {loading || rows.length === 0 ? (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ m: 1}}>
+              {loading && (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    color: "blue",
+                    position: "absolute",
+                    top: "45%",
+                    left: "50%",
+                    //marginTop: "-12px",
+                    marginLeft: "-12px",
+                  }}
+                />
+              )}
+            </Box>
+          </Box>
+        ) : (
+          <div style={{ justifyContent: "center" }}>
+            <div style={{ marginTop: "100px" }}>
+              <SeatPicker
+                addSeatCallback={addSeatCallback}
+                removeSeatCallback={removeSeatCallback}
+                rows={rows}
+                maxReservableSeats={maxReservableSeats}
+                alpha
+                visible
+                selectedByDefault
+                loading={loading}
+                tooltipProps={{ multiline: true }}
+              />
+            </div>
+          </div>
+        )}
+
+      </div>
+    </React.Fragment>
+  );
 }
