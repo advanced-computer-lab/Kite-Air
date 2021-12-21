@@ -1,0 +1,35 @@
+POST http://localhost:4000/register
+Content-Type: application/json
+
+{
+    "username": "user2",
+    "Password": "password123",        
+    "FirstName": "Hadeer",
+    "LastName":  "Maryam",
+    "Address": "beet",
+    "PassportNo": "A12345678",
+    "CountryCode": "+20",
+    "TelephoneNo": "1149834659",
+    "Email": "hadeer@gmail.com",
+    "Admin": "0"
+}
+
+###
+
+POST http://localhost:4000/login
+Content-Type: application/json
+
+{
+  "username" : "user2",
+  "Password" : "password123"
+}
+
+###
+DELETE http://localhost:4000/logout
+Content-Type: application/json
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIyIiwiaWF0IjoxNjM5Njg5MTcxfQ.8IrfSehYcVHBKMKym4Jelk3ByftCbMp3-6nzEihKa10"
+}
+
+###

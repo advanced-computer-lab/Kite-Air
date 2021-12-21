@@ -14,6 +14,7 @@ import Link from "@mui/material/Link";
 
 import { useContext, useEffect } from "react";
 import { UserContext } from "../context/index.js";
+import axios from "axios";
 
 export default function Header() {
   const [state, setState] = useContext(UserContext);
@@ -68,10 +69,23 @@ export default function Header() {
 
 
   const logout = () => {
-    window.localStorage.removeItem("auth");
-    setState(null);
-    navigate("/login");
+ 
+
+    axios.delete("http://localhost:4000/logout", {token: state.token})
+    .then((response) => { 
+      console.log("deletedtoken")
+      window.localStorage.removeItem("auth");
+      setState(null);
+      navigate("/login");
+      
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    //state.token
+
     handleMenuClose();
+
   };
 
   const menuId = "primary-search-account-menu";

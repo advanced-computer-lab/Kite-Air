@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const nodemailer = require("nodemailer");
+const Flight = require("../Models/Flights");
 const Reservation = require("../Models/Reservations");
 
 const Reservationinstance = new Reservation({
@@ -64,7 +65,45 @@ router.post("/addReservation", async (req, res) => {
 
   await reser
     .save()
-    .then((result) => {
+    .then(async (result) => {
+
+      // if( reser.choosenCabin == "First"){
+      
+      //   Flight.find({_id: reser.flight}).then((resultFlight) =>{
+      //     Flight.findByIdAndUpdate({
+      //       _id: reser.flight},{
+      //       fseatsAvailable: (resultFlight.fseatsAvailable - req.body.noOfPassengers),
+      //     })
+      //   })
+      //   } 
+
+      // else if( reser.choosenCabin == "Business"){
+       
+      //   Flight.find({_id: reser.flight}).then((resultFlight) =>{
+          
+      //     Flight.findByIdAndUpdate({
+      //       _id: reser.flight},{
+      //       bseatsAvailable: (resultFlight.bseatsAvailable - req.body.noOfPassengers),
+      //     }).then();
+      //   })
+      //   } 
+      
+       if (req.body.choosenCabin == "Economy") {
+         console.log(req.body.choosenCabin);
+      
+         const resultFlight = await  Flight.find({_id: req.body.flight});
+          console.log(resultFlight[0]);
+          console.log("here");
+          console.log(resultFlight[0].eseatsAvailable);
+
+          Flight.findByIdAndUpdate({
+            _id: req.body.flight},{
+            eseatsAvailable: (resultFlight[0].eseatsAvailable - req.body.noOfPassengers),
+          }).then();
+        
+        } 
+        
+
       res.json({
         ok: true,
       });
