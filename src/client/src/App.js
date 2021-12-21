@@ -17,6 +17,7 @@ import SeatsPickermain from "./components/SeatsPickermain";
 
 import { useEffect, useState } from "react";
 import Register from "./components/Register";
+import ChangingSeats from "./components/ChangingSeats.js";
 
 
 // import { useContext } from "react";
@@ -42,6 +43,7 @@ const App = () => {
             <Route path="mybookings" element={<MyBookings />} />
             <Route path="login" element={<SignIn />} />
             <Route path="signup" element={<Register />} />
+            <Route path="flightseats" element={<ChangingSeats />} />
 
             <Route
               path="/userReservations"

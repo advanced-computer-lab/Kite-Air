@@ -109,11 +109,11 @@ export default function SeatsReturn(props) {
       })
       .then((response) => {
         if (props.searchData.fseatsAvailable) {
-          setSeats(response.data[0].fseatsAvailable);
+          setSeats(response.data[0].ftotalSeats);
         } else if (props.searchData.bseatsAvailable) {
-          setSeats(response.data[0].bseatsAvailable);
+          setSeats(response.data[0].btotalSeats);
         } else if (props.searchData.eseatsAvailable) {
-          setSeats(response.data[0].eseatsAvailable);
+          setSeats(response.data[0].etotalSeats);
         }
       })
       .catch((error) => {

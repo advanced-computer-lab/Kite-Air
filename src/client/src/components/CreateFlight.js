@@ -111,6 +111,9 @@ export default function CreateFlight() {
     fseatsAvailable: fseatsAvailable,
     bseatsAvailable: bseatsAvailable,
     eseatsAvailable: eseatsAvailable,
+    ftotalSeats: fseatsAvailable,
+    btotalSeats: bseatsAvailable,
+    etotalSeats: eseatsAvailable,
   };
 
   const submitButton = async (event) => {

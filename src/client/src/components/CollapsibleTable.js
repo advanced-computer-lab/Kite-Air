@@ -18,18 +18,36 @@ import axios from "axios";
 import CancelDialog from "./CancelDialog";
 import { UserContext } from "../context/index.js";
 import LinearProgress from '@mui/material/LinearProgress';
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+
+
 
 var resArray = [];
 var flightsArray = [];
 var totalArray = []; //2D array to fill the table
 
 function Row(e) {
+
+  const navigate = useNavigate();
+
   // count = count + 1;
   //  console.log(count);
   const { entry } = e;
   //  console.log(count);
 
   const [open, setOpen] = React.useState(false);
+
+  const gotoSeats = () => {
+
+    console.log("In nav");
+      navigate("/flightseats", {
+        state: {
+         allDetails: entry
+        },
+      });
+  };
+
 
   return (
     <React.Fragment>
@@ -51,6 +69,9 @@ function Row(e) {
         <TableCell align="right">{entry[5]}</TableCell>
         <TableCell align="right">{entry[6]}</TableCell>
         <TableCell align="right">{entry[7]}</TableCell>
+        <TableCell align="left">
+          <Button style={{ background: "#191b3a" }} variant="contained">Email</Button>
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -69,8 +90,11 @@ function Row(e) {
                     <TableCell align="left">Passengers#</TableCell>
                     <TableCell align="left">Seats</TableCell>
                     <TableCell align="left">Total price</TableCell>
-                    <TableCell align="left"></TableCell>
-                  </TableRow>
+                    <TableCell align="left" style = {{width: "180px"}}>
+                      <Button color = "primary" variant="contained" style = {{width: "180px"}} onClick={gotoSeats}>Change Seat(s)</Button>
+                    </TableCell>
+                                    
+                </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow key={entry[1]}>
@@ -84,9 +108,9 @@ function Row(e) {
                     <TableCell align="left">{entry[14]}</TableCell>
                     <TableCell align="left">{entry[13]}</TableCell>
                     <TableCell
-                      style={{ display: "flex", justifyContent: "flex-end" }}
+                      align="right" style={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                      <CancelDialog align="right" reser={entry}></CancelDialog>
+                      <CancelDialog style={{align:"center"}} align="center" reser={entry}></CancelDialog>
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -110,7 +134,7 @@ export default function CollapsibleTable() {
     if (reservations !== []) {
       axios
         .post(`http://localhost:8000/reservations/all-reservations`, {
-          User: state.user._id, 
+          User: state.user._id,
         })
         .then((res) => {
           setRes(res.data);
@@ -194,6 +218,9 @@ export default function CollapsibleTable() {
         temp.push(flightsArray[k].fseatsAvailable);
         temp.push(flightsArray[k].bseatsAvailable);
         temp.push(flightsArray[k].eseatsAvailable);
+        temp.push(flightsArray[k].ftotalSeats);
+        temp.push(flightsArray[k].btotalSeats);
+        temp.push(flightsArray[k].etotalSeats);
         //console.log(temp);
         var found = false;
         var tal = Object.keys(totalArray).length;
@@ -235,6 +262,10 @@ export default function CollapsibleTable() {
               <TableCell align="right" style={{fontWeight:"bolder"}}>Date(mm/dd/yyyy)</TableCell>
               <TableCell align="right" style={{fontWeight:"bolder"}}>Departure</TableCell>
               <TableCell align="right" style={{fontWeight:"bolder"}}>Arrival</TableCell>
+              <TableCell align="right" style={{fontWeight:"bolder"}}></TableCell>
+
+              
+
             </TableRow>
           </TableHead>
           <TableBody>

@@ -68,6 +68,16 @@ const flightSchema = new Schema(
     ebaggage: {
       type: Number,
     },
+    ftotalSeats: {
+      type: Number,
+    },
+    btotalSeats: {
+      type: Number,
+    },
+    etotalSeats: {
+      type: Number,
+    },
+    
   },
   { timestamps: true }
 );
