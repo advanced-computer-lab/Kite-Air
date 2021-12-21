@@ -58,6 +58,7 @@ export default function SeatsPickermain(props) {
   let baseURL = "http://localhost:8000/reservations/addReservation";
 
   const saveselectedDept = () => {
+    console.log(selectedDepartureSeats);
     axios
       .post(baseURL, {
         User: state.user._id,

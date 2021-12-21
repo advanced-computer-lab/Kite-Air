@@ -253,6 +253,7 @@ export default function Review(props) {
 
             <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
             {props.selectedDepartureSeats}
+            
             </td>
             <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
              {props.selectedReturnSeats}
