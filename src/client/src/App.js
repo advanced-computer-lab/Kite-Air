@@ -16,6 +16,7 @@ import CollapsibleTable from "./components/CollapsibleTable";
 import SeatsPickermain from "./components/SeatsPickermain";
 
 import { useEffect, useState } from "react";
+import Register from "./components/Register";
 
 
 // import { useContext } from "react";
@@ -40,6 +41,8 @@ const App = () => {
             <Route path="ProfilePage" element={<ProfilePage />} />
             <Route path="mybookings" element={<MyBookings />} />
             <Route path="login" element={<SignIn />} />
+            <Route path="signup" element={<Register />} />
+
             <Route
               path="/userReservations"
               element={<CollapsibleTable />}
