@@ -42,6 +42,7 @@ export default function SeatsDeparture(props) {
     return (!i * 10 + i).toString(36);
   }
   function sit(n) {
+    
     var totalRows = Math.ceil(n / 4); //no of rows
     var letter = "A";
     for (var i = 0; i < totalRows; i++) {
@@ -73,7 +74,7 @@ export default function SeatsDeparture(props) {
 
     if (seating.length != 0) {
       setRows2(seating);
-      console.log("Seating length " + seating.length);
+      console.log("Seating length in sit " + seating.length);
     }
   }
 
@@ -123,6 +124,8 @@ export default function SeatsDeparture(props) {
         choosenCabin: getClass(),
       })
       .then((response) => {
+        console.log("printing reservation array?");
+        console.log(response.data);
         setReserv(response.data);
         setloading(false);
       })
@@ -150,7 +153,9 @@ export default function SeatsDeparture(props) {
   useEffect(() => {
     seating = rows2;
     console.log(seating.length);
-    if (!(typeof reserv === "undefined" || reserv.length == 0)) {
+    
+    console.log(reserv);
+    if (!(typeof reserv === "undefined" || reserv.length === 0)) {
       for (var i = 0; i < reserv.length; i++) {
         for (var s = 0; s < reserv[i].seatsNo.length; s++) {
           seatsarr.add(reserv[i].seatsNo[s].toString());
@@ -158,6 +163,7 @@ export default function SeatsDeparture(props) {
         }
       }
     }
+
     for (var i = 0; i < seating.length; i++) {
       for (var j = 0; j < seating[i].length; j++) {
         if (seating[i][j] != null) {
@@ -169,6 +175,7 @@ export default function SeatsDeparture(props) {
     }
 
     setRows(seating);
+    console.log(rows);
   }, [reserv]);
 
   const addSeatCallback = async ({ row, number, id }, addCb) => {
@@ -180,6 +187,7 @@ export default function SeatsDeparture(props) {
     addCb(row, number, id, newTooltip);
 
     selectedSeats.push(id);
+    console.log("selectedSeats Set" + selectedSeats);
     setSelectedSeats(selectedSeats);
     setSelectedSoFar(selectedSoFar + 1);
     props.setSelectedDeparture(selectedSeats);

@@ -62,7 +62,7 @@ export default function SeatsPickermain(props) {
     axios
       .post(baseURL, {
         User: state.user._id,
-        flight: location.state.selectedRetF._id,
+        flight: location.state.selectedDepF._id,
         choosenCabin: getClass(),
         noOfPassengers: getNoOfPassengers(),
         seatsNo: selectedDepartureSeats,
@@ -79,7 +79,7 @@ export default function SeatsPickermain(props) {
     axios
       .post(baseURL, {
         User: state.user._id,
-        flight: location.state.selectedDepF._id,
+        flight: location.state.selectedRetF._id,
         choosenCabin: getClass(),
         noOfPassengers: getNoOfPassengers(),
         seatsNo: selectedReturnSeats,
@@ -131,8 +131,9 @@ export default function SeatsPickermain(props) {
     setActiveStep(activeStep + 1);
 
     if (activeStep === steps.length - 1) {
-      saveselectedRet();
       saveselectedDept();
+      saveselectedRet();
+
       console.log("Saved");
     }
   };
