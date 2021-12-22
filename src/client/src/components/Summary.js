@@ -1,19 +1,43 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Avatar from "@mui/material/Avatar";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
+
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 import { useNavigate } from "react-router-dom"; // version 5.2.0
-import { useContext,useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../context/index.js";
 import { toast } from "react-toastify";
 
+import axios from "axios";
 
 export default function Summary(props) {
   //searchData
   const [state, setState] = useContext(UserContext);
   const [ok, setOk] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+
+  const [showLogin, setShowLogin] = useState(false);
+  const [username, setusername] = useState("");
+  const [Password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  let loggedIn =  state && state.user;
+  let loggedIn = state && state.user;
 
   function getBaggage(selectedDepF) {
     if (props.searchData.fseatsAvailable) {
@@ -55,6 +79,61 @@ export default function Summary(props) {
     }
   }
 
+  const baseURL = "http://localhost:4000/login";
+
+  const fetchUser = () => {
+    axios
+      .post(baseURL, {
+        username: username,
+        Password: Password,
+      })
+      .then((response) => {
+        setState({
+          user: response.data.user,
+          token: response.data.token,
+        });
+
+        window.localStorage.setItem(
+          "auth",
+          JSON.stringify({
+            user: response.data.user,
+            token: response.data.token,
+          })
+        );
+
+        let auth = JSON.parse(window.localStorage.getItem("auth"));
+
+        navigate("/pickSeats", {
+          state: {
+            searchData: props.searchData,
+            selectedDepF: props.selectedDep,
+            selectedRetF: props.selectedRet,
+          },
+        });
+
+        
+      })
+      .catch((error) => {
+        toast.error(error.response.data);
+      });
+  };
+
+  const inputsHandlerPass = (e) => {
+    setPassword(e.target.value);
+  };
+  const inputsHandlerusername = (e) => {
+    setusername(e.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    fetchUser();
+    setLoading(false);
+
+  };
+
   const handleRedirection = () => {
     console.log("In nav");
     if (loggedIn) {
@@ -65,9 +144,8 @@ export default function Summary(props) {
           selectedRetF: props.selectedRet,
         },
       });
-    }
-    else{
-      toast.warning("Please login first!", {
+    } else {
+      toast.warning("Please sign in first!", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -77,9 +155,12 @@ export default function Summary(props) {
         progress: undefined,
       });
       setOk(true);
-      navigate("/login");
-      
+      setShowLogin(true);
     }
+  };
+
+  const handleClose = () => {
+    setShowLogin(false);
   };
 
   return (
@@ -276,6 +357,93 @@ export default function Summary(props) {
           Confirm
         </Button>
       </div>
+
+      {showLogin && (
+        <div>
+          <Dialog open={showLogin} onClose={handleClose}>
+            {/* <DialogTitle>Sign in</DialogTitle> */}
+            <DialogContent>
+              <Container component="main" maxWidth="xs">
+                <CssBaseline />
+
+                <Box
+                  sx={{
+                    marginTop: 8,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+                    <LockOutlinedIcon />
+                  </Avatar>
+                  <Typography component="h1" variant="h5">
+                    Sign in
+                  </Typography>
+                  <Box
+                    component="form"
+                    onSubmit={handleSubmit}
+                    noValidate
+                    sx={{ mt: 1 }}
+                  >
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="username"
+                      label="Username"
+                      name="username"
+                      value={username || ""}
+                      required
+                      onChange={inputsHandlerusername}
+                      autoFocus
+                    />
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="Password"
+                      value={Password || ""}
+                      onChange={inputsHandlerPass}
+                      // autoComplete="current-password"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox value="remember" color="primary" />}
+                      label="Remember me"
+                    />
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                    >
+                      Sign In
+                    </Button>
+                    <Grid container>
+                      <Grid item xs>
+                        <Link href="#" variant="body2">
+                          Forgot password?
+                        </Link>
+                      </Grid>
+                      <Grid item>
+                        <Link href="signup" variant="body2">
+                          {"Don't have an account? Sign Up"}
+                        </Link>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Box>
+              </Container>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      )}
     </React.Fragment>
   );
 }

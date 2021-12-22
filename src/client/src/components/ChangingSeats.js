@@ -26,6 +26,10 @@ export default function ChangingSeats() {
   const [rows, setRows] = useState([]);
   const [rows2, setRows2] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [incomingSelectedSeats, incomingSetSelectedSeats] = useState(
+    allflightData[14].split("\n")
+  );
+
   const [reservationID, setReservationID] = useState();
   const [seats, setSeats] = useState(0);
   const [maxReservableSeats, setMaxReservableSeats] = useState(
@@ -34,6 +38,7 @@ export default function ChangingSeats() {
   const [selectedSoFar, setSelectedSoFar] = useState(0);
 
   let seating = [];
+  console.log(incomingSelectedSeats);
 
   function nextChar(c) {
     var i = (parseInt(c, 36) + 1) % 36;
@@ -79,7 +84,6 @@ export default function ChangingSeats() {
     }
   }
 
-
   const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
 
   const fetchSeats = () => {
@@ -103,115 +107,123 @@ export default function ChangingSeats() {
       });
   };
 
-    // const fetchAlreadyReserved = () => {
-    //   //gets reserved seats of a choosen cabin of a flight
-    //   axios
-    //     .post("http://localhost:8000/reservations/seatsFlight", {
-    //       flight: allflightData[1],
-    //       choosenCabin:allflightData[9],
-    //     })
-    //     .then((response) => {
-    //       setReserv(response.data);
-    //       setloading(false);
-    //     })
+  const fetchAlreadyReserved = () => {
+    //gets reserved seats of a choosen cabin of a flight
+    axios
+      .post("http://localhost:8000/reservations/seatsFlight", {
+        flight: allflightData[1],
+        choosenCabin: allflightData[9],
+      })
+      .then((response) => {
+        setReserv(response.data);
+        setloading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // };
+  useEffect(() => {
+    fetchSeats(); //number of seats
+  }, []);
 
-    useEffect(() => {
-      fetchSeats(); //number of seats
-    }, []);
+  useEffect(() => {
+    sit(seats);
+  }, [seats]); //layout of seats
 
-    useEffect(() => {
-      sit(seats);
-    }, [seats]); //layout of seats
+  useEffect(() => {
+    if (fetchAlreadyReserved()) {
+      setReserv();
+    }
+  }, [rows2]); //reserved seats
 
-    // useEffect(() => {
-    //   if (fetchAlreadyReserved()) {
-    //     setReserv();
-    //   }
-    // }, [rows2]); //reserved seats
+  useEffect(() => {
+    seating = rows2;
+    console.log(seating.length);
+    if (!(typeof reserv === "undefined" || reserv.length == 0)) {
+      for (var i = 0; i < reserv.length; i++) {
+        for (var s = 0; s < reserv[i].seatsNo.length; s++) {
+          seatsarr.add(reserv[i].seatsNo[s].toString());
+          //   console.log("res" + reserv[i].seatsNo);
+        }
+      }
+    }
+    for (var i = 0; i < seating.length; i++) {
+      for (var j = 0; j < seating[i].length; j++) {
+        if (seating[i][j] != null) {
+          if (seatsarr.has(seating[i][j].id)) {
+            console.log(allflightData[14].substring(0, 2));
+            if (incomingSelectedSeats.includes(seating[i][j].id)) {
+              seating[i][j].isSelected = true;
+              seating[i][j].isReserved = false;
 
-    // useEffect(() => {
-    //   seating = rows2;
-    //   console.log(seating.length);
-    //   if (!(typeof reserv === "undefined" || reserv.length == 0)) {
-    //     for (var i = 0; i < reserv.length; i++) {
-    //       for (var s = 0; s < reserv[i].seatsNo.length; s++) {
-    //         seatsarr.add(reserv[i].seatsNo[s].toString());
-    //         //   console.log("res" + reserv[i].seatsNo);
-    //       }
-    //     }
-    //   }
-    //   for (var i = 0; i < seating.length; i++) {
-    //     for (var j = 0; j < seating[i].length; j++) {
-    //       if (seating[i][j] != null) {
-    //         if (seatsarr.has(seating[i][j].id)) {
-    //           seating[i][j].isReserved = true;
-    //         }
-    //       }
-    //     }
-    //   }
-  
-    //   setRows(seating);
-    // }, [reserv]);
+            } else seating[i][j].isReserved = true;
+          }
+        }
+      }
+    }
 
-    const addSeatCallback = async ({ row, number, id }, addCb) => {
-      //setloading(true);
-      //await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log(`Added seat ${number}, row ${row}, id ${id}`);
+    setRows(seating);
+  }, [reserv]);
 
-      const newTooltip = `Seat-${id} Selected`;
-      addCb(row, number, id, newTooltip);
+  const addSeatCallback = async ({ row, number, id }, addCb) => {
+    //setloading(true);
+    //await new Promise((resolve) => setTimeout(resolve, 1500));
+    console.log(`Added seat ${number}, row ${row}, id ${id}`);
 
-      selectedSeats.push(id);
-      setSelectedSeats(selectedSeats);
-      setSelectedSoFar(selectedSoFar + 1);
+    const newTooltip = `Seat-${id} Selected`;
+    addCb(row, number, id, newTooltip);
+
+    selectedSeats.push(id);
+    setSelectedSeats(selectedSeats);
+    setSelectedSoFar(selectedSoFar + 1);
     //  props.setSelectedDeparture(selectedSeats);
-      // setloading(false);
-    };
+    // setloading(false);
+  };
 
-    const removeSeatCallback = async ({ row, number, id }, removeCb) => {
-      //   setloading(true);
-      //  await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log(`Removed seat ${number}, row ${row}, id ${id}`);
-      selectedSeats.pop(id);
-      setSelectedSeats(selectedSeats);
-      // A value of null will reset the tooltip to the original while '' will hide the tooltip
-      const newTooltip = ["A", "B", "C"].includes(row) ? null : "";
-      removeCb(row, number, newTooltip);
-      setSelectedSoFar(selectedSoFar - 1);
-   //   props.setSelectedDeparture(selectedSeats);
-      // setloading(false);
-    };
+  const removeSeatCallback = async ({ row, number, id }, removeCb) => {
+    //   setloading(true);
+    //  await new Promise((resolve) => setTimeout(resolve, 1500));
+    console.log(`Removed seat ${number}, row ${row}, id ${id}`);
+    selectedSeats.pop(id);
+    setSelectedSeats(selectedSeats);
+    // A value of null will reset the tooltip to the original while '' will hide the tooltip
+    const newTooltip = ["A", "B", "C"].includes(row) ? null : "";
+    removeCb(row, number, newTooltip);
+    setSelectedSoFar(selectedSoFar - 1);
+    //   props.setSelectedDeparture(selectedSeats);
+    // setloading(false);
+  };
 
   return (
-   
-
     <React.Fragment>
-     <br />
-     <br />
-     <br />
-     <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <Typography variant="h6" gutterBottom>
         {allflightData[9]} Seats for Departure Flight
         <br />
+        <small>
+            {" "}
+            You have {incomingSelectedSeats.length-1} seat(s) already selected.
+            <br />
+
+          </small>
         {maxReservableSeats - selectedSoFar ? (
           <small>
             {" "}
-            You have {maxReservableSeats - selectedSoFar} seat(s) left to pick{" "}
+            {/* You have {incomingSelectedSeats.length-1} seat(s) already selected. */}
+            {/* You have {maxReservableSeats - selectedSoFar} seat(s) left to pick{" "} */}
           </small>
         ) : (
           <> &nbsp;</>
         )}
       </Typography>
       <div className="">
- 
         {loading || rows.length === 0 ? (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box sx={{ m: 1}}>
+            <Box sx={{ m: 1 }}>
               {loading && (
                 <CircularProgress
                   size={24}
@@ -244,7 +256,6 @@ export default function ChangingSeats() {
             </div>
           </div>
         )}
-
       </div>
     </React.Fragment>
   );

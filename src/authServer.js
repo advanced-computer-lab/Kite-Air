@@ -28,6 +28,7 @@ app.post("/register", async (req, res) => {
         req.body.username &&
         req.body.Email &&
         req.body.Password &&
+        req.body.PasswordC &&
         req.body.FirstName &&
         req.body.LastName &&
         req.body.Address &&
@@ -36,7 +37,12 @@ app.post("/register", async (req, res) => {
         req.body.TelephoneNo
       )
     ) {
-      return res.status(400).send("Please fill in all input feilds!");
+       res.status(400).send("Please fill in all feilds!");
+    }
+
+    if( (""+req.body.Password)!==(""+req.body.PasswordC)){
+       res.status(400).send("Passwords don't match!");
+
     }
     const hashedPassword = await bcrypt.hash(req.body.Password, 10);
     const userObject = {
@@ -56,14 +62,14 @@ app.post("/register", async (req, res) => {
 
     const oldUser = await Users.findOne({ username: req.body.username });
     if (oldUser) {
-      return res.status(400).send("Username already used.");
+       res.status(400).send("Username is already used.");
     }
 
     const oldUserEmail = await Users.findOne({ Email: req.body.Email });
     if (oldUserEmail) {
-      return res
+       res
         .status(400)
-        .send("Email is already registered by another user.");
+        .send("Email is already registered.");
     }
 
     
@@ -73,20 +79,24 @@ app.post("/register", async (req, res) => {
 
     res.status(201).send();
   } catch {
-    res.status(400).send(err.message);
+    return res.status(400).send(err.message);
   }
 });
 
 app.post("/login", async (req, res) => {
   console.log(req.body);
 
-  const user2 = await Users.findOne({ username: req.body.username });
-  const userObject = { username: user2.username };
 
-  if (user2 == null) {
-    return res.status(400).send("User is not registered.");
+  const user2 = await Users.findOne({ username: req.body.username });
+  
+  
+
+
+  if (user2 == null || !user2) {
+    return res.status(400).send("The username you entered doesn't belong to an account.");
   }
   try {
+    const userObject = { username: user2.username };
     if (await bcrypt.compare(req.body.Password, user2.Password)) {
       const accessToken = generateAccessToken(userObject);
       console.log(accessToken);
@@ -101,7 +111,7 @@ app.post("/login", async (req, res) => {
       res.json({ user: user2, token: accessToken });
       res.send("Success");
     } else {
-      return res.status(400).send("Password doesn't match this username");
+      return res.status(400).send("Sorry, your password was incorrect.");
     }
   } catch {
     return res.status(500).send();

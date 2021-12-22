@@ -16,6 +16,8 @@ import { useContext, useEffect } from "react";
 import { UserContext } from "../context/index.js";
 import axios from "axios";
 
+import logo from '../assets/whiteKite.png';
+
 export default function Header() {
   const [state, setState] = useContext(UserContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -73,11 +75,12 @@ export default function Header() {
 
     axios.delete("http://localhost:4000/logout", {token: state.token})
     .then((response) => { 
+      navigate("/login");
       console.log("deletedtoken")
       window.localStorage.removeItem("auth");
       setState(null);
-      navigate("/login");
       
+
     })
     .catch((error) => {
       console.log(error);
@@ -163,7 +166,9 @@ export default function Header() {
               }}
               style={{ textDecoration: "none", cursor: "pointer" }}
             >
-              Kite Air
+             {/* Kite Air */}
+               <img src={logo} height="45" alt="logo" />
+               
             </div>{" "}
           </Typography>
 
