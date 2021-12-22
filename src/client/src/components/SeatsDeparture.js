@@ -5,7 +5,7 @@ import SeatPicker from "react-seat-picker";
 import "../styles.css";
 import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export default function SeatsDeparture(props) {
@@ -42,7 +42,6 @@ export default function SeatsDeparture(props) {
     return (!i * 10 + i).toString(36);
   }
   function sit(n) {
-    
     var totalRows = Math.ceil(n / 4); //no of rows
     var letter = "A";
     for (var i = 0; i < totalRows; i++) {
@@ -99,10 +98,8 @@ export default function SeatsDeparture(props) {
 
         if (props.searchData.fseatsAvailable) {
           setSeats(response.data[0].ftotalSeats);
-
         } else if (props.searchData.bseatsAvailable) {
           setSeats(response.data[0].btotalSeats);
-
         } else if (props.searchData.eseatsAvailable) {
           console.log("here if economy");
           console.log(response.data[0].etotalSeats);
@@ -153,13 +150,13 @@ export default function SeatsDeparture(props) {
   useEffect(() => {
     seating = rows2;
     console.log(seating.length);
-    
+
     console.log(reserv);
     if (!(typeof reserv === "undefined" || reserv.length === 0)) {
       for (var i = 0; i < reserv.length; i++) {
         for (var s = 0; s < reserv[i].seatsNo.length; s++) {
           seatsarr.add(reserv[i].seatsNo[s].toString());
-             console.log("seat " + reserv[i].seatsNo[s]);
+          console.log("seat " + reserv[i].seatsNo[s]);
         }
       }
     }
@@ -228,7 +225,7 @@ export default function SeatsDeparture(props) {
           : props.setDis(0)}
         {loading || rows.length === 0 ? (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box sx={{ m: 1}}>
+            <Box sx={{ m: 1 }}>
               {loading && (
                 <CircularProgress
                   size={24}
@@ -263,14 +260,33 @@ export default function SeatsDeparture(props) {
         )}
 
         <div>
-          {/* {reserv &&
-          reserv.map((flight) => (
-            <h2 key={flight._id}>
-              {" "}
-              {flight.User} {flight.seatsNo} {flight.flight}{" "}
-              {flight.noOfPassengers} {flight.choosenCabin}{" "}
-            </h2>
-          ))} */}
+          <small>
+            <br />
+            <br />
+            <i
+              class="material-icons"
+              style={{ color: "#1976d2", fontSize: "15px" }}
+            >
+              square
+            </i>{" "}
+            Selected
+            <br />
+            <i
+              class="material-icons"
+              style={{ color: "gray", fontSize: "15px" }}
+            >
+              square
+            </i>{" "}
+            Reserved by others
+            <br />
+            <i
+              class="material-icons"
+              style={{ color: "#191b3a", fontSize: "15px" }}
+            >
+              square
+            </i>{" "}
+            Unreserved
+          </small>
         </div>
       </div>
     </React.Fragment>

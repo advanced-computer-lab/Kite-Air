@@ -13,11 +13,11 @@ import { useLocation } from "react-router-dom";
 //selectedSeatsArr  = new Set();
 //what we need: flight ID, cabin class
 
-export default function ChangingSeats() {
+export default function ChangingSeats({ allDetails, setUpdatedSeats }) {
   const location = useLocation();
-  console.log(location.state.allDetails);
+  //console.log(allDetails);
 
-  const allflightData = location.state.allDetails;
+  const allflightData = allDetails;
 
   var seatsarr = new Set();
 
@@ -25,20 +25,21 @@ export default function ChangingSeats() {
   const [loading, setloading] = useState(true);
   const [rows, setRows] = useState([]);
   const [rows2, setRows2] = useState([]);
-  const [selectedSeats, setSelectedSeats] = useState([]);
-  const [incomingSelectedSeats, incomingSetSelectedSeats] = useState(
-    allflightData[14].split("\n")
+  const [selectedSeats, setSelectedSeats] = useState(
+    allflightData[14].substring(0, allflightData[14].length - 1).split("\n")
   );
+  const [incomingSelectedSeats, incomingSetSelectedSeats] = useState(
+    allflightData[14].substring(0, allflightData[14].length - 1).split("\n")
+  );
+  // console.log(allflightData[14].substring(0,allflightData[14].length-1).split("\n"))
 
   const [reservationID, setReservationID] = useState();
   const [seats, setSeats] = useState(0);
-  const [maxReservableSeats, setMaxReservableSeats] = useState(
-    location.state.allDetails[12]
-  );
-  const [selectedSoFar, setSelectedSoFar] = useState(0);
+  const [maxReservableSeats, setMaxReservableSeats] = useState(allDetails[12]);
+  const [selectedSoFar, setSelectedSoFar] = useState(allDetails[12]);
 
   let seating = [];
-  console.log(incomingSelectedSeats);
+  // console.log(incomingSelectedSeats);
 
   function nextChar(c) {
     var i = (parseInt(c, 36) + 1) % 36;
@@ -144,7 +145,6 @@ export default function ChangingSeats() {
       for (var i = 0; i < reserv.length; i++) {
         for (var s = 0; s < reserv[i].seatsNo.length; s++) {
           seatsarr.add(reserv[i].seatsNo[s].toString());
-          //   console.log("res" + reserv[i].seatsNo);
         }
       }
     }
@@ -152,11 +152,9 @@ export default function ChangingSeats() {
       for (var j = 0; j < seating[i].length; j++) {
         if (seating[i][j] != null) {
           if (seatsarr.has(seating[i][j].id)) {
-            console.log(allflightData[14].substring(0, 2));
             if (incomingSelectedSeats.includes(seating[i][j].id)) {
               seating[i][j].isSelected = true;
               seating[i][j].isReserved = false;
-
             } else seating[i][j].isReserved = true;
           }
         }
@@ -167,58 +165,39 @@ export default function ChangingSeats() {
   }, [reserv]);
 
   const addSeatCallback = async ({ row, number, id }, addCb) => {
-    //setloading(true);
-    //await new Promise((resolve) => setTimeout(resolve, 1500));
     console.log(`Added seat ${number}, row ${row}, id ${id}`);
-
     const newTooltip = `Seat-${id} Selected`;
     addCb(row, number, id, newTooltip);
-
     selectedSeats.push(id);
     setSelectedSeats(selectedSeats);
     setSelectedSoFar(selectedSoFar + 1);
-    //  props.setSelectedDeparture(selectedSeats);
-    // setloading(false);
+
+    setUpdatedSeats(selectedSeats);
   };
 
   const removeSeatCallback = async ({ row, number, id }, removeCb) => {
-    //   setloading(true);
-    //  await new Promise((resolve) => setTimeout(resolve, 1500));
     console.log(`Removed seat ${number}, row ${row}, id ${id}`);
-    selectedSeats.pop(id);
+    const index = selectedSeats.indexOf(id);
+    if (index > -1) {
+      selectedSeats.splice(index, 1);
+    }
     setSelectedSeats(selectedSeats);
-    // A value of null will reset the tooltip to the original while '' will hide the tooltip
     const newTooltip = ["A", "B", "C"].includes(row) ? null : "";
     removeCb(row, number, newTooltip);
     setSelectedSoFar(selectedSoFar - 1);
-    //   props.setSelectedDeparture(selectedSeats);
-    // setloading(false);
+
+    setUpdatedSeats(selectedSeats);
   };
 
   return (
     <React.Fragment>
-      <br />
-      <br />
-      <br />
-      <br />
       <Typography variant="h6" gutterBottom>
         {allflightData[9]} Seats for Departure Flight
         <br />
         <small>
-            {" "}
-            You have {incomingSelectedSeats.length-1} seat(s) already selected.
-            <br />
-
-          </small>
-        {maxReservableSeats - selectedSoFar ? (
-          <small>
-            {" "}
-            {/* You have {incomingSelectedSeats.length-1} seat(s) already selected. */}
-            {/* You have {maxReservableSeats - selectedSoFar} seat(s) left to pick{" "} */}
-          </small>
-        ) : (
-          <> &nbsp;</>
-        )}
+          To replace a seat you reserved, click it to unreserve it and select a
+          new unreserved one.
+        </small>
       </Typography>
       <div className="">
         {loading || rows.length === 0 ? (
@@ -257,6 +236,33 @@ export default function ChangingSeats() {
           </div>
         )}
       </div>
+
+      <small>
+     
+        <br />
+        <br />
+
+        <i
+          class="material-icons"
+          style={{ color: "#1976d2", fontSize: "15px" }}
+        >
+          square
+        </i>{" "}
+        Reserved by you
+        <br />
+        <i class="material-icons" style={{ color: "gray", fontSize: "15px" }}>
+          square
+        </i>{" "}
+        Reserved by others
+        <br />
+        <i
+          class="material-icons"
+          style={{ color: "#191b3a", fontSize: "15px" }}
+        >
+          square
+        </i>{" "}
+        Unreserved
+      </small>
     </React.Fragment>
   );
 }

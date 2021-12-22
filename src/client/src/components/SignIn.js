@@ -78,7 +78,11 @@ export default function SignIn() {
 
         let auth = JSON.parse(window.localStorage.getItem("auth"));
         console.log(auth);
-        navigate("/");
+
+        if(response.data.user.Admin === "1"){
+          navigate("/admin");
+        }
+        else navigate("/");
       })
       .catch((error) => {
 

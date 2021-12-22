@@ -60,6 +60,9 @@ router.get("/userFlightReservation", async (req, res) => {
     });
 });
 
+
+
+
 router.post("/addReservation", async (req, res) => {
   const reser = new Reservation(req.body);
 
@@ -67,34 +70,30 @@ router.post("/addReservation", async (req, res) => {
     .save()
     .then(async (result) => {
 
-      // if( reser.choosenCabin == "First"){
-      
-      //   Flight.find({_id: reser.flight}).then((resultFlight) =>{
-      //     Flight.findByIdAndUpdate({
-      //       _id: reser.flight},{
-      //       fseatsAvailable: (resultFlight.fseatsAvailable - req.body.noOfPassengers),
-      //     })
-      //   })
-      //   } 
-
-      // else if( reser.choosenCabin == "Business"){
+      if (req.body.choosenCabin == "First") {
+        const resultFlight = await  Flight.find({_id: req.body.flight});
+         Flight.findByIdAndUpdate({
+           _id: req.body.flight},{
+           fseatsAvailable: (resultFlight[0].fseatsAvailable - req.body.noOfPassengers),
+         }).then();
        
-      //   Flight.find({_id: reser.flight}).then((resultFlight) =>{
-          
-      //     Flight.findByIdAndUpdate({
-      //       _id: reser.flight},{
-      //       bseatsAvailable: (resultFlight.bseatsAvailable - req.body.noOfPassengers),
-      //     }).then();
-      //   })
-      //   } 
+       } else 
+        if (req.body.choosenCabin == "Business") {
+     
+        const resultFlight = await  Flight.find({_id: req.body.flight});
+         Flight.findByIdAndUpdate({
+           _id: req.body.flight},{
+           bseatsAvailable: (resultFlight[0].bseatsAvailable - req.body.noOfPassengers),
+         }).then();
+       
+       } 
+       else
       
        if (req.body.choosenCabin == "Economy") {
          console.log(req.body.choosenCabin);
       
          const resultFlight = await  Flight.find({_id: req.body.flight});
-          console.log(resultFlight[0]);
-          console.log("here");
-          console.log(resultFlight[0].eseatsAvailable);
+   
 
           Flight.findByIdAndUpdate({
             _id: req.body.flight},{
@@ -127,6 +126,18 @@ router.post("/seatsFlight", async (req, res) => {
     })
     .catch((err) => {
       res.status(400).send("Error fetching reservation!");
+    });
+});
+
+router.post("/updateSeats", async (req, res) => {
+  await Reservation.findByIdAndUpdate({_id: req.body._id},{seatsNo : req.body.seatsNo})
+    .then((result) => {
+      res.send(result);
+      res.status(400).send("Seats Successfully updated!");
+
+    })
+    .catch((err) => {
+      console.log(err);
     });
 });
 

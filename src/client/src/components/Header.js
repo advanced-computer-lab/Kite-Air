@@ -34,7 +34,10 @@ export default function Header() {
 
   //console.log(state);
   const isLoggedIn =  state && state.user;
-  const isAdmin = false;
+  const isAdmin = state.user.Admin === "1";
+  console.log(state.user.Admin === "1");
+  console.log("add");
+
 
   const faireRedirection = () => {
     if (isAdmin) navigate("/admin");
@@ -108,7 +111,7 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+    {!isAdmin && <MenuItem onClick={handleProfileClick}>Profile</MenuItem>}
       <MenuItem onClick={logout}>Log-out</MenuItem>
     </Menu>
   );
@@ -130,18 +133,10 @@ export default function Header() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleProfileClick}>
-        {/* <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton> */}
+    {!isAdmin &&  <MenuItem onClick={handleProfileClick}>
+ 
         <p>Profile</p>
-      </MenuItem>
+      </MenuItem>}
 
       <MenuItem onClick={logout}>
         <p>Log-out</p>
@@ -187,7 +182,7 @@ export default function Header() {
 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {isLoggedIn ? (
+          {isLoggedIn ? (
               <IconButton
                 size="large"
                 edge="end"
@@ -210,7 +205,7 @@ export default function Header() {
           </Box>
 
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            {isLoggedIn ? (
+            {(isLoggedIn) ? (
               <IconButton
                 size="large"
                 aria-label="show more"

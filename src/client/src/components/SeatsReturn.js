@@ -6,7 +6,7 @@ import SeatPicker from "react-seat-picker";
 import "../styles.css";
 import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export default function SeatsReturn(props) {
@@ -223,7 +223,7 @@ export default function SeatsReturn(props) {
           : props.setDis(0)}
         {loading || rows.length === 0 ? (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box sx={{ m: 1}}>
+            <Box sx={{ m: 1 }}>
               {loading && (
                 <CircularProgress
                   size={24}
@@ -258,14 +258,33 @@ export default function SeatsReturn(props) {
         )}
 
         <div>
-          {/* {reserv &&
-          reserv.map((flight) => (
-            <h2 key={flight._id}>
-              {" "}
-              {flight.User} {flight.seatsNo} {flight.flight}{" "}
-              {flight.noOfPassengers} {flight.choosenCabin}{" "}
-            </h2>
-          ))} */}
+          <small>
+            <br />
+            <br />
+            <i
+              class="material-icons"
+              style={{ color: "#1976d2", fontSize: "15px" }}
+            >
+              square
+            </i>{" "}
+            Selected
+            <br />
+            <i
+              class="material-icons"
+              style={{ color: "gray", fontSize: "15px" }}
+            >
+              square
+            </i>{" "}
+            Reserved by others
+            <br />
+            <i
+              class="material-icons"
+              style={{ color: "#191b3a", fontSize: "15px" }}
+            >
+              square
+            </i>{" "}
+            Unreserved
+          </small>
         </div>
       </div>
     </React.Fragment>

@@ -5979,9 +5979,9 @@ export default function DatePick(props) {
 
   const menu = (
     <Menu onClick={onChangeDropDown}>
-      <Menu.Item key="1">Economy Class</Menu.Item>
-      <Menu.Item key="2">First Class</Menu.Item>
-      <Menu.Item key="3">Business Class</Menu.Item>
+      <Menu.Item key="1">Economy</Menu.Item>
+      <Menu.Item key="2">First</Menu.Item>
+      <Menu.Item key="3">Business</Menu.Item>
     </Menu>
   );
   // Search Button

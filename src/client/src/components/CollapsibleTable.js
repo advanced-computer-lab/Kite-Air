@@ -16,38 +16,87 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import CancelDialog from "./CancelDialog";
+
 import { UserContext } from "../context/index.js";
-import LinearProgress from '@mui/material/LinearProgress';
-import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
+import LinearProgress from "@mui/material/LinearProgress";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import ChangingSeats from "./ChangingSeats";
+
+import { toast } from "react-toastify";
 
 var resArray = [];
 var flightsArray = [];
 var totalArray = []; //2D array to fill the table
 
 function Row(e) {
-
-  const navigate = useNavigate();
-
   // count = count + 1;
   //  console.log(count);
   const { entry } = e;
   //  console.log(count);
 
   const [open, setOpen] = React.useState(false);
+  const [openSeats, setOpenSeats] = React.useState(false);
+  const [updatedSeats, setUpdatedSeats] = React.useState(
+    entry[14].substring(0, entry[14].length - 1).split("\n")
+  );
 
   const gotoSeats = () => {
-
-    console.log("In nav");
-      navigate("/flightseats", {
-        state: {
-         allDetails: entry
-        },
-      });
+    setOpenSeats(true);
   };
 
+  const handleCloseSeats = () => {
+    setOpenSeats(false);
+  };
+
+  const handleSubmitUpdate = () => {
+    console.log(updatedSeats);
+
+    if (updatedSeats.length !== entry[12]) {
+      toast.error("Please choose " + entry[12] + " seats !", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      // setOk(true);
+    } else {
+      axios
+        .post("http://localhost:8000/reservations/updateSeats", {
+          _id: entry[0],
+          seatsNo: updatedSeats,
+        })
+        .then((res) => {
+        
+          window.location.reload();
+
+          toast.success("Successfully Updated Seats!", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }).catch((error)=>{
+
+        });
+
+      setOpenSeats(false);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -70,7 +119,9 @@ function Row(e) {
         <TableCell align="right">{entry[6]}</TableCell>
         <TableCell align="right">{entry[7]}</TableCell>
         <TableCell align="left">
-          <Button style={{ background: "#191b3a" }} variant="contained">Email</Button>
+          <Button style={{ background: "#191b3a" }} variant="contained">
+            Email
+          </Button>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -85,16 +136,22 @@ function Row(e) {
                   <TableRow>
                     <TableCell>Terminal</TableCell>
                     <TableCell>Cabin</TableCell>
-                    <TableCell align="left" >Baggage(per ticket)</TableCell>
+                    <TableCell align="left">Baggage(per ticket)</TableCell>
                     <TableCell align="left">Price(per ticket)</TableCell>
                     <TableCell align="left">Passengers#</TableCell>
                     <TableCell align="left">Seats</TableCell>
                     <TableCell align="left">Total price</TableCell>
-                    <TableCell align="left" style = {{width: "180px"}}>
-                      <Button color = "primary" variant="contained" style = {{width: "180px"}} onClick={gotoSeats}>Change Seat(s)</Button>
+                    <TableCell align="left" style={{ width: "180px" }}>
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        style={{ width: "180px" }}
+                        onClick={gotoSeats}
+                      >
+                        Change Seat(s)
+                      </Button>
                     </TableCell>
-                                    
-                </TableRow>
+                  </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow key={entry[1]}>
@@ -108,9 +165,14 @@ function Row(e) {
                     <TableCell align="left">{entry[14]}</TableCell>
                     <TableCell align="left">{entry[13]}</TableCell>
                     <TableCell
-                      align="right" style={{ display: "flex", justifyContent: "flex-end" }}
+                      align="right"
+                      style={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                      <CancelDialog style={{align:"center"}} align="center" reser={entry}></CancelDialog>
+                      <CancelDialog
+                        style={{ align: "center" }}
+                        align="center"
+                        reser={entry}
+                      ></CancelDialog>
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -119,6 +181,22 @@ function Row(e) {
           </Collapse>
         </TableCell>
       </TableRow>
+
+      <Dialog open={openSeats}>
+        <DialogTitle>Change Seats</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            <ChangingSeats
+              allDetails={entry}
+              setUpdatedSeats={setUpdatedSeats}
+            />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseSeats}>Cancel</Button>
+          <Button onClick={handleSubmitUpdate}>Confirm</Button>
+        </DialogActions>
+      </Dialog>
     </React.Fragment>
   );
 }
@@ -130,30 +208,56 @@ export default function CollapsibleTable() {
   const [reservations, setRes] = React.useState([]);
   const [flights, setFlights] = React.useState([]);
 
-  useEffect(() => {
-    if (reservations !== []) {
-      axios
-        .post(`http://localhost:8000/reservations/all-reservations`, {
-          User: state.user._id,
-        })
-        .then((res) => {
-          setRes(res.data);
-          resArray = res.data;
-          var n = Object.keys(resArray).length;
-          for (let i = 0; i < n; i++) {
-            var f = resArray[i].flight;
-            axios.get("http://localhost:8000/flights/" + f).then((res) => {
-              setFlights(res.data);
-              flightsArray.push(res.data);
-              setFlights([]);
-              setLoading(false);
-            });
-          }
+  // useEffect(() => {
+  //   if (reservations !== []) {
+  //     axios
+  //       .post(`http://localhost:8000/reservations/all-reservations`, {
+  //         User: state.user._id,
+  //       })
+  //       .then((res) => {
+  //         setRes(res.data);
+  //         resArray = res.data;
+  //         var n = Object.keys(resArray).length;
+  //         for (let i = 0; i < n; i++) {
+  //           var f = resArray[i].flight;
+  //           axios.get("http://localhost:8000/flights/" + f).then((res) => {
+  //           console.log(res.data);
+  //           setFlights(res.data);
+  //             flightsArray.push(res.data);
+  //             setFlights([]);
+  //             setLoading(false);
+  //           });
+  //         }
 
-          setRes([]);
-        });
-    }
+  //         setRes([]);
+  //       });
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    axios
+      .post(`http://localhost:8000/reservations/all-reservations`, {
+        User: state.user._id,
+      })
+      .then((res) => {
+        setRes(res.data);
+        resArray = res.data;
+      });
   }, []);
+
+  useEffect(async () => {
+    resArray = reservations;
+    var n = Object.keys(resArray).length;
+    for (let i = 0; i < n; i++) {
+      var f = resArray[i].flight;
+      await axios.get("http://localhost:8000/flights/" + f).then((res) => {
+        setFlights(res.data);
+        flightsArray.push(res.data);
+        setFlights([]);
+        setLoading(false);
+      });
+    }
+  }, [reservations]);
 
   //e3mly array gdid fih el data elly enty 3yzaha w map it
   if (resArray !== [] && flightsArray !== []) {
@@ -241,31 +345,41 @@ export default function CollapsibleTable() {
 
   return (
     <div>
-<br/>
+      <br />
       <h2>My Bookings</h2>
-      <br/>
+      <br />
 
       {loading && (
         <Box sx={{ width: "100%" }}>
           <LinearProgress />
         </Box>
       )}
-  
+
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell style={{fontWeight:"bolder"}}>Flight No.</TableCell>
-              <TableCell align="right" style={{fontWeight:"bolder"}}>From</TableCell>
-              <TableCell align="right" style={{fontWeight:"bolder"}}>To</TableCell>
-              <TableCell align="right" style={{fontWeight:"bolder"}}>Date(mm/dd/yyyy)</TableCell>
-              <TableCell align="right" style={{fontWeight:"bolder"}}>Departure</TableCell>
-              <TableCell align="right" style={{fontWeight:"bolder"}}>Arrival</TableCell>
-              <TableCell align="right" style={{fontWeight:"bolder"}}></TableCell>
-
-              
-
+              <TableCell style={{ fontWeight: "bolder" }}>Flight No.</TableCell>
+              <TableCell align="right" style={{ fontWeight: "bolder" }}>
+                From
+              </TableCell>
+              <TableCell align="right" style={{ fontWeight: "bolder" }}>
+                To
+              </TableCell>
+              <TableCell align="right" style={{ fontWeight: "bolder" }}>
+                Date(mm/dd/yyyy)
+              </TableCell>
+              <TableCell align="right" style={{ fontWeight: "bolder" }}>
+                Departure
+              </TableCell>
+              <TableCell align="right" style={{ fontWeight: "bolder" }}>
+                Arrival
+              </TableCell>
+              <TableCell
+                align="right"
+                style={{ fontWeight: "bolder" }}
+              ></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

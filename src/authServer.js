@@ -86,11 +86,7 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   console.log(req.body);
 
-
   const user2 = await Users.findOne({ username: req.body.username });
-  
-  
-
 
   if (user2 == null || !user2) {
     return res.status(400).send("The username you entered doesn't belong to an account.");
@@ -137,19 +133,36 @@ function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
 }
 
-const verifyToken = (req, res, next) => {
-  const token = req.body.token || req.query.token;
+// const verifyToken = (req, res, next) => {
+//   const authHeader = req.headers['authorization']
 
-  if (!token) {
-    return res.status(403).send("Please log in first");
-  }
+//   const token = req.body.token || req.query.token;
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(401).send("Invalid Token");
-    req.user = user;
-    return next();
-  });
-};
+//   if (!token) {
+//     return res.status(403).send("Please log in first");
+//   }
+
+//   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+//     if (err) return res.status(401).send("Invalid Token");
+//     req.user = user;
+//     return next();
+//   });
+// };
+
+
+function auth(req,res,next){
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (token ==null) return res.sendStatus(401)
+
+  jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
+      if (err) return res.sendStatus(403) 
+      req.user = user
+      next()
+  })
+}
+
 
 const port = process.env.PORT || "4000";
 app.listen(port, () => {

@@ -28,6 +28,7 @@ function Search() {
   const click_Arrival_Time = useRef();
   const click_Terminals = useRef();
   const [value, setValue] = React.useState(new Date());
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -82,6 +83,7 @@ function Search() {
         .post(`http://localhost:8000/flights/search`, flights)
         .then((res) => {
           setFs(res.data)
+          setLoading(false);
           console.log("hi");
         });
     }
