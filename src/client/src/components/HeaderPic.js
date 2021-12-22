@@ -48,6 +48,7 @@ const HeaderPic = (props) => {
             setLoading={props.setLoading}
           />
           
+          
         </div>
       </section>
       
