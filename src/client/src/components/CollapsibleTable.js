@@ -33,6 +33,8 @@ import ChangingSeats from "./ChangingSeats";
 
 import { toast } from "react-toastify";
 
+import EmailButton from "./EmailButton";
+
 var resArray = [];
 var flightsArray = [];
 var totalArray = []; //2D array to fill the table
@@ -119,9 +121,7 @@ function Row(e) {
         <TableCell align="right">{entry[6]}</TableCell>
         <TableCell align="right">{entry[7]}</TableCell>
         <TableCell align="left">
-          <Button style={{ background: "#191b3a" }} variant="contained">
-            Email
-          </Button>
+          <EmailButton entry={entry}></EmailButton>
         </TableCell>
       </TableRow>
       <TableRow>
