@@ -35,7 +35,7 @@ export default function Header() {
   //   setState(JSON.parse(window.localStorage.getItem("auth")));
   // }, []);
 
-  //console.log(state);
+  console.log(state);
   const isLoggedIn = state && state.user;
   const isAdmin =  state &&state.user.Admin === "1";
 
@@ -140,14 +140,14 @@ export default function Header() {
       ? { background: "transparent", boxShadow: "none" }
       : { background: "#191b3a" };
 
-      // const pos =
-      // location.pathname == "/"
-      // ? "sticky"
-      //   : "fixed"
+      const pos =
+      location.pathname == "/"
+      ? "absolute"
+        : "sticky"
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={landingSyle} position="absolute">
+      <AppBar style={landingSyle} position={pos}>
         <Toolbar>
           <Typography
             variant="h6"

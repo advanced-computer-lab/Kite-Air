@@ -1,6 +1,27 @@
 var express = require("express");
 var router = express.Router();
 const Flight = require("../Models/Flights");
+const jwt = require('jsonwebtoken');
+
+
+function auth(req,res,next){
+  console.log(req.headers);
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  console.log("flight");
+
+  console.log(token);
+  if (token == null) return res.status(403).send("Please log in first");
+
+  jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(user,err)=>{
+      if (err) {
+        return res.status(401).send("Invalid Token");}
+
+      req.user = user
+      next();
+  })
+}
+
 
 // Flight.insertMany([
 
@@ -68,9 +89,8 @@ router.get("/all-flights", async (req, res) => {
     });
 });
 
-router.post("/seats-of-flight", async (req, res) => {
-  // console.log("Sushi");
-  // console.log(req.body);
+router.post("/seats-of-flight", auth, async (req, res) => {
+ 
 
 
   await Flight.find({_id: req.body._id})

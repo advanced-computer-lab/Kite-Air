@@ -26,6 +26,7 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import BackgroundLetterAvatars from "./Avatar";
 import { STATES } from "mongoose";
+import Unauthorized from "./Unauthorized.js";
 const drawerWidth = 340;
 
 export default function MyBookings() {
@@ -42,100 +43,78 @@ export default function MyBookings() {
     setisDisplay(true);
   };
 
-  // const [logged, setLogged] = useState({});
-
-  // const baseURL = "http://localhost:8000/users/loggedIn";
-
-  // const fetchUser = () => {
-  //   axios
-  //     .get(baseURL, {
-  //       params: {
-  //         username: location.state.user.username,
-  //         Password: location.state.user.Password,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       console.log("here  111 " + response);
-  //       setLogged(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // console.log(user.Password);
-  // useEffect(() => {
-  //   fetchUser();
-  // }, [logged]);
-  // //hi
+  const isLoggedIn = state && state.token != "";
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-      ></AppBar>
+    <>
+      {isLoggedIn ? (
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+          <AppBar
+            position="fixed"
+            sx={{
+              width: `calc(100% - ${drawerWidth}px)`,
+              ml: `${drawerWidth}px`,
+            }}
+          ></AppBar>
 
-      <div
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-        <br />
-        <br />
-        <br />
-        &nbsp; &nbsp; &nbsp;
-        <div align="center">
-          <BackgroundLetterAvatars
-            n={state.user.FirstName + " " + state.user.LastName}
-          />
-        </div>
-        &nbsp; &nbsp; &nbsp;
-        <Divider />
-        <List>
-          <Button
-            onClick={() => {
-              navigate("/ProfilePage");
+          <div
+            sx={{
+              width: drawerWidth,
+              flexShrink: 0,
+              "& .MuiDrawer-paper": {
+                width: drawerWidth,
+                boxSizing: "border-box",
+              },
+            }}
+            variant="permanent"
+            anchor="left"
+          >
+     
+            &nbsp; &nbsp; &nbsp;
+            <div align="center">
+              <BackgroundLetterAvatars
+                n={state && state.user.FirstName + " " + state.user.LastName}
+              />
+            </div>
+            &nbsp; &nbsp; &nbsp;
+            <Divider />
+            <List>
+              <Button
+                onClick={() => {
+                  navigate("/ProfilePage");
+                }}
+              >
+                {" "}
+                <InboxIcon /> My Details
+              </Button>
+              <br />
+              <br />
+
+              <Button onClick={() => {}} variant="outlined">
+                {" "}
+                <MailIcon /> My Bookings
+              </Button>
+            </List>
+            <Divider />
+          </div>
+
+          <Box
+            component="main"
+            sx={{
+              flexGuser: 1,
+              bgcolor: "background.default",
+              p: 3,
+              width: "1025px",
             }}
           >
-            {" "}
-            <InboxIcon /> My Details
-          </Button>
-          <br />
-          <br />
-
-          <Button onClick={() => {}} variant="outlined">
-            {" "}
-            <MailIcon /> My Bookings
-          </Button>
-        </List>
-        <Divider />
-      </div>
-
-      <Box
-        component="main"
-        sx={{
-          flexGuser: 1,
-          bgcolor: "background.default",
-          p: 3,
-          width: "1025px",
-        }}
-      >
-        <Toolbar />
-        <CollapsibleTable />
-      </Box>
-    </Box>
+            <Toolbar />
+            <CollapsibleTable />
+          </Box>
+        </Box>
+      ) : (
+        <Unauthorized/>
+      )}
+    </>
   );
-}
-
-{
-  /* <DisplayInfo user={user}/> */
 }

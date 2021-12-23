@@ -14,18 +14,10 @@ import SignIn from "./components/SignIn";
 import Test from "./components/Test";
 import CollapsibleTable from "./components/CollapsibleTable";
 import SeatsPickermain from "./components/SeatsPickermain";
-
-import { useEffect, useState } from "react";
 import Register from "./components/Register";
-import ChangingSeats from "./components/ChangingSeats.js";
 
-
-// import { useContext } from "react";
-// import { UserContext } from "./context/index.js";
 
 const App = () => {
-  const [user, setUser] = useState({});
-  // const [state, setState] = useContext(UserContext);
 
   return (
     <UserProvider>
@@ -35,15 +27,14 @@ const App = () => {
           <Header />
           <Routes>
             <Route path="/pickSeats" element={<SeatsPickermain />}></Route>
-            <Route path="/add-new-flight" element={<CreateFlight />}></Route>
-            <Route path="/admin" element={<Search />}></Route>
+            <Route path="/add-new-flight" element={<CreateFlight /> }></Route>
+            <Route path="/admin" element={ <Search />}></Route>
             <Route path="/Search" element={<Test />}></Route>
             <Route path="/" element={<LandingPage />}></Route>
             <Route path="ProfilePage" element={<ProfilePage />} />
             <Route path="mybookings" element={<MyBookings />} />
             <Route path="login" element={<SignIn />} />
             <Route path="signup" element={<Register />} />
-            <Route path="flightseats" element={<ChangingSeats />} />
 
             <Route
               path="/userReservations"

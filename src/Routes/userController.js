@@ -1,8 +1,26 @@
 var express = require('express');
 var router = express.Router();
 const User = require('../Models/Users');
+const jwt = require('jsonwebtoken');
 
 
+
+function auth(req,res,next){
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+
+  console.log("user");
+  console.log(token);
+  if (token == null) return res.status(403).send("Please log in first");
+
+  jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(user,err)=>{
+      if (err) {
+        return res.status(401).send("Invalid Token");}
+
+      req.user = user
+      next();
+  })
+}
 
 router.put('/:id', async(req, res) => {
     console.log(req.params.id);
@@ -22,7 +40,7 @@ router.put('/:id', async(req, res) => {
     });
 
  
-router.post("/loggedIn", async(req, res) => {
+router.post("/loggedIn", auth,async(req, res) => {
 
   await User.findOne({"username" : req.body.username})
     .then((result) => {

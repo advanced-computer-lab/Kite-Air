@@ -21,6 +21,8 @@ import SeatsReturn from "./SeatsReturn";
 import Review from "./Review";
 import axios from "axios";
 
+import Unauthorized from "./Unauthorized";
+
 const steps = ["Departure Seats", "Return Seats", "Review"];
 
 const theme = createTheme();
@@ -141,8 +143,13 @@ export default function SeatsPickermain(props) {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+  const isLoggedIn = state && state.token != "";
 
   return (
+    <>
+    {!isLoggedIn? 
+      <Unauthorized/>
+       :
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <br />
@@ -216,5 +223,7 @@ export default function SeatsPickermain(props) {
         </Paper>
       </Container>
     </ThemeProvider>
+    }
+</>
   );
 }

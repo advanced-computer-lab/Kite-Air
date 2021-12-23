@@ -208,6 +208,9 @@ export default function CollapsibleTable() {
   const [reservations, setRes] = React.useState([]);
   const [flights, setFlights] = React.useState([]);
 
+  let auth = JSON.parse(window.localStorage.getItem("auth"));
+  console.log(auth);
+
   // useEffect(() => {
   //   if (reservations !== []) {
   //     axios
@@ -236,12 +239,21 @@ export default function CollapsibleTable() {
 
   useEffect(() => {
     axios
-      .post(`http://localhost:8000/reservations/all-reservations`, {
+      .post(`http://localhost:8000/reservations/all-reservations`, 
+      {
         User: state.user._id,
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + (state.token),
+        },
       })
       .then((res) => {
         setRes(res.data);
         resArray = res.data;
+      }).catch((err)=>{
+        console.log("error");
+        
       });
   }, []);
 

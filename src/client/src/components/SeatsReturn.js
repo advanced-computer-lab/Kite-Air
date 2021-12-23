@@ -4,10 +4,11 @@ import Typography from "@mui/material/Typography";
 import ReactDOM from "react-dom";
 import SeatPicker from "react-seat-picker";
 import "../styles.css";
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState,useContext } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
+import { UserContext } from "../context/index.js";
 
 export default function SeatsReturn(props) {
   const baseURL = "http://localhost:8000/reservations/seatsFlight";
@@ -24,6 +25,7 @@ export default function SeatsReturn(props) {
       return props.searchData.eseatsAvailable;
     }
   }
+  const [state, setState] = useContext(UserContext);
 
   const [reserv, setReserv] = useState([]);
   const [loading, setloading] = useState(true);
@@ -89,24 +91,20 @@ export default function SeatsReturn(props) {
     }
   }
 
-  const saveselected = () => {
-    axios
-      .post(baseURLUpdate, { seatsNo: selectedSeats, _id: reservationID })
-      .then((response) => {
-        setReserv(response.data);
-        setloading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const fetchSeats = () => {
     //gets number of seats in the flight
     axios
-      .post(baseURLSeats, {
-        _id: props.selectedRetF._id,
-      })
+      .post(
+        baseURLSeats,
+        {
+          _id: props.selectedRetF._id,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + state.token,
+          },
+        }
+      )
       .then((response) => {
         if (props.searchData.fseatsAvailable) {
           setSeats(response.data[0].ftotalSeats);
@@ -127,13 +125,17 @@ export default function SeatsReturn(props) {
       .post("http://localhost:8000/reservations/seatsFlight", {
         flight: props.selectedRetF._id,
         choosenCabin: getClass(),
+      },
+      {
+        headers: {
+          Authorization: 'Bearer '+state.token,
+        },
       })
       .then((response) => {
         setReserv(response.data);
         setloading(false);
       })
       .catch((error) => {
-        console.log(getClass());
         console.log(error);
       });
   };
@@ -147,12 +149,13 @@ export default function SeatsReturn(props) {
   }, [seats]); //layout of seats
 
   useEffect(() => {
-    fetchAlreadyReserved();
+    if (fetchAlreadyReserved()) {
+      setReserv();
+    }
   }, [rows2]); //reserved seats
 
   useEffect(() => {
     seating = rows2;
-    console.log(seating.length);
     if (!(typeof reserv === "undefined" || reserv.length == 0)) {
       for (var i = 0; i < reserv.length; i++) {
         for (var s = 0; s < reserv[i].seatsNo.length; s++) {

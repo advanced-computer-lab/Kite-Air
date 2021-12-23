@@ -3,12 +3,15 @@ import Typography from "@mui/material/Typography";
 //////////////////////////////////
 import SeatPicker from "react-seat-picker";
 import "../styles.css";
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
+import { UserContext } from "../context/index.js";
 
 export default function SeatsDeparture(props) {
+  const [state, setState] = useContext(UserContext);
+
   const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
 
   var seatsarr = new Set();
@@ -90,20 +93,24 @@ export default function SeatsDeparture(props) {
   const fetchSeats = () => {
     //gets number of seats in the flight
     axios
-      .post(baseURLSeats, {
-        _id: props.selectedDepF._id,
-      })
+      .post(
+        baseURLSeats,
+        {
+          _id: props.selectedDepF._id,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + state.token,
+          },
+        }
+      )
       .then((response) => {
-        console.log(props.searchData);
 
         if (props.searchData.fseatsAvailable) {
           setSeats(response.data[0].ftotalSeats);
         } else if (props.searchData.bseatsAvailable) {
           setSeats(response.data[0].btotalSeats);
         } else if (props.searchData.eseatsAvailable) {
-          console.log("here if economy");
-          console.log(response.data[0].etotalSeats);
-
           setSeats(response.data[0].etotalSeats);
         }
       })
@@ -116,19 +123,24 @@ export default function SeatsDeparture(props) {
   const fetchAlreadyReserved = () => {
     //gets reserved seats of a choosen cabin of a flight
     axios
-      .post("http://localhost:8000/reservations/seatsFlight", {
-        flight: props.selectedDepF._id,
-        choosenCabin: getClass(),
-      })
+      .post(
+        "http://localhost:8000/reservations/seatsFlight",
+        {
+          flight: props.selectedDepF._id,
+          choosenCabin: getClass(),
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + state.token,
+          },
+        }
+      )
       .then((response) => {
-        console.log("printing reservation array?");
-        console.log(response.data);
         setReserv(response.data);
         setloading(false);
       })
 
       .catch((error) => {
-        console.log(getClass());
         console.log(error);
       });
   };
@@ -149,9 +161,7 @@ export default function SeatsDeparture(props) {
 
   useEffect(() => {
     seating = rows2;
-    console.log(seating.length);
 
-    console.log(reserv);
     if (!(typeof reserv === "undefined" || reserv.length === 0)) {
       for (var i = 0; i < reserv.length; i++) {
         for (var s = 0; s < reserv[i].seatsNo.length; s++) {
@@ -172,7 +182,6 @@ export default function SeatsDeparture(props) {
     }
 
     setRows(seating);
-    console.log(rows);
   }, [reserv]);
 
   const addSeatCallback = async ({ row, number, id }, addCb) => {

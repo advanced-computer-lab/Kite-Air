@@ -3,16 +3,28 @@ var router = express.Router();
 const nodemailer = require("nodemailer");
 const Flight = require("../Models/Flights");
 const Reservation = require("../Models/Reservations");
+const jwt = require('jsonwebtoken');
 
-const Reservationinstance = new Reservation({
-  flight: "61879985e3e3d1284cbd294d",
-  User: "619fc2769dc8cc7dc0475947",
-  choosenCabin: "Economy",
-  noOfPassengers: 3,
-  seatsNo: ["1A", "2A", "3A"],
-});
 
-router.get("/allreservations", async (req, res) => {
+function auth(req,res,next){
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  console.log("reservation");
+
+  console.log(token);
+  if (token == null) return res.status(403).send("Please log in first");
+
+  jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(user,err)=>{
+      if (err) {
+        return res.status(401).send("Invalid Token");}
+
+      req.user = user
+      next();
+  })
+}
+
+
+router.get("/allreservations", auth,async (req, res) => {
   Reservation.find()
     .then((result) => {
       res.send(result);
@@ -23,7 +35,7 @@ router.get("/allreservations", async (req, res) => {
     });
 });
 
-router.post("/all-reservations", async (req, res) => {
+router.post("/all-reservations", auth,async (req, res) => {
   await Reservation.find(req.body)
     .then((result) => {
       res.send(result);
@@ -48,7 +60,7 @@ router.route("/:id").delete(async (req, res) => {
     });
 });
 
-router.get("/userFlightReservation", async (req, res) => {
+router.get("/userFlightReservation", auth,async (req, res) => {
   console.log(req.body);
   Reservation.find({ flight: req.body.flight, User: req.body.User })
     .then((result) => {
@@ -63,7 +75,7 @@ router.get("/userFlightReservation", async (req, res) => {
 
 
 
-router.post("/addReservation", async (req, res) => {
+router.post("/addReservation", auth,async (req, res) => {
   const reser = new Reservation(req.body);
 
   await reser
@@ -113,7 +125,7 @@ router.post("/addReservation", async (req, res) => {
     });
 });
 
-router.post("/seatsFlight", async (req, res) => {
+router.post("/seatsFlight", auth, async (req, res) => {
   console.log("tigger");
   //console.log(req.body);
 
@@ -129,7 +141,7 @@ router.post("/seatsFlight", async (req, res) => {
     });
 });
 
-router.post("/updateSeats", async (req, res) => {
+router.post("/updateSeats",auth, async (req, res) => {
   await Reservation.findByIdAndUpdate({_id: req.body._id},{seatsNo : req.body.seatsNo})
     .then((result) => {
       res.send(result);
@@ -141,7 +153,7 @@ router.post("/updateSeats", async (req, res) => {
     });
 });
 
-router.post("/send", (req, res) => {
+router.post("/send", auth,(req, res) => {
   try {
     const output = `<p>Hello,</p>
     ${req.body.data}

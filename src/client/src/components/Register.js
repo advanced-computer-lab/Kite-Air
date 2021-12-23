@@ -108,8 +108,7 @@ export default function Register() {
       })
       .catch((error) => {
         setLoading(false);
-        console.log(error.response);
-      //  toast.error(error.response.data);
+        toast.error(error.response.data);
         setPassword("");
         setPasswordC("");
         
@@ -121,8 +120,7 @@ export default function Register() {
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="lg" style={{ width: "500px" }}>
         <CssBaseline />
-        <br />
-        <br />
+
         <Box
           sx={{
             marginTop: 8,

@@ -6,7 +6,7 @@ import axios from "axios";
 import $ from "jquery";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
+import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 
 import { Menu, Dropdown, message } from "antd";
 import { DownOutlined } from "@ant-design/icons";
@@ -7330,90 +7330,102 @@ export default function DatePick(props) {
       <br />
       <br />
       <br />
-      
+
       <br />
 
+      <Tooltip
+        title="Check for the availability of a flight."
+        placement="left"
+        disableFocusListener
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <div>
+            <AirplaneTicketIcon style={{ fontSize: 130 }} />
+          </div>
+          <div class="container-fluid" style={{ margin: "4px" }}>
+            <div class="row" style={{ marginBottom: "3px" }}>
+              <div class="col-4">
+                {" "}
+                <AutoComplete
+                  size="large"
+                  style={{ borderColor: "black", width: "100%" }}
+                  options={options}
+                  placeholder="Leaving From"
+                  filterOption={(inputValue, option) =>
+                    option.value
+                      .toUpperCase()
+                      .indexOf(inputValue.toUpperCase()) !== -1
+                  }
+                  onChange={fromValue}
+                />
+              </div>
+              <div class="col-4 ">
+                {" "}
+                <AutoComplete
+                  size="large"
+                  style={{ borderColor: "black", width: "100%" }}
+                  options={options}
+                  placeholder="Going To"
+                  filterOption={(inputValue, option) =>
+                    option.value
+                      .toUpperCase()
+                      .indexOf(inputValue.toUpperCase()) !== -1
+                  }
+                  onChange={toValue}
+                />
+              </div>
+              <div class="col-4">
+                <Dropdown
+                  overlay={menu}
+                  trigger="click"
+                  style={{ width: "100%" }}
+                >
+                  <Button
+                    style={{ width: "100%" }}
+                    className="ant-dropdown-link"
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    {chosenClass.localeCompare("") === 0
+                      ? "Cabin Class "
+                      : chosenClass + " "}
+                    <DownOutlined />
+                  </Button>
+                </Dropdown>
+              </div>
+            </div>
 
-        <Tooltip title="Check for the availability of a flight." placement="left" disableFocusListener >
+            <div class="row">
+              <div class="col-8">
+                {" "}
+                <RangePicker
+                  style={{ width: "100%" }}
+                  size="large"
+                  format="MM-DD-YYYY"
+                  onChange={onChange}
+                  autoFocus={true}
+                  allowClear
+                />
+              </div>
+              <div class="col-2">
+                {" "}
+                <InputNumber
+                  size="large"
+                  placeholder="Passengers #"
+                  min={1}
+                  max={10}
+                  onChange={onChangeAdult}
+                  style={{ width: "100%" }}
 
-<div style = {{    display: "flex",
-    flexDirection: "row",
-    alignItems: "center"}}>
-    <div ><AirplaneTicketIcon style={{ fontSize: 130 }} /></div>
-        <div class="container-fluid" style={{ margin:"4px"}} >
-        <div class="row" style={{ marginBottom: "3px" }}>
-        <div class="col-4">
-          {" "}
-          <AutoComplete
-            size="large"
-            style={{ borderColor: "black", width: "100%" }}
-            options={options}
-            placeholder="Leaving From"
-            filterOption={(inputValue, option) =>
-              option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !==
-              -1
-            }
-            onChange={fromValue}
-          />
-        </div>
-        <div class="col-4 ">
-          {" "}
-          <AutoComplete
-            size="large"
-            style={{ borderColor: "black", width: "100%" }}
-            options={options}
-            placeholder="Going To"
-            filterOption={(inputValue, option) =>
-              option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !==
-              -1
-            }
-            onChange={toValue}
-          />
-        </div>
-        <div class="col-4">
-          <Dropdown overlay={menu} trigger="click"
-           style={{ width: "100%" }}
->
-            <Button
-              style={{ width: "100%" }}
-              className="ant-dropdown-link"
-              onClick={(e) => e.preventDefault()}
-            >
-              {chosenClass.localeCompare("") === 0
-                ? "Cabin Class "
-                : chosenClass + " "}
-              <DownOutlined />
-            </Button>
-          </Dropdown>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-8">
-          {" "}
-          <RangePicker
-            style={{ width: "100%" }}
-            size="large"
-            format="MM-DD-YYYY"
-            onChange={onChange}
-            autoFocus={true}
-            allowClear
-          />
-        </div>
-        <div class="col-2">
-          {" "}
-          <InputNumber
-            size="large"
-            placeholder="Passengers #"
-            min={1}
-            max={10}
-            onChange={onChangeAdult}
-            style={{ width: "100%" }}
-
-            // style={{ width: 100 }}
-          />
-        </div>
-        {/* <div class="col-2 " >    <InputNumber
+                  // style={{ width: 100 }}
+                />
+              </div>
+              {/* <div class="col-2 " >    <InputNumber
                   size="large"
                   placeholder="Child"
                   min={0}
@@ -7421,25 +7433,22 @@ export default function DatePick(props) {
                   onChange={onChangeChildren}
                   // style={{ width: 100 }}
                 /></div> */}
-        <div class="col-2">
-          {" "}
-          <Button
-            size="large"
-            id="searchOutput"
-            type="primary"
-            icon={<SearchOutlined />}
-            onClick={buttonClicked}
-          >
-            Search
-          </Button>
+              <div class="col-2">
+                {" "}
+                <Button
+                  size="large"
+                  id="searchOutput"
+                  type="primary"
+                  icon={<SearchOutlined />}
+                  onClick={buttonClicked}
+                >
+                  Search
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      </div>
-</div>
-</Tooltip>
-
-
- 
+      </Tooltip>
 
       {errVisible ? (
         <Tag

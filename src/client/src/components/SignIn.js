@@ -56,7 +56,6 @@ export default function SignIn() {
 
   };
 
-  const [logged, setLogged] = useState({});
   const baseURL = "http://localhost:4000/login";
 
   const fetchUser = () => {
@@ -86,6 +85,7 @@ export default function SignIn() {
       })
       .catch((error) => {
 
+        
         toast.error(error.response.data);
 
 
