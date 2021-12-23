@@ -154,6 +154,18 @@ export default function Summary(props) {
         setOk(true);
         setShowLogin(true);
       }
+    } else {
+      //admin can't reserve a flight
+      toast.warning("You can't reserve a flight as an Admin!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setOk(true);
     }
   };
 
