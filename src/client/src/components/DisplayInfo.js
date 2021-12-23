@@ -33,26 +33,6 @@ export default function DisplayInfo({ handleDisplay }) {
     }
   }, [state && state.user]);
 
-  //const baseURL = "http://localhost:8000/users/loggedIn";
-  // const fetchUser = () => {
-  //   axios
-  //     .get(baseURL, {
-  //         params: {
-  //           username: user.username,
-  //           Password: user.Password
-  //         }})
-  //     .then((response) => {
-  //         console.log("here  111 "+ response);
-  //       setLogged(response.data);
-
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });}
-  //     console.log("pass"+user.Password);
-  //     useEffect(() => {
-  //       fetchUser();
-  //     }, []);
   return (
     <div>
     <Card style={{}}>

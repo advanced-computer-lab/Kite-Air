@@ -12,13 +12,14 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 import { useNavigate } from "react-router-dom";
-import { SettingsInputSvideoRounded } from "@material-ui/icons";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState,useContext } from "react";
 import { UserContext } from "../context";
-import { useContext } from "react";
-//import { eventManager } from 'react-toastify/dist/core';
+
+import { toast } from "react-toastify";
+import axios from "axios";
+
 
 const theme = createTheme();
 
@@ -29,6 +30,7 @@ export default function SignIn() {
 
   const [loading, setLoading] = useState(false);
   const [state, setState] = useContext(UserContext);
+
 
   const inputs = {
     username: username,
@@ -49,12 +51,11 @@ export default function SignIn() {
     setLoading(true);
 
     setUser(inputs);
+    fetchUser();
     setLoading(false);
 
-    fetchUser();
   };
 
-  const [logged, setLogged] = useState({});
   const baseURL = "http://localhost:4000/login";
 
   const fetchUser = () => {
@@ -68,7 +69,6 @@ export default function SignIn() {
           user: response.data.user,
           token: response.data.token ,
         });
-        //console.log(response.data);
 
         window.localStorage.setItem(
           "auth",
@@ -77,10 +77,18 @@ export default function SignIn() {
 
         let auth = JSON.parse(window.localStorage.getItem("auth"));
         console.log(auth);
-        navigate("/");
+
+        if(response.data.user.Admin === "1"){
+          navigate("/admin");
+        }
+        else navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+
+        
+        toast.error(error.response.data);
+
+
       });
   };
 
@@ -107,7 +115,7 @@ export default function SignIn() {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <Avatar sx={{ m: 1, bgcolor: "primary.main"}}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -128,7 +136,6 @@ export default function SignIn() {
                 name="username"
                 value={username || ""}
                 required
-                // autoComplete="username"
                 onChange={inputsHandlerusername}
                 autoFocus
               />
@@ -163,7 +170,7 @@ export default function SignIn() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="signup" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

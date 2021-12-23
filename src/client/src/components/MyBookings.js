@@ -26,6 +26,7 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import BackgroundLetterAvatars from "./Avatar";
 import { STATES } from "mongoose";
+import Unauthorized from "./Unauthorized.js";
 const drawerWidth = 340;
 
 export default function MyBookings() {
@@ -42,32 +43,7 @@ export default function MyBookings() {
     setisDisplay(true);
   };
 
-  // const [logged, setLogged] = useState({});
-
-  // const baseURL = "http://localhost:8000/users/loggedIn";
-
-  // const fetchUser = () => {
-  //   axios
-  //     .get(baseURL, {
-  //       params: {
-  //         username: location.state.user.username,
-  //         Password: location.state.user.Password,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       console.log("here  111 " + response);
-  //       setLogged(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // console.log(user.Password);
-  // useEffect(() => {
-  //   fetchUser();
-  // }, [logged]);
-  // //hi
+  const isLoggedIn = state && state.token != "";
 
   return (
     <div  style={{
@@ -151,12 +127,29 @@ export default function MyBookings() {
             onClick={() => {
               navigate("/ProfilePage");
             }}
+            variant="permanent"
+            anchor="left"
           >
-            {" "}
-            <InboxIcon /> My Details
-          </Button>
-          <br />
-          <br />
+     
+            &nbsp; &nbsp; &nbsp;
+            <div align="center">
+              <BackgroundLetterAvatars
+                n={state && state.user.FirstName + " " + state.user.LastName}
+              />
+            </div>
+            &nbsp; &nbsp; &nbsp;
+            <Divider />
+            <List>
+              <Button
+                onClick={() => {
+                  navigate("/ProfilePage");
+                }}
+              >
+                {" "}
+                <InboxIcon /> My Details
+              </Button>
+              <br />
+              <br />
 
           <Button onClick={() => {}} variant="outlined">
             {" "}
@@ -197,8 +190,4 @@ export default function MyBookings() {
     </div>
     </div>
   );
-}
-
-{
-  /* <DisplayInfo user={user}/> */
 }

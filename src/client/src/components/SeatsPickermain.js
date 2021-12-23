@@ -21,6 +21,8 @@ import SeatsReturn from "./SeatsReturn";
 import Review from "./Review";
 import axios from "axios";
 
+import Unauthorized from "./Unauthorized";
+
 const steps = ["Departure Seats", "Return Seats", "Review"];
 
 const theme = createTheme();
@@ -62,7 +64,7 @@ export default function SeatsPickermain(props) {
     axios
       .post(baseURL, {
         User: state.user._id,
-        flight: location.state.selectedRetF._id,
+        flight: location.state.selectedDepF._id,
         choosenCabin: getClass(),
         noOfPassengers: getNoOfPassengers(),
         seatsNo: selectedDepartureSeats,
@@ -79,7 +81,7 @@ export default function SeatsPickermain(props) {
     axios
       .post(baseURL, {
         User: state.user._id,
-        flight: location.state.selectedDepF._id,
+        flight: location.state.selectedRetF._id,
         choosenCabin: getClass(),
         noOfPassengers: getNoOfPassengers(),
         seatsNo: selectedReturnSeats,
@@ -131,8 +133,9 @@ export default function SeatsPickermain(props) {
     setActiveStep(activeStep + 1);
 
     if (activeStep === steps.length - 1) {
-      saveselectedRet();
       saveselectedDept();
+      saveselectedRet();
+
       console.log("Saved");
     }
   };
@@ -140,8 +143,13 @@ export default function SeatsPickermain(props) {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+  const isLoggedIn = state && state.token != "";
 
   return (
+    <>
+    {!isLoggedIn? 
+      <Unauthorized/>
+       :
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <br />
@@ -215,5 +223,7 @@ export default function SeatsPickermain(props) {
         </Paper>
       </Container>
     </ThemeProvider>
+    }
+</>
   );
 }

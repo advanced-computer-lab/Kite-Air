@@ -27,6 +27,7 @@ const theme = createTheme();
 export default function Register() {
   const [username, setusername] = useState("");
   const [Password, setPassword] = useState("");
+  const [PasswordC, setPasswordC] = useState("");
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [PassportNo, setPassportNo] = useState("");
@@ -34,8 +35,6 @@ export default function Register() {
   const [Address, setAddress] = useState("");
   const [CountryCode, setCountryCode] = useState("");
   const [TelephoneNo, setTelephoneNo] = useState("");
-
-  const [phone, setphone] = useState();
 
   const [ok, setOk] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -45,6 +44,7 @@ export default function Register() {
   const inputs = {
     username: username,
     Password: Password,
+    PasswordC: PasswordC,
     FirstName: FirstName,
     LastName: LastName,
     Address: Address,
@@ -57,7 +57,9 @@ export default function Register() {
   const inputsHandlerPass = (e) => {
     setPassword(e.target.value);
   };
-
+  const inputsHandlerPassC = (e) => {
+    setPasswordC(e.target.value);
+  };
   const inputsHandlerusername = (e) => {
     setusername(e.target.value);
   };
@@ -93,7 +95,7 @@ export default function Register() {
       .post(baseURL, inputs)
       .then((res) => {
         setLoading(false);
-        toast.success("Registeration Successful! Please log in ", {
+        toast.success("Registeration Successful! Please sign in.", {
           position: "top-right",
           autoClose: 4000,
           hideProgressBar: false,
@@ -107,6 +109,9 @@ export default function Register() {
       .catch((error) => {
         setLoading(false);
         toast.error(error.response.data);
+        setPassword("");
+        setPasswordC("");
+        
       });
   };
 
@@ -115,8 +120,7 @@ export default function Register() {
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="lg" style={{ width: "500px" }}>
         <CssBaseline />
-        <br />
-        <br />
+
         <Box
           sx={{
             marginTop: 8,
@@ -238,11 +242,12 @@ export default function Register() {
               margin="normal"
               required
               fullWidth
-              name="password"
+              name="PasswordConfirmation"
               label="Confirm Password"
               type="password"
               id="PasswordConfirmation"
-              value={Password || ""}
+              value={PasswordC || ""}
+              onChange={inputsHandlerPassC}
               autoFocus
               autoComplete="none"
             />
