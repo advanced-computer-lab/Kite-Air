@@ -63,33 +63,3 @@ app.post("/payment", (req, res) => {
 app.listen(port, () => {
   console.log(`Listening to requests on http://localhost:${port}`);
 });
-
-  return stripe.customers
-    .create({
-      email: token.email,
-      source: token.id,
-    })
-    .then((customer) => {
-      stripe.charges.create(
-        {
-          amount: product.price * 100,
-          currency: "usd",
-          customer: customer.id,
-          receipt_email: token.email,
-          shipping: {
-            name: token.card.name,
-            address: {
-              country: token.card.address_country,
-            },
-          },
-        },
-        { idempontencyKey }
-      );
-    })
-    .then((result) => res.status(200).json(result))
-    .catch((err) => console.log(err));
-});
-
-app.listen(port, () => {
-  console.log(`Listening to requests on http://localhost:${port}`);
-});

@@ -131,9 +131,10 @@ export default function Summary(props) {
   };
 
   const handleRedirection = () => {
-    if (state.user.Admin !== "1") {
-      console.log("In nav");
-      if (loggedIn) {
+    if (loggedIn) {
+      if (state.user.Admin !== "1") {
+        console.log("In nav");
+
         navigate("/pickSeats", {
           state: {
             searchData: props.searchData,
@@ -142,7 +143,8 @@ export default function Summary(props) {
           },
         });
       } else {
-        toast.warning("Please sign in first!", {
+        //admin can't reserve a flight
+        toast.warning("You can't reserve a flight as an Admin!", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -152,11 +154,9 @@ export default function Summary(props) {
           progress: undefined,
         });
         setOk(true);
-        setShowLogin(true);
       }
     } else {
-      //admin can't reserve a flight
-      toast.warning("You can't reserve a flight as an Admin!", {
+      toast.warning("Please sign in first!", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -166,6 +166,7 @@ export default function Summary(props) {
         progress: undefined,
       });
       setOk(true);
+      setShowLogin(true);
     }
   };
 

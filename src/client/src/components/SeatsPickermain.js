@@ -21,8 +21,6 @@ import SeatsReturn from "./SeatsReturn";
 import Review from "./Review";
 import axios from "axios";
 import StripeCheckout from "react-stripe-checkout";
-import react, { useState, useContext } from "react";
-import { UserContext } from "../context/index.js";
 
 import Unauthorized from "./Unauthorized";
 
@@ -38,7 +36,6 @@ export default function SeatsPickermain(props) {
   const [dis, setDis] = React.useState(0);
   const [selectedDepartureSeats, setSelectedDepartureSeats] = React.useState();
   const [selectedReturnSeats, setSelectedReturnSeats] = React.useState([]);
-  const [state, setState] = useContext(UserContext);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   function getClass() {
     if (location.state.searchData.fseatsAvailable) {
@@ -87,18 +84,21 @@ export default function SeatsPickermain(props) {
   const saveselectedDept = () => {
     console.log(selectedDepartureSeats);
     axios
-      .post(baseURL, {
-        User: state.user._id,
-        flight: location.state.selectedDepF._id,
-        choosenCabin: getClass(),
-        noOfPassengers: getNoOfPassengers(),
-        seatsNo: selectedDepartureSeats,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + state.token,
+      .post(
+        baseURL,
+        {
+          User: state.user._id,
+          flight: location.state.selectedDepF._id,
+          choosenCabin: getClass(),
+          noOfPassengers: getNoOfPassengers(),
+          seatsNo: selectedDepartureSeats,
         },
-      })
+        {
+          headers: {
+            Authorization: "Bearer " + state.token,
+          },
+        }
+      )
       .then((response) => {
         console.log("saved!");
       })
@@ -109,18 +109,21 @@ export default function SeatsPickermain(props) {
 
   const saveselectedRet = () => {
     axios
-      .post(baseURL, {
-        User: state.user._id,
-        flight: location.state.selectedRetF._id,
-        choosenCabin: getClass(),
-        noOfPassengers: getNoOfPassengers(),
-        seatsNo: selectedReturnSeats,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + state.token,
+      .post(
+        baseURL,
+        {
+          User: state.user._id,
+          flight: location.state.selectedRetF._id,
+          choosenCabin: getClass(),
+          noOfPassengers: getNoOfPassengers(),
+          seatsNo: selectedReturnSeats,
         },
-      })
+        {
+          headers: {
+            Authorization: "Bearer " + state.token,
+          },
+        }
+      )
       .then((response) => {
         console.log("saved!");
       })
@@ -190,8 +193,9 @@ export default function SeatsPickermain(props) {
   });
 
   const makePayment = (token) => {
-    // saveselectedRet();
-    // saveselectedDept();
+    saveselectedDept();
+    saveselectedRet();
+
     let text1 = "";
     for (let i of selectedDepartureSeats) {
       text1 += i + " ";

@@ -5,12 +5,9 @@ const jwt = require('jsonwebtoken');
 
 
 function auth(req,res,next){
-  console.log(req.headers);
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
-  console.log("flight");
 
-  console.log(token);
   if (token == null) return res.status(403).send("Please log in first");
 
   jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(user,err)=>{
