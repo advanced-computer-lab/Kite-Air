@@ -3,11 +3,12 @@ import Typography from "@mui/material/Typography";
 //////////////////////////////////
 import SeatPicker from "react-seat-picker";
 import "../styles.css";
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState,useContext } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useLocation } from "react-router-dom";
+import { UserContext } from "../context/index.js";
 
 //get selected seats as well, mmkn thru props
 //selectedSeatsArr  = new Set();
@@ -20,7 +21,7 @@ export default function ChangingSeats({ allDetails, setUpdatedSeats }) {
   const allflightData = allDetails;
 
   var seatsarr = new Set();
-
+  const [state, setState] = useContext(UserContext);
   const [reserv, setReserv] = useState([]);
   const [loading, setloading] = useState(true);
   const [rows, setRows] = useState([]);
@@ -92,6 +93,11 @@ export default function ChangingSeats({ allDetails, setUpdatedSeats }) {
     axios
       .post(baseURLSeats, {
         _id: allflightData[1],
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + state.token,
+        },
       })
       .then((response) => {
         if (allflightData[9] == "First") {
@@ -114,6 +120,11 @@ export default function ChangingSeats({ allDetails, setUpdatedSeats }) {
       .post("http://localhost:8000/reservations/seatsFlight", {
         flight: allflightData[1],
         choosenCabin: allflightData[9],
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + state.token,
+        },
       })
       .then((response) => {
         setReserv(response.data);

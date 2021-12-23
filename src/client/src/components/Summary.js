@@ -31,7 +31,6 @@ export default function Summary(props) {
   const [ok, setOk] = useState(false);
   const [loading, setLoading] = useState(false);
 
-
   const [showLogin, setShowLogin] = useState(false);
   const [username, setusername] = useState("");
   const [Password, setPassword] = useState("");
@@ -110,8 +109,6 @@ export default function Summary(props) {
             selectedRetF: props.selectedRet,
           },
         });
-
-        
       })
       .catch((error) => {
         toast.error(error.response.data);
@@ -131,21 +128,35 @@ export default function Summary(props) {
 
     fetchUser();
     setLoading(false);
-
   };
 
   const handleRedirection = () => {
-    console.log("In nav");
-    if (loggedIn) {
-      navigate("/pickSeats", {
-        state: {
-          searchData: props.searchData,
-          selectedDepF: props.selectedDep,
-          selectedRetF: props.selectedRet,
-        },
-      });
+    if (state.user.Admin !== "1") {
+      console.log("In nav");
+      if (loggedIn) {
+        navigate("/pickSeats", {
+          state: {
+            searchData: props.searchData,
+            selectedDepF: props.selectedDep,
+            selectedRetF: props.selectedRet,
+          },
+        });
+      } else {
+        toast.warning("Please sign in first!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setOk(true);
+        setShowLogin(true);
+      }
     } else {
-      toast.warning("Please sign in first!", {
+      //admin can't reserve a flight
+      toast.warning("You can't reserve a flight as an Admin!", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -155,7 +166,6 @@ export default function Summary(props) {
         progress: undefined,
       });
       setOk(true);
-      setShowLogin(true);
     }
   };
 

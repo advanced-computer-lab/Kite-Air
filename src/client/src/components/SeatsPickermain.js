@@ -93,6 +93,11 @@ export default function SeatsPickermain(props) {
         choosenCabin: getClass(),
         noOfPassengers: getNoOfPassengers(),
         seatsNo: selectedDepartureSeats,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + state.token,
+        },
       })
       .then((response) => {
         console.log("saved!");
@@ -110,6 +115,11 @@ export default function SeatsPickermain(props) {
         choosenCabin: getClass(),
         noOfPassengers: getNoOfPassengers(),
         seatsNo: selectedReturnSeats,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + state.token,
+        },
       })
       .then((response) => {
         console.log("saved!");
