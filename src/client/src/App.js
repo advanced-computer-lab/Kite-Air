@@ -58,6 +58,7 @@ const App = () => {
             <Route
               path="/Payment"
               element={
+                <React.Fragment>
                 <Box>
                   <Container maxWidth="md">
                     <Paper elevation={5}>
@@ -69,6 +70,7 @@ const App = () => {
                     </Paper>
                   </Container>
                 </Box>
+              </React.Fragment>
               }
             />
             <Route
