@@ -18,6 +18,9 @@ import SeatsDeparture from "./SeatsDeparture";
 import SeatsReturn from "./SeatsReturn";
 import Review from "./Review";
 import axios from "axios";
+import StripeCheckout from "react-stripe-checkout";
+import react, { useState, useContext } from "react";
+import { UserContext } from "../context/index.js";
 
 const steps = ["Departure Seats", "Return Seats", "Review"];
 
@@ -25,12 +28,13 @@ const theme = createTheme();
 
 export default function SeatsPickermain(props) {
   const location = useLocation();
+  const [state, setState] = useContext(UserContext);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [dis, setDis] = React.useState(0);
   const [selectedDepartureSeats, setSelectedDepartureSeats] = React.useState();
   const [selectedReturnSeats, setSelectedReturnSeats] = React.useState([]);
-
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
   function getClass() {
     if (location.state.searchData.fseatsAvailable) {
       return "First";
@@ -47,7 +51,29 @@ export default function SeatsPickermain(props) {
     } else if (location.state.searchData.bseatsAvailable) {
       return location.state.searchData.bseatsAvailable;
     } else if (location.state.searchData.eseatsAvailable) {
+      console.log(location.state.searchData.eseatsAvailable);
       return location.state.searchData.eseatsAvailable;
+    }
+  }
+
+  function getPrice() {
+    if (location.state.searchData.fseatsAvailable) {
+      return location.state.selectedDepF.fprice;
+    } else if (location.state.searchData.bseatsAvailable) {
+      return location.state.selectedDepF.bprice;
+    } else if (location.state.searchData.eseatsAvailable) {
+      console.log(location.state.selectedDepF.fprice);
+      return location.state.selectedDepF.eprice;
+    }
+  }
+
+  function getBaggage() {
+    if (location.state.searchData.fseatsAvailable) {
+      return location.state.selectedDepF.fbaggage;
+    } else if (location.state.searchData.bseatsAvailable) {
+      return location.state.selectedDepF.bbaggage;
+    } else if (location.state.searchData.eseatsAvailable) {
+      return location.state.selectedDepF.ebaggage;
     }
   }
 
@@ -126,14 +152,181 @@ export default function SeatsPickermain(props) {
     setActiveStep(activeStep + 1);
 
     if (activeStep === steps.length - 1) {
-      saveselectedRet();
-      saveselectedDept();
+      // saveselectedRet();
+      // saveselectedDept();
       console.log("Saved");
     }
   };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
+  };
+  function onPaymentSuccess() {
+    // send the stripe token to your backend!
+    //setPaymentSuccess(true);
+    console.log(paymentSuccess);
+  }
+
+  const [product, setProduct] = useState({
+    name: "flight reserved",
+    price: getNoOfPassengers() * getPrice(),
+  });
+
+  const makePayment = (token) => {
+    // saveselectedRet();
+    // saveselectedDept();
+    let text1 = "";
+    for (let i of selectedDepartureSeats) {
+      text1 += i + " ";
+    }
+    let text2 = "";
+    for (let i of selectedReturnSeats) {
+      text2 += i + " ";
+    }
+    var info = ` 
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset="UTF-8">
+    </head>
+    <body>
+    <p>Hello ${state.user.FirstName},</p>
+    <p> Thank you for choosing to fly with KiteAir!</p>
+    <p>Here's your flight reservation.</p>
+<div>
+<table class="tg" style="width:100%;border-collapse:collapse">
+<thead>
+<tr>
+<td class="tg-0lax" style="font-weight:bold">
+</td>
+<td class="tg-0lax" style="font-weight:bold"> Departure Flight</td>
+<td class="tg-0lax" style="font-weight:bold">Return Flight</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tg-0lax" style="font-weight:bold">
+  </td><td class="tg-0lax"> 
+ </td><td class="tg-0lax">  
+</td></tr><tr><td class="tg-0lax" style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold"> Flight No. </td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${
+      location.state.selectedDepF.FlightNo
+    }</td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${
+      location.state.selectedRetF.FlightNo
+    }</td>
+</tr>
+<tr>
+<td style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold"> From - To</td>
+<td style="border-bottom:1px solid #ddd;padding:8px"> ${
+      location.state.selectedDepF.From
+    } - ${location.state.selectedDepF.To}</td>
+<td style="border-bottom:1px solid #ddd;padding:8px"> ${
+      location.state.selectedDepF.To
+    } - ${location.state.selectedDepF.From}</td>
+</tr>
+<tr><td style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold"> Departure Date </td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${location.state.selectedDepF.FlightDate.replaceAll(
+      "-",
+      "/"
+    )} </td>
+<td style="border-bottom:1px solid #ddd;padding:8px"> ${location.state.selectedRetF.FlightDate.replaceAll(
+      "-",
+      "/"
+    )} </td>
+</tr>
+<tr><td style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold"> Departure - Arrival</td>
+<td style="border-bottom:1px solid #ddd;padding:8px">  ${
+      location.state.selectedDepF.DepartureTime
+    } - ${" "}
+${location.state.selectedDepF.ArrivalTime}</td>
+<td style="border-bottom:1px solid #ddd;padding:8px">  ${
+      location.state.selectedRetF.DepartureTime
+    } - ${" "}
+${location.state.selectedRetF.ArrivalTime}</td>
+</tr>
+<tr>
+<td style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold">Cabin Class</td>
+<td style="border-bottom:1px solid #ddd;padding:8px"> ${getClass()}</td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${getClass()}</td>
+</tr>
+<tr>
+<td style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold">Baggage Allowance</td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${getBaggage(
+      location.state.selectedDepF
+    )} checked bags, 1 Carry-on</td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${getBaggage(
+      location.state.selectedRetF
+    )} checked bags, 1 Carry-on</td>
+</tr>
+<tr><td style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold">Number of Passengers</td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${getNoOfPassengers()}</td><td style="border-bottom:1px solid #ddd;padding:8px">${getNoOfPassengers()}</td>
+</tr>
+<tr><td style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold">Ticket Price (per 1)</td>
+<td style="border-bottom:1px solid #ddd;padding:8px"> ${getPrice(
+      location.state.selectedDepF
+    )}</td><td style="border-bottom:1px solid #ddd;padding:8px"> ${getPrice(
+      location.state.selectedDepF
+    )}</td>
+</tr>
+<tr><td style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold">Seats Chosen</td>
+<td style="border-bottom:1px solid #ddd;padding:8px">
+${text1}
+</td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${text2}
+</td>
+</tr>
+<tr><td style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold">Total price</td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${
+      getNoOfPassengers() * getPrice()
+    }</td><td style="border-bottom:1px solid #ddd;padding:8px">${
+      getNoOfPassengers() * getPrice()
+    }</td>
+</tr>
+</tbody></table></div>
+<br/>
+</body>
+</html>
+<p>KITE AIR &#9992;</p>
+      `;
+
+    var email = `${state.user.Email}`;
+    console.log(email);
+    var json = {};
+    json["info"] = info.toString();
+    axios
+      .post("http://localhost:8000/reservations/EmailButton", {
+        data1: info.toString(),
+        data2: email.toString(),
+      })
+      .then((res) => {
+        console.log("email is sent");
+      })
+      .catch((err) => {
+        console.log("Error in FlightDelete!");
+      });
+
+    setPaymentSuccess(true);
+    console.log("hereeeeeeeeeeeeeeekede");
+    const body = {
+      token,
+      product,
+    };
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    return fetch("http://localhost:8000/payment", {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        console.log("RESPONSE ", response);
+        const { status } = response;
+        console.log("STATUS ", status);
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -157,7 +350,7 @@ export default function SeatsPickermain(props) {
             ))}
           </Stepper>
           <React.Fragment>
-            {activeStep === steps.length ? (
+            {paymentSuccess ? (
               <React.Fragment>
                 <div style={{ justifyContent: "center" }}>
                   <Typography
@@ -167,22 +360,15 @@ export default function SeatsPickermain(props) {
                   >
                     Thank you for choosing to fly with KiteAir!
                   </Typography>
-                
                 </div>
 
-                <div style={{textAlign: "center"}}>
-                  <div style={{display: "inline-block", textAlign: "left"}}>
-                  <br />
-                  
-                  Your seats have been reserved successfully! <br />
-                    You are now one step away from finalizing your reservation,{" "}
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ display: "inline-block", textAlign: "left" }}>
                     <br />
-                    All you have to do is proceed with payment!
+                    Your seats have been reserved successfully! <br />
+                    Please check your email to view your reservation details.{" "}
+                    <br />
                   </div>
-                </div>
-
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                  <Button variant="contained">Proceed to Payment</Button>
                 </div>
               </React.Fragment>
             ) : (
@@ -195,14 +381,30 @@ export default function SeatsPickermain(props) {
                     </Button>
                   )}
 
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    disabled={dis === 0}
-                    sx={{ mt: 3, ml: 1 }}
-                  >
-                    {activeStep === steps.length - 1 ? "Confirm" : "Next"}
-                  </Button>
+                  {activeStep === steps.length - 1 ? (
+                    <div>
+                      <br />
+                      <StripeCheckout
+                        stripeKey="pk_test_51K8SsmEqt2T4r3H7Dv4W361XbP9J3TNHzMQDKVtljLjJaoHg8aQKnhDTcfFaWtLO69MG8DK8ZuVwgmmkbB3Nea2p00IUseecKz"
+                        amount={getNoOfPassengers() * getPrice() * 100}
+                        imageUrl="https://pbs.twimg.com/profile_images/778378996580888577/MFKh-pNn_400x400.jpg"
+                        name="Payment"
+                        currency="USD"
+                        token={makePayment}
+                        allowRememberMe={false}
+                        onPaymentSuccess={onPaymentSuccess}
+                      />
+                    </div>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={handleNext}
+                      disabled={dis === 0}
+                      sx={{ mt: 3, ml: 1 }}
+                    >
+                      Next
+                    </Button>
+                  )}
                 </Box>
               </React.Fragment>
             )}
