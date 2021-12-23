@@ -29,46 +29,31 @@ export default function EmailButton({ entry }) {
     <html>
     <head>
     <meta charset="UTF-8">
-    <style>
-    table, th, td {
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
-
-    td {
-      background-color: #b7d7e8;
-    }
-    tr {
-      border-bottom: 1px solid #ddd;
-    }
-    th {
-      text-align: left;
-      background-color: #87bdd8;
-    }
-    </style>
     </head>
     <body>
     <p>Hello ${state.user.FirstName},</p>
     <p>This email is sent upon your request. Here's your flight reservation.</p>
-    <br/>
-    <table>
-  <tr>
-    <th> Flight Number  </th>
-    <th> From  </th>
-    <th> To  </th>
-    <th> FlightDate  </th>
-    <th> DepartureTime  </th>
-    <th> ArrivalTime  </th>
-  </tr>
-  <tr>
-    <td> ${entry[2]}  </td>
-    <td> ${entry[3]}  </td>
-    <td> ${entry[4]}  </td>
-    <td> ${entry[5]}  </td>
-    <td> ${entry[6]}  </td>
-    <td> ${entry[7]}  </td>
-  </tr>
-</table>
+<div>
+<table class="tg" style="width:100%;border-collapse:collapse">
+<tbody>
+<tr>
+<td class="tg-0lax" style="font-weight:bold">
+  </td><td class="tg-0lax"> 
+ </td><td class="tg-0lax">  
+</td></tr><tr><td class="tg-0lax" style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold"> Flight No. </td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${entry[2]}</td>
+</tr>
+<tr>
+<td style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold"> From - To</td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${entry[3]} - ${entry[4]}</td>
+</tr>
+<tr><td style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold"> Departure Date </td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${entry[5]} </td>
+</tr>
+<tr><td style="border-bottom:1px solid #ddd;padding:8px;font-weight:bold"> Departure - Arrival</td>
+<td style="border-bottom:1px solid #ddd;padding:8px">${entry[6]} - ${entry[7]}</td>
+</tr>
+</tbody></table></div>
 <br/>
 </body>
 </html>
@@ -115,3 +100,40 @@ export default function EmailButton({ entry }) {
 //              <br/>
 //              ArrivalTime: ${entry[7]},
 //              <br/>
+
+// <style>
+// table, th, td {
+//   border: 1px solid black;
+//   border-collapse: collapse;
+// }
+
+// td {
+//   background-color: #b7d7e8;
+// }
+// tr {
+//   border-bottom: 1px solid #ddd;
+// }
+// th {
+//   text-align: left;
+//   background-color: #87bdd8;
+// }
+// </style>
+
+// <table>
+// <tr>
+//   <th> Flight Number  </th>
+//   <th> From  </th>
+//   <th> To  </th>
+//   <th> FlightDate  </th>
+//   <th> DepartureTime  </th>
+//   <th> ArrivalTime  </th>
+// </tr>
+// <tr>
+//   <td> ${entry[2]}  </td>
+//   <td> ${entry[3]}  </td>
+//   <td> ${entry[4]}  </td>
+//   <td> ${entry[5]}  </td>
+//   <td> ${entry[6]}  </td>
+//   <td> ${entry[7]}  </td>
+// </tr>
+// </table>
