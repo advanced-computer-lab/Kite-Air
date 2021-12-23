@@ -54,13 +54,60 @@ export default function DisplayInfo({ handleDisplay }) {
   //       fetchUser();
   //     }, []);
   return (
+    <div>
     <Card style={{}}>
       <CardContent style={{ backgroundColor: "whitesmoke",padding:25}}>
         <Typography gutterBottom variant="h5" component="div">
           Basic Information
         </Typography>
-        <br />
-        <TextField
+      
+        
+     
+        <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">First Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                    {FirstName}
+                    </div>
+               
+                  </div>
+                  <hr/>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Last Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                    {LastName}
+                    </div>
+                  </div>
+                  <hr/>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {email}
+                    </div>
+                  </div>
+                  <hr/>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Passport Number</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {Passport}
+                    </div>
+                  </div>
+               
+                 
+                </div>
+                 </div>
+              </div>
+        {/* <TextField
           label="First Name"
           margin="dense"
           id="FirstName"
@@ -69,56 +116,9 @@ export default function DisplayInfo({ handleDisplay }) {
           disabled={true}
           type="text"
           variant="standard"
-        />
-        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-        <TextField
-          label="Last Name"
-          margin="dense"
-          id="LastName"
-          InputLabelProps={{ shrink: true }}
-          value={LastName}
-          disabled={true}
-          type="text"
-          variant="standard"
-        />
-        <br />
-        <br />
-        <br />
-        <TextField
-          margin="dense"
-          variant="standard"
-          InputLabelProps={{ shrink: true }}
-          label="Email"
-          id="email"
-          value={email}
-          disabled={true}
-          type="text"
-        />
-         {/* &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-         <TextField
-          margin="dense"
-          variant="standard"
-          InputLabelProps={{ shrink: true }}
-          label="Username"
-          id="username"
-          value={state.user.username}
-          disabled={true}
-          type="text"
         /> */}
-        <br />
-        <br />
-        <div>
-          <TextField
-            label="Passport Number"
-            margin="dense"
-            id="PassportNo"
-            value={Passport}
-            InputLabelProps={{ shrink: true }}
-            disabled={true}
-            type="text"
-            variant="standard"
-          />
-        </div>
+        <hr></hr>
+      
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button onClick={handleDisplay} size="medium">
             Edit
@@ -126,6 +126,56 @@ export default function DisplayInfo({ handleDisplay }) {
         </div>
       </CardContent>
     </Card>
+    </div>
     //}
   );
 }
+
+// &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+// <TextField
+//   label="Last Name"
+//   margin="dense"
+//   id="LastName"
+//   InputLabelProps={{ shrink: true }}
+//   value={LastName}
+//   disabled={true}
+//   type="text"
+//   variant="standard"
+// />
+// <br />
+// <br />
+// <br />
+// <TextField
+//   margin="dense"
+//   variant="standard"
+//   InputLabelProps={{ shrink: true }}
+//   label="Email"
+//   id="email"
+//   value={email}
+//   disabled={true}
+//   type="text"
+// />
+//  {/* &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+//  <TextField
+//   margin="dense"
+//   variant="standard"
+//   InputLabelProps={{ shrink: true }}
+//   label="Username"
+//   id="username"
+//   value={state.user.username}
+//   disabled={true}
+//   type="text"
+// /> */}
+// <br />
+// <br />
+
+//   <TextField
+//     label="Passport Number"
+//     margin="dense"
+//     id="PassportNo"
+//     value={Passport}
+//     InputLabelProps={{ shrink: true }}
+//     disabled={true}
+//     type="text"
+//     variant="standard"
+//   />

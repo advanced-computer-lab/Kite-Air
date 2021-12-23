@@ -13,16 +13,25 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import { toast } from "react-toastify";
+
+var bcrypt = require('bcryptjs');
 //mport Typography from '@mui/material/Typography';
-export default function InfoCard({ handleDisplay }) {
+export default function UpdatePassword({ handleDisplay }) {
   const [state, setState] = useContext(UserContext);
 
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [PassportNo, setPassportNo] = useState(state.user.PassportNo);
+
+  const [Current, setCurrent] = useState("");
+  const [New, setNew] = useState("");
+ // const [Retype, setRetype] = useState("");
+
   const [Address, setAddress] = useState(state.user.Address);
   const [username, setUsername] = useState(state.user.username);
-  const [Password, setPassword] = useState(state.user.Password);
+  const [Password, setPassword] = useState("");
+  const [NewPassword, setNewPassword] = useState("");
+  const [Retype, setRePassword] = useState("");
   const [CountryCode, setCountryCode] = useState(state.user.CountryCode);
   const [TelephoneNo, setTelephoneNo] = useState(state.user.TelephoneNo);
   const [Email, setEmail] = useState("");
@@ -37,48 +46,75 @@ export default function InfoCard({ handleDisplay }) {
     if (state && state.user) {
       console.log("user from state => ", state.user);
       setEmail(state.user.Email);
-      setPassportNo(state.user.PassportNo);
+     // setPassportNo(state.user.PassportNo);
       setFirstName(state.user.FirstName);
       setLastName(state.user.LastName);
     }
   }, [state && state.user]);
 
-  function updatePersonalInfo() {
+  function checkNewPassword() {
     setLoading(true);
     const data = {
       _id: state.user._id,
       username: username,
       FirstName: FirstName,
       LastName: LastName,
-      Address: Address,
+      Address: Address, 
       PassportNo: PassportNo,
-      Password: Password,
+      NewPassword: NewPassword,
+      Current: Current,       
       CountryCode: CountryCode,
       TelephoneNo: TelephoneNo,
       Email: Email,
       Admin: "0",
     };
+console.log(NewPassword); 
+console.log(Retype); 
+console.log(NewPassword===Retype);
 
-    axios
-      .put("http://localhost:8000/users/" + state.user._id, data)
-      .then((res) => {
-        //  console.log(data);
+if(NewPassword.length<8){
+  setLoading(false);
+  toast.error("New password should have atleast 8 characters. ", {
+    position: "top-right",
+    autoClose: 10000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+ 
 
-        // console.log("success");
-        // alert("Success");
+}
+else if(NewPassword!==Retype){
+  setLoading(false);
+  toast.error("New password does not match.", {
+    position: "top-right",
+    autoClose: 10000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+  
+}
+
+  else  if(NewPassword===Retype && NewPassword.length>8){
+
+  axios
+      .put("http://localhost:8000/users/password/:id" + state.user._id, data)
+      .then( async (res) => {
 
         let auth = JSON.parse(window.localStorage.getItem("auth"));
         auth.user = data;
         window.localStorage.setItem("auth", JSON.stringify(auth));
-        // console.log("setting auth");
-        // console.log(auth);
 
-        // update context
         setState({ ...state, user: data });
 
         setLoading(false);
 
-        toast.success("Profile Updated!", {
+        toast.success("Password Updated!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -90,35 +126,63 @@ export default function InfoCard({ handleDisplay }) {
         setOk(true);
         handleDisplay();
       })
+
+
+  
+    }
+
+  }
+
+ function updatePassword() {
+    setLoading(true);
+    const data = {
+      _id: state.user._id,
+      username: username,
+      FirstName: FirstName,
+      LastName: LastName,
+      Address: Address,
+      PassportNo: PassportNo,
+      NewPassword: NewPassword,
+      Current: Current,       
+      CountryCode: CountryCode,
+      TelephoneNo: TelephoneNo,
+      Email: Email,
+      Admin: "0",
+    };
+
+   axios
+      .post("http://localhost:8000/users/checkPassword/:id" + state.user._id, data)
+      .then((res) => {
+
+        let auth = JSON.parse(window.localStorage.getItem("auth"));
+        auth.user = data;
+        window.localStorage.setItem("auth", JSON.stringify(auth));
+        // console.log("setting auth");
+        // console.log(auth);
+
+        // update context
+        setState({ ...state, user: data });
+
+        setLoading(false);
+        setOk(true);
+        checkNewPassword();
+      })
       .catch((err) => {
         setLoading(false);
-
+        toast.error("Incorrect Current Password", {
+            position: "top-right",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         // console.log(err.response.data.split("-"));
-        let arr = err.response.data.split("-");
-        for (let e = 0; e < arr.length; e++) {
-          if (arr[e].includes(","))
-            toast.error(arr[e].split(",")[0], {
-              position: "top-right",
-              autoClose: 10000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-          if (e === arr.length - 1) {
-            toast.error(arr[e], {
-              position: "top-right",
-              autoClose: 10000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-          }
-        }
+
       });
+
+   
   }
 
   return (
@@ -127,61 +191,50 @@ export default function InfoCard({ handleDisplay }) {
         <Typography gutterBottom variant="h5" component="div">
           Basic Information
         </Typography>
-    
+        <hr />
         {open ? { handleDisplay } : " "}
-        <div>
-        <TextField
-          label="First Name"
-          margin="dense"
-          id="FirstName"
-          value={FirstName}
-          style = {{width: 600}}
-          onChange={(e) => {
-            setFirstName(e.target.value);
-          }}
-          type="text"
-          variant="standard"
-        /></div>
+      
+
+       <div>
      
-        <div>
-        <TextField
-          label="Last Name"
-          margin="dense"
-          id="LastName"
-          value={LastName}
-          style = {{width: 600}}
-          onChange={(e) => {
-            setLastName(e.target.value);
-          }}
-          type="text"
-          variant="standard"
-        /></div>
-  
-
-        <TextField
-          label="Email"
-          margin="dense"
-          id="Email"
-          value={Email}
-          style = {{width: 600}}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          type="text"
-          variant="standard"
-        />
-
-        <div>
-          <TextField
-            label="Passport Number"
+       <TextField
+            label="Current Password"
             margin="dense"
-            id="PassportNo"
-            value={PassportNo}
-            style = {{width: 600}}
+            id="Current"
+            //value={PassportNo}
             onChange={(e) => {
-              setPassportNo(e.target.value);
+              setCurrent(e.target.value);
             }}
-            type="text"
+            type="password"
+            variant="standard"
+          />
+          <br/>
+   
+       <TextField
+            label="New Password"
+            margin="dense"
+            id="New"
+            type="password"
+            //value={PassportNo}
+            onChange={(e) => {
+              setNewPassword(e.target.value);
+              
+            }}
+           
+            variant="standard"
+          />
+         
+          <br/>
+          <TextField
+            label="Re-type New Password"
+            margin="dense"
+            id="RetypeNewPassword"
+           // value={PassportNo}
+           onChange={(e) => {
+            setRePassword(e.target.value);
+            
+          }}
+            type="password"
             variant="standard"
           />
         </div>
@@ -191,7 +244,7 @@ export default function InfoCard({ handleDisplay }) {
               variant="contained"
               disabled={loading}
               //onClick={handleButtonClick}
-              onClick={updatePersonalInfo}
+              onClick={updatePassword}
               size="medium"
             >
               Confirm
