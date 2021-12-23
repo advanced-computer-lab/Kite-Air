@@ -127,53 +127,57 @@ export default function InfoCard({ handleDisplay }) {
         <Typography gutterBottom variant="h5" component="div">
           Basic Information
         </Typography>
-        <br />
+    
         {open ? { handleDisplay } : " "}
+        <div>
         <TextField
           label="First Name"
           margin="dense"
           id="FirstName"
           value={FirstName}
+          style = {{width: 600}}
           onChange={(e) => {
             setFirstName(e.target.value);
           }}
           type="text"
           variant="standard"
-        />
-        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+        /></div>
+     
+        <div>
         <TextField
           label="Last Name"
           margin="dense"
           id="LastName"
           value={LastName}
+          style = {{width: 600}}
           onChange={(e) => {
             setLastName(e.target.value);
           }}
           type="text"
           variant="standard"
-        />
-        <br />
-        <br />
-        <br />
+        /></div>
+  
+
         <TextField
           label="Email"
           margin="dense"
           id="Email"
           value={Email}
+          style = {{width: 600}}
           onChange={(e) => {
             setEmail(e.target.value);
           }}
           type="text"
           variant="standard"
         />
-        <br />
-        <br />
+
         <div>
           <TextField
             label="Passport Number"
             margin="dense"
             id="PassportNo"
             value={PassportNo}
+            style = {{width: 600}}
             onChange={(e) => {
               setPassportNo(e.target.value);
             }}

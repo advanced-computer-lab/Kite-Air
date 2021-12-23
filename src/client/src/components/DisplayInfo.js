@@ -54,12 +54,13 @@ export default function DisplayInfo({ handleDisplay }) {
   //       fetchUser();
   //     }, []);
   return (
+    <div>
     <Card style={{}}>
       <CardContent style={{ backgroundColor: "whitesmoke",padding:25}}>
         <Typography gutterBottom variant="h5" component="div">
           Basic Information
         </Typography>
-        <hr />
+      
         
      
         <div class="col-md-8">
@@ -72,6 +73,7 @@ export default function DisplayInfo({ handleDisplay }) {
                     <div class="col-sm-9 text-secondary">
                     {FirstName}
                     </div>
+               
                   </div>
                   <hr/>
                   <div class="row">
@@ -124,6 +126,7 @@ export default function DisplayInfo({ handleDisplay }) {
         </div>
       </CardContent>
     </Card>
+    </div>
     //}
   );
 }

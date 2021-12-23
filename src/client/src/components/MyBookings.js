@@ -70,15 +70,61 @@ export default function MyBookings() {
   // //hi
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-      ></AppBar>
+    <div  style={{
+      display: "flex",
+      }}>
+        
+        <div
+         style={{
+           width: 250, 
+          display: "flex",
+          justifyContent: "left",
+       //   alignItems: "center",
+         // float="left",
+        //  backgroundColor: "blue"
+         }}
+          >
+  
+            &nbsp; &nbsp; &nbsp;
+     
 
-      <div
-        sx={{
+            <div>
+            &nbsp; &nbsp; &nbsp;
+     
+            <List>
+            <div align="center">
+            <br />
+            <br />
+            <br />
+              <BackgroundLetterAvatars
+                n={state.user.FirstName + " " + state.user.LastName}
+              />
+               <br />
+            </div>
+            <Divider />
+            <br/>
+            <Button
+            onClick={() => {
+              navigate("/ProfilePage");
+            }}
+          >
+            {" "}
+            <InboxIcon /> My Details
+          </Button>
+          <br />
+          <br />
+
+          <Button onClick={() => {}} variant="outlined">
+            {" "}
+            <MailIcon /> My Bookings
+          </Button>
+            </List>
+            <Divider />
+            </div>
+          </div>
+          
+        {/* <div
+          sx={{
           width: drawerWidth,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
@@ -118,7 +164,22 @@ export default function MyBookings() {
           </Button>
         </List>
         <Divider />
-      </div>
+      </div> */}
+    <div 
+    style={{
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+//  backgroundColor: "blue"
+ }}>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+      ></AppBar>
+
+  
 
       <Box
         component="main"
@@ -133,6 +194,8 @@ export default function MyBookings() {
         <CollapsibleTable />
       </Box>
     </Box>
+    </div>
+    </div>
   );
 }
 

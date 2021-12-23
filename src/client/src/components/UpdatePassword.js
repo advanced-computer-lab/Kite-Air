@@ -73,6 +73,7 @@ console.log(Retype);
 console.log(NewPassword===Retype);
 
 if(NewPassword.length<8){
+  setLoading(false);
   toast.error("New password should have atleast 8 characters. ", {
     position: "top-right",
     autoClose: 10000,
@@ -86,6 +87,7 @@ if(NewPassword.length<8){
 
 }
 else if(NewPassword!==Retype){
+  setLoading(false);
   toast.error("New password does not match.", {
     position: "top-right",
     autoClose: 10000,
@@ -203,7 +205,7 @@ else if(NewPassword!==Retype){
             onChange={(e) => {
               setCurrent(e.target.value);
             }}
-            type="text"
+            type="password"
             variant="standard"
           />
           <br/>
@@ -232,7 +234,7 @@ else if(NewPassword!==Retype){
             setRePassword(e.target.value);
             
           }}
-            type="text"
+            type="password"
             variant="standard"
           />
         </div>

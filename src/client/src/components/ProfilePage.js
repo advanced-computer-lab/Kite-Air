@@ -50,44 +50,39 @@ export default function ProfilePage() {
     setisPasswordUpdate(true);
   };
   return (
-    <>
-      {" "}
-      {state && state.user && (
-        <Box sx={{ display: "flex" }}>
-          <CssBaseline />
-
-          <AppBar
-            position="fixed"
-            sx={{
-              width: `calc(100% - ${drawerWidth}px)`,
-              ml: `${drawerWidth}px`,
-            }}
-          ></AppBar>
-
-          <div
-            sx={{
-              width: drawerWidth,
-              flexShrink: 0,
-              "& .MuiDrawer-paper": {
-                width: drawerWidth,
-                boxSizing: "border-box",
-              },
-            }}
-            variant="permanent"
-            anchor="left"
+    <div  style={{
+      display: "flex",
+      }}>
+        
+        <div
+         style={{
+           width: 340, 
+          display: "flex",
+          justifyContent: "left",
+       //   alignItems: "center",
+         // float="left",
+        //  backgroundColor: "blue"
+         }}
           >
-            <br />
-            <br />
-            <br />
+  
             &nbsp; &nbsp; &nbsp;
+     
+
+            <div>
+            &nbsp; &nbsp; &nbsp;
+           
+            <List>
             <div align="center">
+            <br />
+            <br />
+            <br />
               <BackgroundLetterAvatars
                 n={state.user.FirstName + " " + state.user.LastName}
               />
+               <br />
             </div>
-            &nbsp; &nbsp; &nbsp;
             <Divider />
-            <List>
+            <br/>
               <Button onClick={() => {}} variant={"outlined"}>
                 {" "}
                 <InboxIcon /> My Details
@@ -105,7 +100,32 @@ export default function ProfilePage() {
               </Button>
             </List>
             <Divider />
+            </div>
           </div>
+ 
+    <div 
+    style={{
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "blue" }}>
+
+      {" "}
+
+ 
+      {state && state.user && (
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+
+          <AppBar
+            position="fixed"
+            sx={{
+              width: `calc(100% - ${drawerWidth}px)`,
+              ml: `${drawerWidth}px`,
+            }}
+          ></AppBar>
+
+        
 
           <Box
             component="main"
@@ -118,8 +138,6 @@ export default function ProfilePage() {
           >
             <Toolbar />
 
-{ 
-}
             {isDisplay && isPasswordUpdate? (
               <div>
               <DisplayInfo handleDisplay={handleDisplayOFF} />
@@ -142,6 +160,7 @@ export default function ProfilePage() {
           </Box>
         </Box>
       )}
-    </>
+    </div>
+    </div>
   );
 }
