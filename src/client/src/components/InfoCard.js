@@ -62,16 +62,12 @@ export default function InfoCard({ handleDisplay }) {
     axios
       .put("http://localhost:8000/users/" + state.user._id, data )
       .then((res) => {
-        //  console.log(data);
 
-        // console.log("success");
-        // alert("Success");
 
         let auth = JSON.parse(window.localStorage.getItem("auth"));
         auth.user = data;
         window.localStorage.setItem("auth", JSON.stringify(auth));
-        // console.log("setting auth");
-        // console.log(auth);
+       
 
         // update context
         setState({ ...state, user: data });

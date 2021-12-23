@@ -25,7 +25,7 @@ function auth(req,res,next){
   })
 }
 
-router.put('/:id', async(req, res) => {
+router.put('/:id', auth,async(req, res) => {
     console.log(req.params.id);
     const opts = { runValidators: true };
     await User.findByIdAndUpdate(req.params.id, req.body, opts)
@@ -43,7 +43,7 @@ router.put('/:id', async(req, res) => {
     });
 
  
-router.put('/password/:id', async(req, res) => {
+router.put('/password/:id', auth, async(req, res) => {
   console.log(req.body._id);
 
   console.log(req.body.NewPassword);
@@ -105,31 +105,6 @@ console.log(req.body.Current);
   }
 
   });
-
-// const userinstance = new User({
-//   username: "User1",
-//   Password: "123456",
-//   FirstName: "User",
-//   LastName: "New",
-//   Address: "Company",
-//   PassportNo: "A234567",
-//   CountryCode: "EGY",
-//   TelephoneNo: "0",
-//   Email: "user1@gmail.com",
-//   Admin: "0"
-
-// });
-
-// userinstance.save((err, doc) => {
-//     if (!err){
-//         res.redirect('/');
-//     }
-//     else
-//         console.log('Error during record insertion : ' + err);
-// });
-
-
-
 
 
 module.exports = router;

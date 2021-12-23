@@ -42,7 +42,7 @@ function Row(e) {
   //  console.log(count);
   const { entry } = e;
   //  console.log(count);
-
+  const [state, setState] = useContext(UserContext);
   const [open, setOpen] = React.useState(false);
   const [openSeats, setOpenSeats] = React.useState(false);
   const [updatedSeats, setUpdatedSeats] = React.useState(
@@ -76,6 +76,11 @@ function Row(e) {
         .post("http://localhost:8000/reservations/updateSeats", {
           _id: entry[0],
           seatsNo: updatedSeats,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + state.token,
+          },
         })
         .then((res) => {
         
@@ -91,6 +96,7 @@ function Row(e) {
             progress: undefined,
           });
         }).catch((error)=>{
+          console.log(error.data);
 
         });
 
@@ -357,7 +363,6 @@ export default function CollapsibleTable() {
 
   return (
     <div>
-      <br />
       <h2>My Bookings</h2>
       <br />
 
@@ -367,7 +372,7 @@ export default function CollapsibleTable() {
         </Box>
       )}
 
-      <TableContainer component={Paper}>
+      <TableContainer>
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
