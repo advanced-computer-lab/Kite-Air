@@ -9,14 +9,14 @@ import Menu from "@mui/material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Link from "@mui/material/Link";
 
 import { useContext, useEffect } from "react";
 import { UserContext } from "../context/index.js";
 import axios from "axios";
 
-import logo from '../assets/whiteKite.png';
+import logo from "../assets/whiteKite.png";
 
 export default function Header() {
   const [state, setState] = useContext(UserContext);
@@ -27,22 +27,18 @@ export default function Header() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const currpath = location.pathname;
 
   // useEffect(() => {
   //   setState(JSON.parse(window.localStorage.getItem("auth")));
   // }, []);
 
   //console.log(state);
-  const isLoggedIn =  state && state.user;
-  const isAdmin = state.user.Admin === "1";
-  console.log(state.user.Admin === "1");
-  console.log("add");
+  const isLoggedIn = state && state.user;
+  const isAdmin =  state &&state.user.Admin === "1";
 
-
-  const faireRedirection = () => {
-    if (isAdmin) navigate("/admin");
-    else navigate("/");
-  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -71,27 +67,21 @@ export default function Header() {
     navigate("/ProfilePage");
   };
 
-
-
   const logout = () => {
- 
-
-    axios.delete("http://localhost:4000/logout", {token: state.token})
-    .then((response) => { 
-      navigate("/login");
-      console.log("deletedtoken")
-      window.localStorage.removeItem("auth");
-      setState(null);
-      
-
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    axios
+      .delete("http://localhost:4000/logout", { token: state.token })
+      .then((response) => {
+        navigate("/login");
+        console.log("deletedtoken");
+        window.localStorage.removeItem("auth");
+        setState(null);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     //state.token
 
     handleMenuClose();
-
   };
 
   const menuId = "primary-search-account-menu";
@@ -111,7 +101,7 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-    {!isAdmin && <MenuItem onClick={handleProfileClick}>Profile</MenuItem>}
+      {!isAdmin && <MenuItem onClick={handleProfileClick}>Profile</MenuItem>}
       <MenuItem onClick={logout}>Log-out</MenuItem>
     </Menu>
   );
@@ -133,10 +123,11 @@ export default function Header() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-    {!isAdmin &&  <MenuItem onClick={handleProfileClick}>
- 
-        <p>Profile</p>
-      </MenuItem>}
+      {!isAdmin && (
+        <MenuItem onClick={handleProfileClick}>
+          <p>Profile</p>
+        </MenuItem>
+      )}
 
       <MenuItem onClick={logout}>
         <p>Log-out</p>
@@ -144,9 +135,19 @@ export default function Header() {
     </Menu>
   );
 
+  const landingSyle =
+    location.pathname == "/"
+      ? { background: "transparent", boxShadow: "none" }
+      : { background: "#191b3a" };
+
+      // const pos =
+      // location.pathname == "/"
+      // ? "sticky"
+      //   : "fixed"
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={{ background: "#191b3a" }} position="absolute">
+      <AppBar style={landingSyle} position="absolute">
         <Toolbar>
           <Typography
             variant="h6"
@@ -161,9 +162,8 @@ export default function Header() {
               }}
               style={{ textDecoration: "none", cursor: "pointer" }}
             >
-             {/* Kite Air */}
-               <img src={logo} height="45" alt="logo" />
-               
+              {/* Kite Air */}
+              <img src={logo} height="45" alt="logo" />
             </div>{" "}
           </Typography>
 
@@ -182,7 +182,7 @@ export default function Header() {
 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-          {isLoggedIn ? (
+            {isLoggedIn ? (
               <IconButton
                 size="large"
                 edge="end"
@@ -205,7 +205,7 @@ export default function Header() {
           </Box>
 
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            {(isLoggedIn) ? (
+            {isLoggedIn ? (
               <IconButton
                 size="large"
                 aria-label="show more"

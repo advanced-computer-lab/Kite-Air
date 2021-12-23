@@ -60,7 +60,7 @@ export default function InfoCard({ handleDisplay }) {
     };
 
     axios
-      .put("http://localhost:8000/users/" + state.user._id, data)
+      .put("http://localhost:8000/users/" + state.user._id, data )
       .then((res) => {
         //  console.log(data);
 
