@@ -8,7 +8,9 @@ import Divider from "@mui/material/Divider";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import Button from "@mui/material/Button";
-
+import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
+import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CollapsibleTable from "./CollapsibleTable";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -69,14 +71,14 @@ export default function MyBookings() {
                   }}
                 >
                   {" "}
-                  <InboxIcon /> My Details
+                  <AssignmentIndIcon /> My Details
                 </Button>
                 <br />
                 <br />
 
                 <Button style={{ width: "100%" }} onClick={() => {}} variant="outlined">
                   {" "}
-                  <MailIcon /> My Bookings
+                  <AirplaneTicketIcon /> My Bookings
                 </Button>
               </List>
               <Divider />

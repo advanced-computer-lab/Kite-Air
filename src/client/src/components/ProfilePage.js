@@ -19,8 +19,15 @@ import { UserContext } from "../context/index.js";
 import { toast } from "react-toastify";
 import Unauthorized from "./Unauthorized";
 
+import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
+import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+
+
 import BackgroundLetterAvatars from "./Avatar";
 const drawerWidth = 340;
+
+
 
 export default function ProfilePage() {
   const [state, setState] = useContext(UserContext);
@@ -75,7 +82,7 @@ export default function ProfilePage() {
             <br />
             <Button onClick={() => {}} style={{ width: "100%" }} variant={"outlined"}>
               {" "}
-              <InboxIcon /> My Details
+              <AssignmentIndIcon /> My Details
             </Button>
             <br />
             <br />
@@ -86,7 +93,7 @@ export default function ProfilePage() {
               }}
             >
               {" "}
-              <MailIcon /> My Bookings
+              <AirplaneTicketIcon /> My Bookings
             </Button>
           </List>
           <Divider />
