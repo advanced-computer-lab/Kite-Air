@@ -8,6 +8,7 @@ import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import AirplaneTicketSharpIcon from "@mui/icons-material/AirplaneTicketSharp";
 import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
+import CircleIcon from '@mui/icons-material/Circle';
 
 import { Menu, Dropdown, message } from "antd";
 import { DownOutlined } from "@ant-design/icons";
@@ -7345,14 +7346,15 @@ export default function DatePick(props) {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            width:"110vh"
           }}
         >
           <div style={{ marginTop: "4px", marginRight:"0px" }}>
             <AirplaneTicketSharpIcon style={{ fontSize: 125 }} />
           </div>
           <div class="container-fluid" style={{ margin: "4px",marginLeft:"0px" }}>
-            <div class="row" style={{ marginBottom: "3px" }}>
-              <div class="col-4">
+            <div class="row" style={{ marginBottom: "3px" ,position: "relative",zIndex:8}}>
+              <div class="col-4" style={{zIndex:8}}>
                 {" "}
                 <AutoComplete
                   size="large"
@@ -7367,7 +7369,9 @@ export default function DatePick(props) {
                   onChange={fromValue}
                 />
               </div>
-              <div class="col-4 ">
+
+              <div class="col-1" style={{position:"absolute",left:220,zIndex:10,top:3}}>< CompareArrowsIcon style={{color:"#191b3a",fontSize:35}} /></div>
+              <div class="col-4 "  style={{zIndex:8}}>
                 {" "}
                 <AutoComplete
                   size="large"
