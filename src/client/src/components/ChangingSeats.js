@@ -206,8 +206,7 @@ export default function ChangingSeats({ allDetails, setUpdatedSeats }) {
         {allflightData[9]} Seats
         <br />
         <small>
-          To replace a seat you reserved, click it to unreserve it and select a
-          new unreserved one.
+          Re-click a seat to unreserve it, then select your new desired seat from those available.
         </small>
       </Typography>
       <div className="">

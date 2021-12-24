@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/index.js";
 
@@ -174,6 +174,11 @@ export default function SeatsPickermain(props) {
       // saveselectedRet();
       // saveselectedDept();
     }
+  };
+
+  const navigate = useNavigate();
+  const displayButton = () => {
+    navigate("/myBookings");
   };
 
   const handleBack = () => {
@@ -364,7 +369,7 @@ ${text1}
               sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
             >
               <Typography component="h1" variant="h4" align="center">
-                Pick Seats
+                Choose your seats!
               </Typography>
               <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
                 {steps.map((label) => (
@@ -399,6 +404,13 @@ ${text1}
                         details. <br />
                       </div>
                     </div>
+                    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+
+                        <Button onClick={displayButton} sx={{ mt: 3, ml: 1 }} variant="contained">
+                          My Bookings
+                        </Button>
+
+                    </Box>
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
