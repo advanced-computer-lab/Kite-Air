@@ -60,14 +60,15 @@ export default function InfoCard({ handleDisplay }) {
     };
 
     axios
-      .put("http://localhost:8000/users/" + state.user._id, data )
+      .put("http://localhost:8000/users/" + state.user._id, data, {
+        headers: {
+          Authorization: "Bearer " + state.token,
+        },
+      })
       .then((res) => {
-
-
         let auth = JSON.parse(window.localStorage.getItem("auth"));
         auth.user = data;
         window.localStorage.setItem("auth", JSON.stringify(auth));
-       
 
         // update context
         setState({ ...state, user: data });
@@ -118,48 +119,49 @@ export default function InfoCard({ handleDisplay }) {
   }
 
   return (
-    <Card style={{ }}>
-      <CardContent style={{ backgroundColor: "	whitesmoke",padding:25}}>
+    <Card style={{}}>
+      <CardContent style={{ backgroundColor: "	whitesmoke", padding: 25 }}>
         <Typography gutterBottom variant="h5" component="div">
           Basic Information
         </Typography>
-    
+
         {open ? { handleDisplay } : " "}
         <div>
-        <TextField
-          label="First Name"
-          margin="dense"
-          id="FirstName"
-          value={FirstName}
-          style = {{width: 600}}
-          onChange={(e) => {
-            setFirstName(e.target.value);
-          }}
-          type="text"
-          variant="standard"
-        /></div>
-     
+          <TextField
+            label="First Name"
+            margin="dense"
+            id="FirstName"
+            value={FirstName}
+            style={{ width: 600 }}
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
+            type="text"
+            variant="standard"
+          />
+        </div>
+
         <div>
-        <TextField
-          label="Last Name"
-          margin="dense"
-          id="LastName"
-          value={LastName}
-          style = {{width: 600}}
-          onChange={(e) => {
-            setLastName(e.target.value);
-          }}
-          type="text"
-          variant="standard"
-        /></div>
-  
+          <TextField
+            label="Last Name"
+            margin="dense"
+            id="LastName"
+            value={LastName}
+            style={{ width: 600 }}
+            onChange={(e) => {
+              setLastName(e.target.value);
+            }}
+            type="text"
+            variant="standard"
+          />
+        </div>
 
         <TextField
           label="Email"
           margin="dense"
           id="Email"
           value={Email}
-          style = {{width: 600}}
+          style={{ width: 600 }}
           onChange={(e) => {
             setEmail(e.target.value);
           }}
@@ -173,7 +175,7 @@ export default function InfoCard({ handleDisplay }) {
             margin="dense"
             id="PassportNo"
             value={PassportNo}
-            style = {{width: 600}}
+            style={{ width: 600 }}
             onChange={(e) => {
               setPassportNo(e.target.value);
             }}

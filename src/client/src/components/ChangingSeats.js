@@ -203,7 +203,7 @@ export default function ChangingSeats({ allDetails, setUpdatedSeats }) {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        {allflightData[9]} Seats for Departure Flight
+        {allflightData[9]} Seats
         <br />
         <small>
           To replace a seat you reserved, click it to unreserve it and select a

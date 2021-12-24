@@ -7370,7 +7370,7 @@ export default function DatePick(props) {
                 />
               </div>
 
-              <div class="col-1" style={{position:"absolute",left:220,zIndex:10,top:3}}>< CompareArrowsIcon style={{color:"#191b3a",fontSize:35}} /></div>
+              <div class="col-1" style={{position:"absolute",left:221,zIndex:10,top:3}}>< CompareArrowsIcon style={{color:"#191b3a",fontSize:35}} /></div>
               <div class="col-4 "  style={{zIndex:8}}>
                 {" "}
                 <AutoComplete

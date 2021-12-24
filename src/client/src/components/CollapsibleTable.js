@@ -101,6 +101,7 @@ function Row(e) {
             draggable: true,
             progress: undefined,
           });
+          
           window.location.reload();
           
         })

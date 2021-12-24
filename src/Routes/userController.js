@@ -23,7 +23,7 @@ function auth(req,res,next){
   })
 }
 
-router.put('/:id', auth,async(req, res) => {
+router.put('/:id',async(req, res) => {
     console.log(req.params.id);
     const opts = { runValidators: true };
     await User.findByIdAndUpdate(req.params.id, req.body, opts)
@@ -41,7 +41,7 @@ router.put('/:id', auth,async(req, res) => {
     });
 
  
-router.put('/password/:id', auth, async(req, res) => {
+router.put('/password/:id', async(req, res) => {
   console.log(req.body._id);
 
   console.log(req.body.NewPassword);
