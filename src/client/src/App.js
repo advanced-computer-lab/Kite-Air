@@ -15,6 +15,7 @@ import Test from "./components/Test";
 import CollapsibleTable from "./components/CollapsibleTable";
 import SeatsPickermain from "./components/SeatsPickermain";
 import Register from "./components/Register";
+import NotFound from "./components/NotFound";
 
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
             <Route path="mybookings" element={<MyBookings />} />
             <Route path="login" element={<SignIn />} />
             <Route path="signup" element={<Register />} />
+            <Route path="*" element={<NotFound />} />
 
             <Route
               path="/userReservations"
