@@ -8,7 +8,7 @@ import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import AirplaneTicketSharpIcon from "@mui/icons-material/AirplaneTicketSharp";
 import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
-import CircleIcon from '@mui/icons-material/Circle';
+import CircleIcon from "@mui/icons-material/Circle";
 
 import { Menu, Dropdown, message } from "antd";
 import { DownOutlined } from "@ant-design/icons";
@@ -7170,7 +7170,6 @@ export default function DatePick(props) {
   );
   // Search Button
   function buttonClicked() {
- 
     props.setLoading(true);
     if (
       j["From"] === "" ||
@@ -7336,102 +7335,114 @@ export default function DatePick(props) {
 
       <br />
 
-      <Tooltip
-        title="Check for the availability of a flight."
-        placement="left"
-        disableFocusListener
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          width: "110vh",
+        }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            width:"110vh"
-          }}
+        <Tooltip
+          title="Check for the availability of a flight."
+          placement="left"
+          disableFocusListener
         >
-          <div style={{ marginTop: "4px", marginRight:"0px" }}>
+          <div style={{ marginTop: "4px", marginRight: "0px" }}>
             <AirplaneTicketSharpIcon style={{ fontSize: 125 }} />
           </div>
-          <div class="container-fluid" style={{ margin: "4px",marginLeft:"0px" }}>
-            <div class="row" style={{ marginBottom: "3px" ,position: "relative",zIndex:8}}>
-              <div class="col-4" style={{zIndex:8}}>
-                {" "}
-                <AutoComplete
-                  size="large"
-                  style={{ borderColor: "black", width: "100%" }}
-                  options={options}
-                  placeholder="Leaving From"
-                  filterOption={(inputValue, option) =>
-                    option.value
-                      .toUpperCase()
-                      .indexOf(inputValue.toUpperCase()) !== -1
-                  }
-                  onChange={fromValue}
-                />
-              </div>
-
-              <div class="col-1" style={{position:"absolute",left:221,zIndex:10,top:3}}>< CompareArrowsIcon style={{color:"#191b3a",fontSize:35}} /></div>
-              <div class="col-4 "  style={{zIndex:8}}>
-                {" "}
-                <AutoComplete
-                  size="large"
-                  style={{ borderColor: "black", width: "100%" }}
-                  options={options}
-                  placeholder="Going To"
-                  filterOption={(inputValue, option) =>
-                    option.value
-                      .toUpperCase()
-                      .indexOf(inputValue.toUpperCase()) !== -1
-                  }
-                  onChange={toValue}
-                />
-              </div>
-              <div class="col-4">
-                <Dropdown
-                  overlay={menu}
-                  trigger="click"
-                  style={{ width: "100%" }}
-                >
-                  <Button
-                    style={{ width: "100%" }}
-                    className="ant-dropdown-link"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    {chosenClass.localeCompare("") === 0
-                      ? "Cabin Class "
-                      : chosenClass + " "}
-                    <DownOutlined />
-                  </Button>
-                </Dropdown>
-              </div>
+        </Tooltip>
+        <div
+          class="container-fluid"
+          style={{ margin: "4px", marginLeft: "0px" }}
+        >
+          <div
+            class="row"
+            style={{ marginBottom: "3px", position: "relative", zIndex: 8 }}
+          >
+            <div class="col-4" style={{ zIndex: 8 }}>
+              {" "}
+              <AutoComplete
+                size="large"
+                style={{ borderColor: "black", width: "100%" }}
+                options={options}
+                placeholder="Leaving From"
+                filterOption={(inputValue, option) =>
+                  option.value
+                    .toUpperCase()
+                    .indexOf(inputValue.toUpperCase()) !== -1
+                }
+                onChange={fromValue}
+              />
             </div>
 
-            <div class="row">
-              <div class="col-8">
-                {" "}
-                <RangePicker
+            <div
+              class="col-1"
+              style={{ position: "absolute", left: 221, zIndex: 10, top: 3 }}
+            >
+              <CompareArrowsIcon style={{ color: "#191b3a", fontSize: 35 }} />
+            </div>
+            <div class="col-4 " style={{ zIndex: 8 }}>
+              {" "}
+              <AutoComplete
+                size="large"
+                style={{ borderColor: "black", width: "100%" }}
+                options={options}
+                placeholder="Going To"
+                filterOption={(inputValue, option) =>
+                  option.value
+                    .toUpperCase()
+                    .indexOf(inputValue.toUpperCase()) !== -1
+                }
+                onChange={toValue}
+              />
+            </div>
+            <div class="col-4">
+              <Dropdown
+                overlay={menu}
+                trigger="click"
+                style={{ width: "100%" }}
+              >
+                <Button
                   style={{ width: "100%" }}
-                  size="large"
-                  format="MM-DD-YYYY"
-                  onChange={onChange}
-                  autoFocus={true}
-                  allowClear
-                />
-              </div>
-              <div class="col-2">
-                {" "}
-                <InputNumber
-                  size="large"
-                  placeholder="Passengers #"
-                  min={1}
-                  max={10}
-                  onChange={onChangeAdult}
-                  style={{ width: "100%" }}
+                  className="ant-dropdown-link"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  {chosenClass.localeCompare("") === 0
+                    ? "Cabin Class "
+                    : chosenClass + " "}
+                  <DownOutlined />
+                </Button>
+              </Dropdown>
+            </div>
+          </div>
 
-                  // style={{ width: 100 }}
-                />
-              </div>
-              {/* <div class="col-2 " >    <InputNumber
+          <div class="row">
+            <div class="col-8">
+              {" "}
+              <RangePicker
+                style={{ width: "100%" }}
+                size="large"
+                format="MM-DD-YYYY"
+                onChange={onChange}
+                autoFocus={true}
+                allowClear
+              />
+            </div>
+            <div class="col-2">
+              {" "}
+              <InputNumber
+                size="large"
+                placeholder="Passengers #"
+                min={1}
+                max={10}
+                onChange={onChangeAdult}
+                style={{ width: "100%" }}
+
+                // style={{ width: 100 }}
+              />
+            </div>
+            {/* <div class="col-2 " >    <InputNumber
                   size="large"
                   placeholder="Child"
                   min={0}
@@ -7439,22 +7450,21 @@ export default function DatePick(props) {
                   onChange={onChangeChildren}
                   // style={{ width: 100 }}
                 /></div> */}
-              <div class="col-2">
-                {" "}
-                <Button
-                  size="large"
-                  id="searchOutput"
-                  type="primary"
-                  icon={<SearchOutlined />}
-                  onClick={buttonClicked}
-                >
-                  Search
-                </Button>
-              </div>
+            <div class="col-2">
+              {" "}
+              <Button
+                size="large"
+                id="searchOutput"
+                type="primary"
+                icon={<SearchOutlined />}
+                onClick={buttonClicked}
+              >
+                Search
+              </Button>
             </div>
           </div>
         </div>
-      </Tooltip>
+      </div>
 
       {errVisible ? (
         <Tag
