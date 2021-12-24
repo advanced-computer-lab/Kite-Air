@@ -23,6 +23,8 @@ import { Navigate, useNavigate } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
+
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -266,6 +268,13 @@ export default function CollapsibleTable() {
       .then((res) => {
         setRes(res.data);
         resArray = res.data;
+   
+        if(reservations.length === 0 ){
+          setLoading(false);
+
+        }
+
+        
       })
       .catch((err) => {
         console.log("error");
@@ -279,9 +288,15 @@ export default function CollapsibleTable() {
       var f = resArray[i].flight;
       await axios.get("http://localhost:8000/flights/" + f).then((res) => {
         setFlights(res.data);
+
         flightsArray.push(res.data);
         setFlights([]);
         setLoading(false);
+      }).catch(()=>{
+
+        setLoading(false);
+
+
       });
     }
   }, [reservations]);
@@ -414,7 +429,40 @@ export default function CollapsibleTable() {
             ))}
           </TableBody>
         </Table>
+
+        { reservations.length === 0 && !loading && (
+        <div style={{ textAlign: "center" ,fontSize:25 }}>
+          <div>
+            <br />
+
+            <SentimentDissatisfiedIcon style={{ fontSize: 55 }} />
+          </div>
+
+          <div
+            style={{
+              width: "80%",
+              color: "gray",
+              display: "inline-block",
+              // textAlign: "left",
+              padding: 20,
+            }}
+          >
+            You haven't booked any flights yet.
+          </div>
+        </div>
+      )}
+      
       </TableContainer>
+
+
+
+  
+
+
+
     </div>
+
+
+
   );
 }
