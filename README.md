@@ -17,8 +17,8 @@
 # Motivation
 This project’s goal was to implement an airline reservation system using the Agile Methodology split into three sprints, following the assigned System Requirements and implementing it using the MERN Stack (MongoDB, Express.js, React and Node.js).
 
-<div>![kiteAirBabyBlye](https://user-images.githubusercontent.com/42250266/147371905-e70d931a-e396-4e57-93d7-daeb0c59cca6.png)
-
+<!-- ![kiteAirBabyBlye](https://user-images.githubusercontent.com/42250266/147371905-e70d931a-e396-4e57-93d7-daeb0c59cca6.png)
+ -->
 <a> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" width="125">
 </a>
 <a> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original-wordmark.svg" width="125">
