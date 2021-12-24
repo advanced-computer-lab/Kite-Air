@@ -44,6 +44,10 @@ app.post("/register", async (req, res) => {
        res.status(400).send("Passwords don't match!");
 
     }
+
+    if((req.body.PassportNo).length!=9){
+      res.status(400).send("Please enter a valid passport Number.");
+    }
     const hashedPassword = await bcrypt.hash(req.body.Password, 10);
     const userObject = {
       username: req.body.username,

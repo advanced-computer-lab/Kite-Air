@@ -8,7 +8,9 @@ import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -19,12 +21,23 @@ import axios from "axios";
 import { UserContext } from "../context";
 import { useContext } from "react";
 import { toast } from "react-toastify";
+import {
+  CountryDropdown,
+  RegionDropdown,
+  CountryRegionData,
+} from "react-country-region-selector";
 
 import MuiPhoneNumber from "material-ui-phone-number";
 
 const theme = createTheme();
 
 export default function Register() {
+  const [state, setState] = useContext(UserContext);
+
+  window.localStorage.removeItem("auth");
+  setState(null);
+
+
   const [username, setusername] = useState("");
   const [Password, setPassword] = useState("");
   const [PasswordC, setPasswordC] = useState("");
@@ -35,6 +48,8 @@ export default function Register() {
   const [Address, setAddress] = useState("");
   const [CountryCode, setCountryCode] = useState("");
   const [TelephoneNo, setTelephoneNo] = useState("");
+  const [Country, setCountry] = useState("");
+  const [City, setCity] = useState("");
 
   const [ok, setOk] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -47,7 +62,7 @@ export default function Register() {
     PasswordC: PasswordC,
     FirstName: FirstName,
     LastName: LastName,
-    Address: Address,
+    Address: City + " - " + Country,
     PassportNo: PassportNo,
     CountryCode: CountryCode,
     TelephoneNo: TelephoneNo,
@@ -69,16 +84,13 @@ export default function Register() {
   const inputsHandlerLastName = (e) => {
     setLastName(e.target.value);
   };
-  const inputsHandlerAddress = (e) => {
-    setAddress(e.target.value);
-  };
+
   const inputsHandlerPassportNo = (e) => {
     setPassportNo(e.target.value);
   };
 
   const inputsHandlerTelephoneNo = (e) => {
-
-    setCountryCode((e+"").substring(0,3));
+    setCountryCode((e + "").substring(0, 3));
     setTelephoneNo(e);
   };
   const inputsHandlerEmail = (e) => {
@@ -111,10 +123,8 @@ export default function Register() {
         toast.error(error.response.data);
         setPassword("");
         setPasswordC("");
-        
       });
   };
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -129,35 +139,44 @@ export default function Register() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 1, bgcolor: "primary" }}>
+            <LockOpenIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
 
           <Box component="form" onSubmit={submitButton} sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              name="FirstName"
-              label="First Name"
-              id="FirstName"
-              value={FirstName || ""}
-              onChange={inputsHandlerFirstName}
-              autoFocus
-            />
-
-            <TextField
-              margin="normal"
-              required
-              name="LastName"
-              label="Last Name"
-              id="LastName"
-              value={LastName || ""}
-              onChange={inputsHandlerLastName}
-              autoFocus
-            />
+            <table>
+              <tr>
+                <td style={{ width: "50%" }}>
+                  {" "}
+                  <TextField
+                    margin="normal"
+                    required
+                    name="FirstName"
+                    label="First Name"
+                    id="FirstName"
+                    value={FirstName || ""}
+                    onChange={inputsHandlerFirstName}
+                    autoFocus
+                  />
+                </td>
+                <td style={{ width: "50%" }}>
+                  {" "}
+                  <TextField
+                    margin="normal"
+                    required
+                    name="LastName"
+                    label="Last Name"
+                    id="LastName"
+                    value={LastName || ""}
+                    onChange={inputsHandlerLastName}
+                    autoFocus
+                  />
+                </td>
+              </tr>
+            </table>
 
             <TextField
               margin="normal"
@@ -169,9 +188,6 @@ export default function Register() {
               value={username || ""}
               required
               onChange={inputsHandlerusername}
-              //   onBlur={(e)=>{
-              //     ((username=="")?"what":'')
-              //   }}
               autoFocus
             />
 
@@ -188,6 +204,83 @@ export default function Register() {
               autoFocus
             />
 
+            <table>
+              <tr>
+                <td style={{ width: "50%" }}>
+                  {" "}
+                  <div class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth MuiTextField-root css-17vbkzs-MuiFormControl-root-MuiTextField-root">
+                    <label
+                      class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required css-1kty9di-MuiFormLabel-root-MuiInputLabel-root"
+                      data-shrink="true"
+                      for="country"
+                      id="country-label"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk css-wgai2y-MuiFormLabel-asterisk"
+                      >
+                        Select Country *
+                      </span>
+                    </label>
+                    <div class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root">
+                      <CountryDropdown
+                        id="country"
+                        name="Country"
+                        value={Country}
+                        onChange={(val) => setCountry(val)}
+                        class="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                      />
+
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                      >
+                        <legend class="css-1z7n62">
+                          <span>Select Country&nbsp;*</span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </td>
+                <td style={{ width: "50%" }}>
+                  <div class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth MuiTextField-root css-17vbkzs-MuiFormControl-root-MuiTextField-root">
+                    <label
+                      class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required css-1kty9di-MuiFormLabel-root-MuiInputLabel-root"
+                      data-shrink="true"
+                      for="City"
+                      id="City-label"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk css-wgai2y-MuiFormLabel-asterisk"
+                      >
+                        Select City *
+                      </span>
+                    </label>
+                    <div class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root">
+                      <RegionDropdown
+                        id="city"
+                        name="City"
+                        country={Country}
+                        value={City}
+                        onChange={(val) => setCity(val)}
+                        class="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                      />
+
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                      >
+                        <legend class="css-1z7n62">
+                          <span>Select City&nbsp;*</span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+
             <MuiPhoneNumber
               label="Phone Number"
               fullWidth
@@ -196,20 +289,7 @@ export default function Register() {
               variant="outlined"
               defaultCountry={"eg"}
               value={TelephoneNo}
-
               onChange={inputsHandlerTelephoneNo}
-            />
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="Address"
-              label="Address"
-              id="Address"
-              value={Address || ""}
-              onChange={inputsHandlerAddress}
-              autoFocus
             />
 
             <TextField
@@ -222,7 +302,10 @@ export default function Register() {
               value={PassportNo || ""}
               onChange={inputsHandlerPassportNo}
               autoFocus
+              autoComplete="false"
+              type="text"
             />
+            <hr />
 
             <TextField
               margin="normal"
@@ -235,15 +318,14 @@ export default function Register() {
               value={Password || ""}
               onChange={inputsHandlerPass}
               autoFocus
-              // autoComplete="current-password"
+              autoComplete="none"
             />
-
             <TextField
               margin="normal"
               required
               fullWidth
               name="PasswordConfirmation"
-              label="Confirm Password"
+              label="Retype Password"
               type="password"
               id="PasswordConfirmation"
               value={PasswordC || ""}
@@ -258,7 +340,19 @@ export default function Register() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              {loading ? (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    color: "blue",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-12px",
+                    marginLeft: "-12px",
+                  }}
+                />
+              ): "Sign Up"}
             </Button>
             <Grid container>
               <Grid item></Grid>

@@ -45,8 +45,7 @@ router.post("/all-reservations", auth,async (req, res) => {
 });
 
 router.route("/:id").delete(async (req, res) => {
-  // console.log(req.params.id);
-  // console.log("heyy");
+
   await Reservation.findByIdAndDelete(req.params.id)
     .then((result) => {
       res.status(200).send("Reservation deleted ");
@@ -59,7 +58,7 @@ router.route("/:id").delete(async (req, res) => {
 });
 
 router.get("/userFlightReservation", auth,async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   Reservation.find({ flight: req.body.flight, User: req.body.User })
     .then((result) => {
       res.send(result);
@@ -100,7 +99,7 @@ router.post("/addReservation", auth,async (req, res) => {
        else
       
        if (req.body.choosenCabin == "Economy") {
-         console.log(req.body.choosenCabin);
+        //  console.log(req.body.choosenCabin);
       
          const resultFlight = await  Flight.find({_id: req.body.flight});
    
@@ -124,8 +123,6 @@ router.post("/addReservation", auth,async (req, res) => {
 });
 
 router.post("/seatsFlight", auth, async (req, res) => {
-  console.log("tigger");
-  //console.log(req.body);
 
   Reservation.find({
     flight: req.body.flight,
@@ -154,7 +151,7 @@ router.post("/updateSeats",auth, async (req, res) => {
 router.post("/send", auth,(req, res) => {
   try {
     const output = req.body.data1;
-    console.log(output + "line 97");
+    // console.log(output + "line 97");
     let transporter = nodemailer.createTransport({
       service: "Gmail",
       port: 587,
@@ -192,8 +189,8 @@ router.post("/send", auth,(req, res) => {
 router.post("/EmailButton", (req, res) => {
   try {
     const output = req.body.data1;
-    console.log("here" + req.body.data1);
-    console.log("here" + req.body.data2);
+    // console.log("here" + req.body.data1);
+    // console.log("here" + req.body.data2);
     let transporter = nodemailer.createTransport({
       service: "Gmail",
       port: 587,

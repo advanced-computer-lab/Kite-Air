@@ -173,7 +173,6 @@ export default function SeatsPickermain(props) {
     if (activeStep === steps.length - 1) {
       // saveselectedRet();
       // saveselectedDept();
-      console.log("Saved");
     }
   };
 

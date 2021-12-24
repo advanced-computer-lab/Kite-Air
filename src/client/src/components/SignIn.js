@@ -12,6 +12,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState,useContext } from "react";
@@ -97,16 +99,12 @@ export default function SignIn() {
       {loading ? (
         <p>
           {" "}
-          <br />
-          <br /> <br />
-          <br />
           Loading...
         </p>
       ) : (
         <Container component="main" maxWidth="xs">
           <CssBaseline />
-          <br />
-          <br />
+        
           <Box
             sx={{
               marginTop: 8,
@@ -161,7 +159,19 @@ export default function SignIn() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                    {loading ? (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    color: "blue",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-12px",
+                    marginLeft: "-12px",
+                  }}
+                />
+              ): "Sign In"}
               </Button>
               <Grid container>
                 <Grid item xs>

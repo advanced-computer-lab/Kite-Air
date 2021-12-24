@@ -40,21 +40,21 @@ app.post("/payment", (req, res) => {
       source: token.id,
     })
     .then((customer) => {
-      stripe.charges.create(
-        {
-          amount: product.price * 100,
-          currency: "usd",
-          customer: customer.id,
-          receipt_email: token.email,
-          shipping: {
-            name: token.card.name,
-            address: {
-              country: token.card.address_country,
-            },
-          },
-        },
-        { idempontencyKey }
-      );
+      // stripe.charges.create(
+      //   {
+      //     amount: product.price * 100,
+      //     currency: "usd",
+      //     customer: customer.id,
+      //     receipt_email: token.email,
+      //     shipping: {
+      //       name: token.card.name,
+      //       address: {
+      //         country: token.card.address_country,
+      //       },
+      //     },
+      //   },
+      //   { idempontencyKey }
+      // );
     })
     .then((result) => res.status(200).json(result))
     .catch((err) => console.log(err));
