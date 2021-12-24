@@ -163,7 +163,6 @@ router.post("/search", async (req, res) => {
 });
 
 router.post("/search-m2", async (req, res) => {
-  console.log("from backend search m2");
   console.log(req.body);
 
   // const {
@@ -205,7 +204,7 @@ router.route("/:id").delete(async (req, res) => {
     });
 });
 
-router.post("/create-flights", async (req, res) => {
+router.post("/create-flights",auth, async (req, res) => {
   console.log(req.body);
   const flight = new Flight(req.body);
 

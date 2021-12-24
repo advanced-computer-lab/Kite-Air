@@ -27,7 +27,7 @@ const App = () => {
           <Header />
           <Routes>
             <Route path="/pickSeats" element={<SeatsPickermain />}></Route>
-            <Route path="/add-new-flight" element={<CreateFlight /> }></Route>
+            <Route path="/addNewFlight" element={<CreateFlight /> }></Route>
             <Route path="/admin" element={ <Search />}></Route>
             <Route path="/Search" element={<Test />}></Route>
             <Route path="/" element={<LandingPage />}></Route>

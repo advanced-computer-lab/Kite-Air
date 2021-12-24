@@ -75,7 +75,7 @@ function Search() {
     console.log(flights);
   }
   function handleClickSubmit() {
-    navigate("/add-new-flight");
+    navigate("/addNewFlight");
   }
 
   useEffect(() => {
@@ -93,11 +93,11 @@ function Search() {
 
   return (
     <>
-      {isLoggedIn ? (
+      {isLoggedIn && state.user.Admin==="1"? (
         <div>
           <Box marginTop="20px" sx={{ flexGrow: 1 }}>
             <h1 style={{ margin: "10px", color: "#191b3a" }}>
-              Welcome back, Admin!
+              Welcome back, {state.user.FirstName} {state.user.LastName}!
             </h1>
             <Grid container spacing={1}>
               <Grid item xs={12}>
