@@ -1,31 +1,24 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import InfoCard from "./InfoCard.js";
-import DisplayInfo from "./DisplayInfo";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-
+import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
+import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CollapsibleTable from "./CollapsibleTable";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/index.js";
 
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
 import BackgroundLetterAvatars from "./Avatar";
-import { STATES } from "mongoose";
+import Unauthorized from "./Unauthorized";
 const drawerWidth = 340;
 
 export default function MyBookings() {
@@ -42,100 +35,92 @@ export default function MyBookings() {
     setisDisplay(true);
   };
 
-  // const [logged, setLogged] = useState({});
-
-  // const baseURL = "http://localhost:8000/users/loggedIn";
-
-  // const fetchUser = () => {
-  //   axios
-  //     .get(baseURL, {
-  //       params: {
-  //         username: location.state.user.username,
-  //         Password: location.state.user.Password,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       console.log("here  111 " + response);
-  //       setLogged(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // console.log(user.Password);
-  // useEffect(() => {
-  //   fetchUser();
-  // }, [logged]);
-  // //hi
+  const isLoggedIn = state && state.token != "";
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-      ></AppBar>
+    <>
+      {isLoggedIn && state.user.Admin!=="1" ? (
+        <div
+          style={{
+            display: "flex",
+          }}
+        >
+           <div
+         style={{
+           width: 250, 
 
-      <div
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-        <br />
-        <br />
-        <br />
-        &nbsp; &nbsp; &nbsp;
-        <div align="center">
-          <BackgroundLetterAvatars
-            n={state.user.FirstName + " " + state.user.LastName}
-          />
-        </div>
-        &nbsp; &nbsp; &nbsp;
-        <Divider />
-        <List>
-          <Button
-            onClick={() => {
-              navigate("/ProfilePage");
+          justifyContent: "left",
+
+          backgroundColor: "#f2f8fb"
+         }}>
+            &nbsp; &nbsp; &nbsp;
+            <div>
+              &nbsp; &nbsp; &nbsp;
+              <List>
+                <div align="center">
+                  <BackgroundLetterAvatars
+                    n={state.user.FirstName + " " + state.user.LastName}
+                  />
+                  <br />
+                </div>
+                <Divider />
+                <br />
+                <Button style={{ width: "100%" }}
+                  onClick={() => {
+                    navigate("/ProfilePage");
+                  }}
+                >
+                  {" "}
+                  <AssignmentIndIcon /> My Details
+                </Button>
+                <br />
+                <br />
+
+                <Button style={{ width: "100%" }} onClick={() => {}} variant="outlined">
+                  {" "}
+                  <AirplaneTicketIcon /> My Bookings
+                </Button>
+              </List>
+              <Divider />
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              //  backgroundColor: "blue"
             }}
           >
-            {" "}
-            <InboxIcon /> My Details
-          </Button>
-          <br />
-          <br />
+            <Box sx={{ display: "flex" }}>
+              <CssBaseline />
+              <AppBar
+                position="fixed"
+                sx={{
+                  width: `calc(100% - ${drawerWidth}px)`,
+                  ml: `${drawerWidth}px`,
+                }}
+              ></AppBar>
 
-          <Button onClick={() => {}} variant="outlined">
-            {" "}
-            <MailIcon /> My Bookings
-          </Button>
-        </List>
-        <Divider />
-      </div>
-
-      <Box
-        component="main"
-        sx={{
-          flexGuser: 1,
-          bgcolor: "background.default",
-          p: 3,
-          width: "1025px",
-        }}
-      >
-        <Toolbar />
-        <CollapsibleTable />
-      </Box>
-    </Box>
+              <Box
+                component="main"
+                sx={{
+                  flexGuser: 1,
+                  bgcolor: "background.default",
+                  p: 3,
+                  width: "1025px",
+                }}
+              >
+               
+                <CollapsibleTable />
+              </Box>
+            </Box>
+          </div>
+        </div>
+      ) : (
+        <Unauthorized/>
+      )}
+    </>
   );
-}
-
-{
-  /* <DisplayInfo user={user}/> */
 }

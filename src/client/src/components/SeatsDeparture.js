@@ -3,12 +3,15 @@ import Typography from "@mui/material/Typography";
 //////////////////////////////////
 import SeatPicker from "react-seat-picker";
 import "../styles.css";
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState, useContext } from "react";
 import axios from "axios";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
+import { UserContext } from "../context/index.js";
 
 export default function SeatsDeparture(props) {
+  const [state, setState] = useContext(UserContext);
+
   const baseURLSeats = "http://localhost:8000/flights/seats-of-flight";
 
   var seatsarr = new Set();
@@ -73,7 +76,7 @@ export default function SeatsDeparture(props) {
 
     if (seating.length != 0) {
       setRows2(seating);
-      console.log("Seating length " + seating.length);
+      console.log("Seating length in sit " + seating.length);
     }
   }
 
@@ -90,16 +93,25 @@ export default function SeatsDeparture(props) {
   const fetchSeats = () => {
     //gets number of seats in the flight
     axios
-      .post(baseURLSeats, {
-        _id: props.selectedDepF._id,
-      })
+      .post(
+        baseURLSeats,
+        {
+          _id: props.selectedDepF._id,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + state.token,
+          },
+        }
+      )
       .then((response) => {
+
         if (props.searchData.fseatsAvailable) {
-          setSeats(response.data[0].fseatsAvailable);
+          setSeats(response.data[0].ftotalSeats);
         } else if (props.searchData.bseatsAvailable) {
-          setSeats(response.data[0].bseatsAvailable);
+          setSeats(response.data[0].btotalSeats);
         } else if (props.searchData.eseatsAvailable) {
-          setSeats(response.data[0].eseatsAvailable);
+          setSeats(response.data[0].etotalSeats);
         }
       })
 
@@ -111,17 +123,24 @@ export default function SeatsDeparture(props) {
   const fetchAlreadyReserved = () => {
     //gets reserved seats of a choosen cabin of a flight
     axios
-      .post("http://localhost:8000/reservations/seatsFlight", {
-        flight: props.selectedDepF._id,
-        choosenCabin: getClass(),
-      })
+      .post(
+        "http://localhost:8000/reservations/seatsFlight",
+        {
+          flight: props.selectedDepF._id,
+          choosenCabin: getClass(),
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + state.token,
+          },
+        }
+      )
       .then((response) => {
         setReserv(response.data);
         setloading(false);
       })
 
       .catch((error) => {
-        console.log(getClass());
         console.log(error);
       });
   };
@@ -142,15 +161,16 @@ export default function SeatsDeparture(props) {
 
   useEffect(() => {
     seating = rows2;
-    console.log(seating.length);
-    if (!(typeof reserv === "undefined" || reserv.length == 0)) {
+
+    if (!(typeof reserv === "undefined" || reserv.length === 0)) {
       for (var i = 0; i < reserv.length; i++) {
         for (var s = 0; s < reserv[i].seatsNo.length; s++) {
           seatsarr.add(reserv[i].seatsNo[s].toString());
-          //   console.log("res" + reserv[i].seatsNo);
+          console.log("seat " + reserv[i].seatsNo[s]);
         }
       }
     }
+
     for (var i = 0; i < seating.length; i++) {
       for (var j = 0; j < seating[i].length; j++) {
         if (seating[i][j] != null) {
@@ -173,6 +193,7 @@ export default function SeatsDeparture(props) {
     addCb(row, number, id, newTooltip);
 
     selectedSeats.push(id);
+    console.log("selectedSeats Set" + selectedSeats);
     setSelectedSeats(selectedSeats);
     setSelectedSoFar(selectedSoFar + 1);
     props.setSelectedDeparture(selectedSeats);
@@ -213,7 +234,7 @@ export default function SeatsDeparture(props) {
           : props.setDis(0)}
         {loading || rows.length === 0 ? (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box sx={{ m: 1}}>
+            <Box sx={{ m: 1 }}>
               {loading && (
                 <CircularProgress
                   size={24}
@@ -248,14 +269,33 @@ export default function SeatsDeparture(props) {
         )}
 
         <div>
-          {/* {reserv &&
-          reserv.map((flight) => (
-            <h2 key={flight._id}>
-              {" "}
-              {flight.User} {flight.seatsNo} {flight.flight}{" "}
-              {flight.noOfPassengers} {flight.choosenCabin}{" "}
-            </h2>
-          ))} */}
+          <small>
+            <br />
+            <br />
+            <i
+              class="material-icons"
+              style={{ color: "#1976d2", fontSize: "15px" }}
+            >
+              square
+            </i>{" "}
+            Selected
+            <br />
+            <i
+              class="material-icons"
+              style={{ color: "gray", fontSize: "15px" }}
+            >
+              square
+            </i>{" "}
+            Reserved by others
+            <br />
+            <i
+              class="material-icons"
+              style={{ color: "#191b3a", fontSize: "15px" }}
+            >
+              square
+            </i>{" "}
+            Unreserved
+          </small>
         </div>
       </div>
     </React.Fragment>

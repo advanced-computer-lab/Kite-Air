@@ -34,7 +34,7 @@ const HeaderPic = (props) => {
 
   return (
     <div ref={myRef}>
-      <br />
+
       <section className="showcase">
         <div className="showcase-overlay">
           <h1 style={{ color: "white" }}>Kite Airlines</h1>
@@ -47,6 +47,7 @@ const HeaderPic = (props) => {
             setshowEmpty={props.setshowEmpty}
             setLoading={props.setLoading}
           />
+          
           
         </div>
       </section>

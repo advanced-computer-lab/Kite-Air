@@ -1,47 +1,28 @@
 var express = require("express");
 var router = express.Router();
 const Flight = require("../Models/Flights");
+const jwt = require('jsonwebtoken');
+
+
+function auth(req,res,next){
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (token == null) return res.status(403).send("Please log in first");
+
+  jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(user,err)=>{
+      if (err) {
+        return res.status(401).send("Invalid Token");}
+
+      req.user = user
+      next();
+  })
+}
+
 
 // Flight.insertMany([
 
-// {
-//     "FlightNo": "KL221",
-//     "From": "CAI",
-//     "To": "JFK",
-//     "Terminal": 1,
-//     "FlightDate": "12-11-2021",
-//     "DepartureTime": "02:02",
-//     "ArrivalTime": "05:11",
-//     "fseatsAvailable": 16,
-//     "bseatsAvailable": 20,
-//     "eseatsAvailable": 24,
-//     "fprice": 2000,
-//     "bprice": 1560,
-//     "eprice": 1000,
-//     "fbaggage": 25,
-//     "bbaggage": 25,
-//     "ebaggage": 20,
 
-//   },
-//   {
-//     "FlightNo": "KL200",
-//     "From": "JFK",
-//     "To": "CAI",
-//     "Terminal": 2,
-//     "FlightDate": "12-20-2021",
-//     "DepartureTime": "13:00",
-//     "ArrivalTime": "15:00",
-//     "fseatsAvailable": 16,
-//     "bseatsAvailable": 20,
-//     "eseatsAvailable": 24,
-//     "fprice": 2000,
-//     "bprice": 1560,
-//     "eprice": 1000,
-//     "fbaggage": 25,
-//     "bbaggage": 25,
-//     "ebaggage": 20,
-
-//   },
 //   {
 //     "FlightNo": "KL223",
 //     "From": "CAI",
@@ -51,18 +32,21 @@ const Flight = require("../Models/Flights");
 //     "DepartureTime": "04:02",
 //     "ArrivalTime": "06:11",
 //     "fseatsAvailable": 16,
-//     "bseatsAvailable": 20,
-//     "eseatsAvailable": 24,
+//     "bseatsAvailable": 16,
+//     "eseatsAvailable": 16,
 //     "fprice": 2000,
 //     "bprice": 1560,
 //     "eprice": 900,
 //     "fbaggage": 25,
-//     "bbaggage": 25,
+//     "bbaggage": 20,
 //     "ebaggage": 20,
+//     "ftotalSeats":16,
+//     "btotalSeats":16,
+//     "etotalSeats":16,
 
 //   },
 //   {
-//     "FlightNo": "KL243",
+//     "FlightNo": "KL233",
 //     "From": "JFK",
 //     "To": "CAI",
 //     "Terminal": 3,
@@ -70,15 +54,17 @@ const Flight = require("../Models/Flights");
 //     "DepartureTime": "08:02",
 //     "ArrivalTime": "10:11",
 //     "fseatsAvailable": 16,
-//     "bseatsAvailable": 20,
-//     "eseatsAvailable": 24,
+//     "bseatsAvailable": 16,
+//     "eseatsAvailable": 16,
 //     "fprice": 2000,
 //     "bprice": 1560,
 //     "eprice": 900,
 //     "fbaggage": 25,
-//     "bbaggage": 25,
+//     "bbaggage": 20,
 //     "ebaggage": 20,
-
+//     "ftotalSeats":16,
+//     "btotalSeats":16,
+//     "etotalSeats":16,
 //   }
 
 //  ]
@@ -100,9 +86,8 @@ router.get("/all-flights", async (req, res) => {
     });
 });
 
-router.post("/seats-of-flight", async (req, res) => {
-  // console.log("Sushi");
-  // console.log(req.body);
+router.post("/seats-of-flight", auth, async (req, res) => {
+ 
 
 
   await Flight.find({_id: req.body._id})
@@ -159,7 +144,6 @@ router.put("/:id", async (req, res) => {
       .then(result => {
         res.status(200).send(result);
         
-        console.log('Flight found successfully !');
       }).catch(err => {
         console.log(err);
       })
@@ -179,7 +163,6 @@ router.post("/search", async (req, res) => {
 });
 
 router.post("/search-m2", async (req, res) => {
-  console.log("from backend search m2");
   console.log(req.body);
 
   // const {
@@ -210,8 +193,6 @@ router.post("/search-m2", async (req, res) => {
 });
 
 router.route("/:id").delete(async (req, res) => {
-  // console.log(req.params.id);
-  console.log("heyy");
   await Flight.findByIdAndDelete(req.params.id)
     .then((result) => {
       res.status(200).send("Flight deleted ");
@@ -223,7 +204,7 @@ router.route("/:id").delete(async (req, res) => {
     });
 });
 
-router.post("/create-flights", async (req, res) => {
+router.post("/create-flights",auth, async (req, res) => {
   console.log(req.body);
   const flight = new Flight(req.body);
 
@@ -238,6 +219,9 @@ router.post("/create-flights", async (req, res) => {
     fseatsAvailable,
     bseatsAvailable,
     eseatsAvailable,
+    ftotalSeats,
+    btotalSeats,
+    etotalSeats,
   } = req.body;
   //validation
 
