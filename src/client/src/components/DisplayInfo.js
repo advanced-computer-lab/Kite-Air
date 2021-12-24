@@ -43,13 +43,13 @@ export default function DisplayInfo({ handleDisplay }) {
       
         
      
-        <div class="col-md-8">
+        <div class="col-md-12">
               <div class="card mb-3">
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-sm-3">
+                  
                       <h6 class="mb-0">First Name</h6>
-                    </div>
+                    
                     <div class="col-sm-9 text-secondary">
                     {FirstName}
                     </div>
@@ -57,27 +57,28 @@ export default function DisplayInfo({ handleDisplay }) {
                   </div>
                   <hr/>
                   <div class="row">
-                    <div class="col-sm-3">
+                  
                       <h6 class="mb-0">Last Name</h6>
-                    </div>
+                  
                     <div class="col-sm-9 text-secondary">
                     {LastName}
                     </div>
                   </div>
                   <hr/>
                   <div class="row">
-                    <div class="col-sm-3">
+                   
                       <h6 class="mb-0">Email</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
+                  
+                    <div >
                       {email}
                     </div>
                   </div>
                   <hr/>
+
                   <div class="row">
-                    <div class="col-sm-3">
+                  
                       <h6 class="mb-0">Passport Number</h6>
-                    </div>
+                  
                     <div class="col-sm-9 text-secondary">
                       {Passport}
                     </div>
@@ -87,6 +88,7 @@ export default function DisplayInfo({ handleDisplay }) {
                 </div>
                  </div>
               </div>
+              <hr/>
         {/* <TextField
           label="First Name"
           margin="dense"
@@ -97,7 +99,7 @@ export default function DisplayInfo({ handleDisplay }) {
           type="text"
           variant="standard"
         /> */}
-        <hr></hr>
+
       
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button onClick={handleDisplay} size="medium">
