@@ -18,7 +18,7 @@ import axios from "axios";
 import CancelDialog from "./CancelDialog";
 
 import { UserContext } from "../context/index.js";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import LinearProgress from "@mui/material/LinearProgress";
 import Button from "@mui/material/Button";
@@ -45,11 +45,15 @@ function Row(e) {
   const { entry } = e;
   //  console.log(count);
   const [state, setState] = useContext(UserContext);
+  const [relm, setRelm] = useState("");
+
   const [open, setOpen] = React.useState(false);
   const [openSeats, setOpenSeats] = React.useState(false);
   const [updatedSeats, setUpdatedSeats] = React.useState(
     entry[14].substring(0, entry[14].length - 1).split("\n")
   );
+
+  useEffect(() => {}, [relm]);
 
   const gotoSeats = () => {
     setOpenSeats(true);
@@ -59,7 +63,7 @@ function Row(e) {
     setOpenSeats(false);
   };
 
-  const handleSubmitUpdate = () => {
+  const handleSubmitUpdate = (e) => {
     console.log(updatedSeats);
 
     if (updatedSeats.length !== entry[12]) {
@@ -75,19 +79,19 @@ function Row(e) {
       // setOk(true);
     } else {
       axios
-        .post("http://localhost:8000/reservations/updateSeats", {
-          _id: entry[0],
-          seatsNo: updatedSeats,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + state.token,
+        .post(
+          "http://localhost:8000/reservations/updateSeats",
+          {
+            _id: entry[0],
+            seatsNo: updatedSeats,
           },
-        })
+          {
+            headers: {
+              Authorization: "Bearer " + state.token,
+            },
+          }
+        )
         .then((res) => {
-        
-          window.location.reload();
-
           toast.success("Successfully Updated Seats!", {
             position: "top-center",
             autoClose: 5000,
@@ -97,9 +101,11 @@ function Row(e) {
             draggable: true,
             progress: undefined,
           });
-        }).catch((error)=>{
+          window.location.reload();
+          
+        })
+        .catch((error) => {
           console.log(error.data);
-
         });
 
       setOpenSeats(false);
@@ -245,21 +251,23 @@ export default function CollapsibleTable() {
 
   useEffect(() => {
     axios
-      .post(`http://localhost:8000/reservations/all-reservations`, 
-      {
-        User: state.user._id,
-      },
-      {
-        headers: {
-          Authorization: 'Bearer ' + (state.token),
+      .post(
+        `http://localhost:8000/reservations/all-reservations`,
+        {
+          User: state.user._id,
         },
-      })
+        {
+          headers: {
+            Authorization: "Bearer " + state.token,
+          },
+        }
+      )
       .then((res) => {
         setRes(res.data);
         resArray = res.data;
-      }).catch((err)=>{
+      })
+      .catch((err) => {
         console.log("error");
-        
       });
   }, []);
 
