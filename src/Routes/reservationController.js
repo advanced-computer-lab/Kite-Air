@@ -148,43 +148,43 @@ router.post("/updateSeats",auth, async (req, res) => {
     });
 });
 
-router.post("/send", auth,(req, res) => {
-  try {
-    const output = req.body.data1;
-    // console.log(output + "line 97");
-    let transporter = nodemailer.createTransport({
-      service: "Gmail",
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: "winter21team@gmail.com", // generated ethereal user
-        pass: "MRRHMETCSEN#7#", // generated ethereal password
-      },
-      connectionTimeout: 5 * 60 * 1000,
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+// router.post("/send", auth,(req, res) => {
+//   try {
+//     const output = req.body.data1;
+//     // console.log(output + "line 97");
+//     let transporter = nodemailer.createTransport({
+//       service: "Gmail",
+//       port: 587,
+//       secure: false, // true for 465, false for other ports
+//       auth: {
+//         user: "winter21team@gmail.com", // generated ethereal user
+//         pass: "MRRHMETCSEN#7#", // generated ethereal password
+//       },
+//       connectionTimeout: 5 * 60 * 1000,
+//       tls: {
+//         rejectUnauthorized: false,
+//       },
+//     });
 
-    // send mail with defined transport object
-    let info = transporter.sendMail({
-      // i deleted await
-      from: '"Kite Air" <winter21team@gmail.com>', // sender address
-      to: req.body.data2, // list of receivers
-      subject: "Reservation cancelled", // Subject line
-      text: "Hello world?", // plain text body
-      html: output, // html body
-    });
-  } catch (err) {
-    console.log("Message sent: %s", info.messageId);
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+//     // send mail with defined transport object
+//     let info = transporter.sendMail({
+//       // i deleted await
+//       from: '"Kite Air" <winter21team@gmail.com>', // sender address
+//       to: req.body.data2, // list of receivers
+//       subject: "Reservation cancelled", // Subject line
+//       text: "Hello world?", // plain text body
+//       html: output, // html body
+//     });
+//   } catch (err) {
+//     console.log("Message sent: %s", info.messageId);
+//     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
-    // Preview only available when sending through an Ethereal account
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    console.log(err);
-    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-  }
-});
+//     // Preview only available when sending through an Ethereal account
+//     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+//     console.log(err);
+//     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+//   }
+// });
 
 router.post("/EmailButton", (req, res) => {
   try {
@@ -210,7 +210,7 @@ router.post("/EmailButton", (req, res) => {
       // i deleted await
       from: '"Kite Air" <winter21team@gmail.com>', // sender address
       to: req.body.data2, // list of receivers
-      subject: "Reservation cancelled", // Subject line
+      subject: "Reservation Details", // Subject line
       text: "Hello world?", // plain text body
       html: output, // html body
     }).then((result) => {res.send(result)});
@@ -224,5 +224,46 @@ router.post("/EmailButton", (req, res) => {
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
   }
 });
+
+
+router.post("/send", (req, res) => {
+  try {
+    const output = req.body.data1;
+    // console.log("here" + req.body.data1);
+    // console.log("here" + req.body.data2);
+    let transporter = nodemailer.createTransport({
+      service: "Gmail",
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: "winter21team@gmail.com", // generated ethereal user
+        pass: "MRRHMETCSEN#7#", // generated ethereal password
+      },
+      connectionTimeout: 5 * 60 * 1000,
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
+    // send mail with defined transport object
+    let info = transporter.sendMail({
+      // i deleted await
+      from: '"Kite Air" <winter21team@gmail.com>', // sender address
+      to: req.body.data2, // list of receivers
+      subject: "Reservation Cancelled", // Subject line
+      text: "Hello world?", // plain text body
+      html: output, // html body
+    }).then((result) => {return res.status(400).send("Successfully sent email");});
+  } catch (err) {
+    console.log("Message sent: %s", info.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+    res.status(400).send("Error in sending mail.");
+    // Preview only available when sending through an Ethereal account
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    console.log(err);
+    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+  }
+});
+
 
 module.exports = router;
