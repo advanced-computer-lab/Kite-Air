@@ -132,15 +132,14 @@ router.post("/seatsFlight", auth, async (req, res) => {
       res.send(result);
     })
     .catch((err) => {
-      res.status(400).send("Error fetching reservation!");
+      return res.status(400).send("Error fetching reservation!");
     });
 });
 
 router.post("/updateSeats",auth, async (req, res) => {
   await Reservation.findByIdAndUpdate({_id: req.body._id},{seatsNo : req.body.seatsNo})
     .then((result) => {
-      res.send(result);
-      res.status(400).send("Seats Successfully updated!");
+      return res.status(400).send("Seats Successfully updated!");
 
     })
     .catch((err) => {
