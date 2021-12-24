@@ -213,11 +213,11 @@ router.post("/EmailButton", (req, res) => {
       subject: "Reservation cancelled", // Subject line
       text: "Hello world?", // plain text body
       html: output, // html body
-    });
+    }).then((result) => {res.send(result)});
   } catch (err) {
     console.log("Message sent: %s", info.messageId);
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
+    res.status(400).send("Error in sending mail.");
     // Preview only available when sending through an Ethereal account
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
     console.log(err);

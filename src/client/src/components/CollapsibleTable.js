@@ -68,7 +68,7 @@ function Row(e) {
 
     if (updatedSeats.length !== entry[12]) {
       toast.error("Please choose " + entry[12] + " seats !", {
-        position: "top-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -93,7 +93,7 @@ function Row(e) {
         )
         .then((res) => {
           toast.success("Successfully Updated Seats!", {
-            position: "top-center",
+            position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,

@@ -3,6 +3,7 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/index.js";
+import { toast } from "react-toastify";
 
 export default function EmailButton({ entry }) {
   const [state, setState] = useContext(UserContext);
@@ -70,10 +71,28 @@ export default function EmailButton({ entry }) {
         data2: email.toString(),
       })
       .then((res) => {
+        toast.success("Email sent successfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         console.log("email is sent");
       })
       .catch((err) => {
-        console.log("Error in FlightDelete!");
+        toast.error("Error sending mail.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        console.log("Error sending mail.");
       });
   }
 
