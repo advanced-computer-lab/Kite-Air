@@ -8,7 +8,7 @@
 
 
 # Collaborators:
-- [Maryam Ayman ElOraby](https://www.github.com/mareloraby) ✨ 
+- [Maryam Ayman ElOraby](https://www.github.com/mareloraby) ✨ _( Scrum Master )_
 - [Hadeer El Hussein](https://github.com/Hadeer1111) ✨ 
 - [Mariam Tamer](https://github.com/Mariam-369) ✨ 
 - [Rawan Reda Fouda](https://github.com/RawanReda) ✨ 
@@ -122,6 +122,7 @@ Initially, run `npm init` and `npm i` in the terminal to download all node modul
 
 <a><img src="https://github.com/advanced-computer-lab/Kite-Air/blob/main/DBModelnobg.png"/></a>
 
-
-# License
-MIT
+# Credits
+- Our great project manager [Ahmad Alaa](https://github.com/ahmedalaaseif) for giving all the help he could and for supporting us throughout the sprints :)
+- [Dr. Angela Yu Udemy Course](https://www.udemy.com/course/the-complete-web-development-bootcamp/)
+- [Ryan Dhungel Udemy Course](https://www.udemy.com/course/mern-stack-bootcamp-react-node-socket-io/)
