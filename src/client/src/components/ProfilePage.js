@@ -52,15 +52,14 @@ export default function ProfilePage() {
         display: "flex",
       }}
     >
-      <div
-        style={{
-          width: 340,
-          display: "flex",
+        <div
+         style={{
+           width: 250, 
+
           justifyContent: "left",
-          //   alignItems: "center",
-          // float="left",
-          //  backgroundColor: "blue"
-        }}
+
+          backgroundColor: "#f2f8fb"
+         }}
       >
         &nbsp; &nbsp; &nbsp;
         <div>
@@ -74,14 +73,14 @@ export default function ProfilePage() {
             </div>
             <Divider />
             <br />
-            <Button onClick={() => {}} variant={"outlined"}>
+            <Button onClick={() => {}} style={{ width: "100%" }} variant={"outlined"}>
               {" "}
               <InboxIcon /> My Details
             </Button>
             <br />
             <br />
 
-            <Button
+            <Button style={{ width: "100%" }}
               onClick={() => {
                 navigate("/mybookings");
               }}
@@ -102,7 +101,6 @@ export default function ProfilePage() {
           backgroundColor: "blue",
         }}
       >
-        {" "}
         {state && state.user && (
           <Box sx={{ display: "flex" }}>
             <CssBaseline />
@@ -124,7 +122,7 @@ export default function ProfilePage() {
                 width: 700,
               }}
             >
-              <Toolbar />
+          
 
               {isDisplay && isPasswordUpdate ? (
                 <div>

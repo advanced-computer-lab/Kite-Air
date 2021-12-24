@@ -43,13 +43,14 @@ export default function MyBookings() {
             display: "flex",
           }}
         >
-          <div
-            style={{
-              width: 250,
-              display: "flex",
-              justifyContent: "left",
-            }}
-          >
+           <div
+         style={{
+           width: 250, 
+
+          justifyContent: "left",
+
+          backgroundColor: "#f2f8fb"
+         }}>
             &nbsp; &nbsp; &nbsp;
             <div>
               &nbsp; &nbsp; &nbsp;
@@ -62,7 +63,7 @@ export default function MyBookings() {
                 </div>
                 <Divider />
                 <br />
-                <Button
+                <Button style={{ width: "100%" }}
                   onClick={() => {
                     navigate("/ProfilePage");
                   }}
@@ -73,7 +74,7 @@ export default function MyBookings() {
                 <br />
                 <br />
 
-                <Button onClick={() => {}} variant="outlined">
+                <Button style={{ width: "100%" }} onClick={() => {}} variant="outlined">
                   {" "}
                   <MailIcon /> My Bookings
                 </Button>
@@ -109,7 +110,7 @@ export default function MyBookings() {
                   width: "1025px",
                 }}
               >
-                <Toolbar />
+               
                 <CollapsibleTable />
               </Box>
             </Box>

@@ -185,6 +185,15 @@ export default function InfoCard({ handleDisplay }) {
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Box sx={{ m: 1, position: "relative" }}>
+          <Button
+            //  variant="outlined"
+              disabled={loading}
+              //onClick={handleButtonClick}
+              onClick={handleDisplay}
+              size="medium"
+            >
+              Cancel
+            </Button>
             <Button
               variant="contained"
               disabled={loading}

@@ -189,7 +189,7 @@ else if(NewPassword!==Retype){
     <Card style={{ }}>
       <CardContent style={{ backgroundColor: "	whitesmoke",padding:25}}>
         <Typography gutterBottom variant="h5" component="div">
-          Basic Information
+          Security and Login
         </Typography>
         <hr />
         {open ? { handleDisplay } : " "}
@@ -240,6 +240,15 @@ else if(NewPassword!==Retype){
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Box sx={{ m: 1, position: "relative" }}>
+          <Button
+            //  variant="outlined"
+              disabled={loading}
+              //onClick={handleButtonClick}
+              onClick={handleDisplay}
+              size="medium"
+            >
+              Cancel
+            </Button>
             <Button
               variant="contained"
               disabled={loading}
