@@ -97,7 +97,7 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {!isAdmin && <MenuItem onClick={handleProfileClick}>Profile</MenuItem>}
+      {<MenuItem onClick={handleProfileClick}>Profile</MenuItem>}
       <MenuItem onClick={logout}>Log-out</MenuItem>
     </Menu>
   );
@@ -119,7 +119,7 @@ export default function Header() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {!isAdmin && (
+      {(
         <MenuItem onClick={handleProfileClick}>
           <p>Profile</p>
         </MenuItem>

@@ -31,6 +31,7 @@ const theme = createTheme();
 export default function SeatsPickermain(props) {
   const location = useLocation();
   const [state, setState] = useContext(UserContext);
+  const isLoggedIn = state && state.token !== "";
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [dis, setDis] = React.useState(0);
@@ -82,7 +83,6 @@ export default function SeatsPickermain(props) {
   let baseURL = "http://localhost:8000/reservations/addReservation";
 
   const saveselectedDept = () => {
-    console.log(selectedDepartureSeats);
     axios
       .post(
         baseURL,
@@ -184,7 +184,6 @@ export default function SeatsPickermain(props) {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-  const isLoggedIn = state && state.token != "";
   function onPaymentSuccess() {
     // send the stripe token to your backend!
     //setPaymentSuccess(true);
@@ -193,7 +192,7 @@ export default function SeatsPickermain(props) {
 
   const [product, setProduct] = useState({
     name: "flight reserved",
-    price: getNoOfPassengers() * getPrice(),
+    price: isLoggedIn && getNoOfPassengers() * getPrice(),
   });
 
   const makePayment = (token) => {
@@ -358,7 +357,7 @@ ${text1}
     <>
       {!isLoggedIn ? (
         <Unauthorized />
-      ) : (
+      ) : ( isLoggedIn &&
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <br />

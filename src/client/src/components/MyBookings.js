@@ -39,7 +39,7 @@ export default function MyBookings() {
 
   return (
     <>
-      {isLoggedIn ? (
+      {isLoggedIn && state.user.Admin!=="1" ? (
         <div
           style={{
             display: "flex",
