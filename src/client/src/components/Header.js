@@ -31,10 +31,6 @@ export default function Header() {
 
   const currpath = location.pathname;
 
-  // useEffect(() => {
-  //   setState(JSON.parse(window.localStorage.getItem("auth")));
-  // }, []);
-
   console.log(state);
   const isLoggedIn = state && state.user;
   const isAdmin =  state &&state.user.Admin === "1";
@@ -147,7 +143,7 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={landingSyle} position={pos}>
+      <AppBar style={landingSyle} position={pos} >
         <Toolbar>
           <Typography
             variant="h6"
@@ -166,19 +162,6 @@ export default function Header() {
               <img src={logo} height="45" alt="logo" />
             </div>{" "}
           </Typography>
-
-          {/* {isLoggedIn ? (
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <Button
-                onClick={faireRedirection}
-                sx={{ my: 2, mx: 2, color: "white", display: "block" }}
-              >
-                Home
-              </Button>{" "}
-            </Box>
-          ) : (
-            <></>
-          )} */}
 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>

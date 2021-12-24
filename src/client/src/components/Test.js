@@ -6,6 +6,7 @@ import axios from "axios";
 import $ from "jquery";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import AirplaneTicketSharpIcon from "@mui/icons-material/AirplaneTicketSharp";
 import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 
 import { Menu, Dropdown, message } from "antd";
@@ -7168,6 +7169,7 @@ export default function DatePick(props) {
   );
   // Search Button
   function buttonClicked() {
+ 
     props.setLoading(true);
     if (
       j["From"] === "" ||
@@ -7275,11 +7277,11 @@ export default function DatePick(props) {
           props.setDepFlights(result);
 
           if (result.length !== 0) {
-            $(document).scrollTop(1000);
+            $(document).scrollTop(900);
             props.setLoading(false);
             // any value you need
           } else {
-            $(document).scrollTop(1000); // any value you need
+            $(document).scrollTop(900); // any value you need
 
             props.setshowEmpty("No Flights Found");
             props.setLoading(false);
@@ -7345,10 +7347,10 @@ export default function DatePick(props) {
             alignItems: "center",
           }}
         >
-          <div>
-            <AirplaneTicketIcon style={{ fontSize: 130 }} />
+          <div style={{ marginTop: "4px", marginRight:"0px" }}>
+            <AirplaneTicketSharpIcon style={{ fontSize: 125 }} />
           </div>
-          <div class="container-fluid" style={{ margin: "4px" }}>
+          <div class="container-fluid" style={{ margin: "4px",marginLeft:"0px" }}>
             <div class="row" style={{ marginBottom: "3px" }}>
               <div class="col-4">
                 {" "}

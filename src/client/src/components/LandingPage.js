@@ -33,7 +33,6 @@ export default function LandingPage() {
     {loading &&  <Box sx={{ width: "100%" }}>
         <LinearProgress />
       </Box>}
-      {/* { state.user && state!==null && JSON.stringify(state)} */}
 
       {depFlights.length ? (
         <Checkout
