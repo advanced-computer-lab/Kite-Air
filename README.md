@@ -5,6 +5,9 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9c8ce887-0eb2-4e4e-8646-724a0e41554f/deploy-status)](https://app.netlify.com/sites/zealous-williams-cc4181/deploys)
 
+https://zealous-williams-cc4181.netlify.app/
+
+
 # Collaborators:
 - [Maryam Ayman ElOraby](https://www.github.com/mareloraby) ✨ _( Scrum Master )_
 - [Hadeer El Hussein](https://github.com/Hadeer1111) ✨ 
@@ -92,6 +95,7 @@ Main website features for the  Admin:
 - Search for a flight
 - Add a flight to the system.
 - Update an already existing flight information.
+- Access profile page and edit personal information and password.
 - Log-in
 - Log-out
 
