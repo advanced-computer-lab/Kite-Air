@@ -3,9 +3,7 @@
 
  _Our flight reservation system is here to assist you with all your flight arrangements. So, whether you’re booking a flight, making a change to your booking, or cancelling altogether, you can always rely on Kite Air to help you save money on your next trip._
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/4f8b5aae-1ba9-4a09-a749-8348e96081ff/deploy-status)](https://app.netlify.com/sites/blissful-almeida-0c8a8f/deploys)
-
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9c8ce887-0eb2-4e4e-8646-724a0e41554f/deploy-status)](https://app.netlify.com/sites/zealous-williams-cc4181/deploys)
 
 # Collaborators:
 - [Maryam Ayman ElOraby](https://www.github.com/mareloraby) ✨ _( Scrum Master )_
