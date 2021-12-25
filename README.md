@@ -159,6 +159,6 @@ Initially, run `npm init` and `npm i` in the terminal to download all node modul
 <a><img src="https://github.com/advanced-computer-lab/Kite-Air/blob/main/DBModelnobg.png"/></a>
 
 # Credits
-- Our great project manager [Ahmad Alaa](https://github.com/ahmedalaaseif) for giving all the help he could and for supporting us throughout the sprints :)
-- [Dr. Angela Yu Udemy Course](https://www.udemy.com/course/the-complete-web-development-bootcamp/)
-- [Ryan Dhungel Udemy Course](https://www.udemy.com/course/mern-stack-bootcamp-react-node-socket-io/)
+- Our great project manager [Ahmed Alaa](https://github.com/ahmedalaaseif) for giving all the help he could and for supporting us throughout the sprints :)
+- [Dr. Angela Yu's Udemy Course](https://www.udemy.com/course/the-complete-web-development-bootcamp/)
+- [Ryan Dhungel's Udemy Course](https://www.udemy.com/course/mern-stack-bootcamp-react-node-socket-io/)
