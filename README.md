@@ -31,13 +31,31 @@ This project’s goal was to implement an airline reservation system using the A
 
 
 
+
+
 # Features
+
+![Screen2](https://user-images.githubusercontent.com/42250266/147373838-5bee99ef-403a-4db9-bf7a-c70b1c8f80f6.jpg)
+
+
+
 Our web application offers a smooth process of reserving a flight by providing a user experience that fosters satisfiability, efficiency, learnability and visibility. Some examples of this is seen in choosing seats where the user gets to view all seats on the flight and choose seats accordingly. Furthermore, navigation is always reversible; the app allows the users to go back and change a previously made choice while making a reservation. We also allow for immediate feedback through sending emails right after a reservation is confirmed or canceled and throughout the website, the user is sent a confirmation message upon any action taken.
+
+
+
+![Screen1](https://user-images.githubusercontent.com/42250266/147373832-ab4ff152-644f-4077-8d25-697ff95843a4.jpg)
+
+
 
 Main website features for a guest User:
 - Search for a desired flight based on number of passengers, departure and arrival airports, departure and arrival dates, and cabin class and gets all available options.
 - Register
 - Log-in
+
+![Screen11](https://user-images.githubusercontent.com/42250266/147373859-dd18fd93-7a4e-4e02-894b-ae5790937fe3.jpg)
+
+![Screen10](https://user-images.githubusercontent.com/42250266/147373864-197c09d0-834e-4784-bc36-d8603ed4a610.jpg)
+
 
 Main website features for an existing User:
 - Search for a desired flight based on number of passengers, departure and arrival airports, departure and arrival dates, and cabin class and gets all available options.
@@ -52,12 +70,30 @@ Main website features for an existing User:
 - Log-out
 
 
+![Screen3](https://user-images.githubusercontent.com/42250266/147373918-022a99ef-1135-4f77-9e89-22f9a544306d.jpg)
+
+
+![Screen4](https://user-images.githubusercontent.com/42250266/147373911-ad045b6d-9a73-4872-b99c-c6725bbbca93.jpg)
+
+![Screen5](https://user-images.githubusercontent.com/42250266/147373909-2c7ce567-e32c-4e5f-8138-7a209cdd93cf.jpg)
+
+
+![Screen7](https://user-images.githubusercontent.com/42250266/147373878-d4eb02d6-eb80-426f-b987-26500172b3a4.jpg)
+
+
+![Screen8](https://user-images.githubusercontent.com/42250266/147373882-38654961-6cf5-4e11-86bc-c69c295f0339.jpg)
+
+<!-- ![Screen9](https://user-images.githubusercontent.com/42250266/147373931-1fed783a-6d48-49eb-80cf-8b73036cbfaa.jpg)
+ -->
+
 Main website features for the  Admin:
 - Search for a flight
 - Add a flight to the system.
 - Update an already existing flight information.
 - Log-in
 - Log-out
+
+![Screen12](https://user-images.githubusercontent.com/42250266/147373852-d110def0-fa12-4c4a-a3b8-02d5818711a5.jpg)
 
 
 # How to Run
@@ -123,6 +159,6 @@ Initially, run `npm init` and `npm i` in the terminal to download all node modul
 <a><img src="https://github.com/advanced-computer-lab/Kite-Air/blob/main/DBModelnobg.png"/></a>
 
 # Credits
-- Our great project manager [Ahmad Alaa](https://github.com/ahmedalaaseif) for giving all the help he could and for supporting us throughout the sprints :)
-- [Dr. Angela Yu Udemy Course](https://www.udemy.com/course/the-complete-web-development-bootcamp/)
-- [Ryan Dhungel Udemy Course](https://www.udemy.com/course/mern-stack-bootcamp-react-node-socket-io/)
+- Our great project manager [Ahmed Alaa](https://github.com/ahmedalaaseif) for giving all the help he could and for supporting us throughout the sprints :)
+- [Dr. Angela Yu's Udemy Course](https://www.udemy.com/course/the-complete-web-development-bootcamp/)
+- [Ryan Dhungel's Udemy Course](https://www.udemy.com/course/mern-stack-bootcamp-react-node-socket-io/)
