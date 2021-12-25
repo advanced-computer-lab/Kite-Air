@@ -54,6 +54,19 @@ export default function Review(props) {
     }
   }
 
+  function printSeats(seats){
+
+    var res = "";
+    for(let i =0; i<seats.length; i++){
+
+      res+=seats[i]+" ";
+      
+
+    }
+
+    return res;
+  }
+
   const htmlString = ReactDOMServer.renderToStaticMarkup(
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -455,13 +468,35 @@ export default function Review(props) {
             </td>
 
             <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
-            {props.selectedDepartureSeats}
+            {printSeats(props.selectedDepartureSeats)}
             
             </td>
             <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
-             {props.selectedReturnSeats}
+             {printSeats(props.selectedReturnSeats)}
             </td>
           </tr>
+
+          <tr>
+            <td
+              style={{
+                borderBottom: "1px solid #ddd",
+                padding: "8px",
+                fontWeight: "bold",
+              }}
+            >
+              Total  price
+            </td>
+
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+            ${props.selectedDepartureSeats.length * getPrice()}
+            
+            </td>
+            <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+             ${props.selectedReturnSeats.length * getPrice()}
+            </td>
+          </tr>
+
+
         </tbody>
       </table>
 
